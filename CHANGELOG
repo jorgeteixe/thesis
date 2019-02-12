@@ -1,0 +1,33 @@
+12-02-2019 --------------------------------------------------------------------
+
+- Changed template to include always a version of the summary and keywords in
+  English.
+
+30-01-2019 --------------------------------------------------------------------
+
+- Fixed typo in 'Glosario de términos' > 'Glosario de termos'
+
+29-01-2019 --------------------------------------------------------------------
+
+- Fixed compatibility issue with Windows systems by replacing font package
+
+11-01-2019 --------------------------------------------------------------------
+
+- Aesthetic improvements
+- Reorganized content into subfolders
+
+14-12-2014 --------------------------------------------------------------------
+
+- Uploaded to ShareLaTeX
+
+08-03-2010 --------------------------------------------------------------------
+
+- Adapted to UTF-8 encoding
+- Adapted to new UDC corporative image
+
+05-09-2007 --------------------------------------------------------------------
+
+- Use of package anysize replaced by geometry, due to certain incompatibilities
+  with table of contents formatting
+- Use of package titletoc removed, since superseded by minitoc
+- Compilation using LaTeX replaced by use of PDFLaTeX
