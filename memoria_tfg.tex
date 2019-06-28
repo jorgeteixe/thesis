@@ -4,12 +4,18 @@
 
 \documentclass[11pt,a4paper,titlepage,twoside,openright,openbib]{report}
 
-\usepackage{estilo_tfg}
+%%% RELACIÓN DE VARIABLES A PERSONALIZAR %%%
+\def\nome{Nome Completo}                             % substitúe aquí o teu nome
+\def\nomedirectora1{Outro Nome Completo}             % substitúe aquí o nome de quen dirixe
+\def\titulo{Título completo do traballo fin de grao} % substitúe aquí o título do teu TFG
+\def\mencion{NOME DA MENCIÓN}                        % descomenta a mención correspondente
+%\def\mencion{COMPUTACIÓN}
+%\def\mencion{ENXEÑARÍA DO SOFTWARE}
+%\def\mencion{ENXEÑARÍA DE COMPUTADORES}
+%\def\mencion{SISTEMAS DE INFORMACIÓN}
+%\def\mencion{TECNOLOXÍA DE COMPUTADORES}
 
-\hypersetup{pdfauthor={Nome da/o estudante},
-            pdftitle={Título do traballo fin de grao},
-            pdfsubject={Traballo Fin de Grao},
-            pdfkeywords={Palabras chave}}
+\usepackage{estilo_tfg}
 
 % Lista de paquetes potencialmente interesantes (uso baixo demanda)
 
@@ -40,11 +46,11 @@
 
  \include{portada/portada}
  \paxinaenbranco
- \dedicatoria{Dedicatoria}
+ \dedicatoria{Dedicatoria} % escribe neste comando o teu texto de dedicatoria
  \paxinaenbranco
  \paxinaenbranco
  \begin{agradecementos}
- \blindtext
+ \blindtext                % substitúe este comando polo teu texto de agradecementos
  \end{agradecementos}
  \paxinaenbranco
  \include{portada/resumo}

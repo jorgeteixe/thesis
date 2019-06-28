@@ -7,7 +7,7 @@
 
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
-\RequirePackage[colorlinks]{hyperref}
+\RequirePackage[pdfencoding=auto,colorlinks]{hyperref}
 \RequirePackage{lettrine}
 
 \usepackage{polyglossia}
@@ -29,6 +29,7 @@
 \usepackage[nottoc,notlot,notlof,notindex]{tocbibind}
 \usepackage{titlesec}
 \usepackage{url}
+\usepackage{datetime}
 
 \usepackage{blindtext}
 
@@ -84,5 +85,15 @@
  urlcolor=ficblue,
  citecolor=ficblue
 }
-               
+\hypersetup{pdfauthor={\nome},
+            pdftitle={\titulo},
+            pdfsubject={Traballo Fin de Grao}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% opcións datetime                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newdateformat{datasimple}{\monthname[\THEMONTH], \THEYEAR}
+
 \endinput
