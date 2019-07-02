@@ -54,3 +54,28 @@ os elementos en cuestión.
   \caption{Pé de imaxe xeral}
   \label{fig:exemplo-subfiguras}
 \end{figure}
+
+\section{Inclusión de código fonte}
+
+Se precisamos incluír fragmentos de código fonte, podemos facelo da
+seguinte maneira:
+
+\begin{lstlisting}[language=C]
+#include <stdio.h>
+#define N 10
+
+int main()
+{
+  int i;
+
+  // Isto é un comentario
+  puts("Ola, mundo!");
+
+  for (i = 0; i < N; i++)
+  {
+    puts("LaTeX é a ferramenta de edición ideal para profesionais da informática!");
+  }
+
+  return 0;
+}
+\end{lstlisting}

@@ -26,6 +26,7 @@
 \usepackage{fancyhdr}
 \usepackage[numbers,sort]{natbib} 
 \usepackage{setspace}
+\usepackage{listings}
 \usepackage{multicol}
 \usepackage{subcaption}
 \usepackage[nottoc,notlot,notlof,notindex]{tocbibind}
@@ -96,5 +97,32 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newdateformat{datasimple}{\monthname[\THEMONTH], \THEYEAR}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% opcións listings                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstset{
+  basicstyle=\ttfamily\footnotesize, % estilo da fonte para entornos de código
+  breakatwhitespace=true,            % pártense as liñas só polos espazos en branco
+  breaklines=true,                   % pártense as liñas automaticamente
+  captionpos=b,                      % a lenda vai debaixo
+  commentstyle=\color{udcgray},      % os comentarios van en gris
+  frame=single,	                     % o código leva un cadro arredor
+  keepspaces=true,                   % respéctanse os espazos no código LaTeX
+  keywordstyle=\color{ficblue},      % as palabras chave da linguaxe van en azul
+  linewidth=0.95\textwidth,          % anchura do entorno de código
+  numbers=left,                      % numéranse as liñas á esquerda
+  numbersep=5pt,                     % separación da numeración das liñas
+  numberstyle=\tiny\color{udcgray},  % estilo da numeración
+  rulecolor=\color{black},           % color do cadro arredor do código
+  showspaces=false,                  % non se mostran os espazos
+  showstringspaces=false,            % non se mostran os espazos nas cadeas de texto
+  showtabs=false,                    % non se mostran os tabuladores
+  stepnumber=1,                      % a numeración de liñas vai de dúas en dúas
+  stringstyle=\color{udcpink},       % as cadeas de texto literais aparecen en rosado
+  tabsize=2,	                     % os tabuladores equivalen a dous espazos
+  xleftmargin=0.05\textwidth         % identación extra desde a marxe esquerda
+}
+
 
 \endinput
