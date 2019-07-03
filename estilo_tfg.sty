@@ -9,10 +9,63 @@
 \RequirePackage{graphicx}
 \RequirePackage[pdfencoding=auto,colorlinks]{hyperref}
 \RequirePackage{lettrine}
+\RequirePackage{appendix}
+\RequirePackage{polyglossia}
+\RequirePackage{ifthen}
 
-\usepackage{polyglossia}
-\setdefaultlanguage{galician}
-\setotherlanguage{english}
+\ifdefined\lingua
+  \message{Estilo TFG: elixiuse como lingua do documento: \lingua}
+\else
+  \message{Estilo TFG warning: non se elixiu lingua para o documento (fallback: galego)}
+  \def\lingua{gal} % fórzase a definición da lingua principal a galego
+\fi
+\ifthenelse{\equal{\lingua}{gal}}{%
+  \message{Estilo TFG: cargando definicións para galego}
+  \setdefaultlanguage{galician}
+  \setotherlanguage{english}
+  \def\tituloagradecementos{Agradecementos}
+  \def\palabraschaveprincipal{Palabras chave}
+  \def\palabraschavesecundaria{Keywords}
+  \def\nomeglosarioacronimos{Relación de Acrónimos}
+  \def\nomeglosariotermos{Glosario}
+  \newenvironment{segundoresumo}
+                 {\begin{english}\centerline{\bfseries \abstractname}\vspace*{0.5cm}}
+                 {\end{english}}
+  \renewcommand{\appendixpagename}{Apéndices}
+}{%
+\ifthenelse{\equal{\lingua}{esp}}{%
+  \message{Estilo TFG: cargando definicións para español}
+  \setdefaultlanguage{spanish}
+  \setotherlanguage{galician}
+  \setotherlanguage{english}
+  \def\tituloagradecementos{Agradecimientos}
+  \def\palabraschaveprincipal{Palabras clave}
+  \def\palabraschavesecundaria{Keywords}
+  \def\nomeglosarioacronimos{Lista de acrónimos}
+  \def\nomeglosariotermos{Glosario}
+  \newenvironment{segundoresumo}
+                 {\begin{english}\centerline{\bfseries \abstractname}\vspace*{0.5cm}}
+                 {\end{english}}
+  \renewcommand{\appendixpagename}{Apéndices}
+  \gappto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+  \gappto\captionsspanish{\renewcommand{\listtablename}{Índice de tablas}}
+}
+}{%
+\ifthenelse{\equal{\lingua}{eng}}{%
+  \message{Estilo TFG: cargando definicións para inglés}
+  \setdefaultlanguage{english}
+  \setotherlanguage{galician}
+  \def\tituloagradecementos{Acknowledgements}
+  \def\palabraschaveprincipal{Keywords}
+  \def\palabraschavesecundaria{Palabras chave}
+  \def\nomeglosarioacronimos{List of Acronyms}
+  \def\nomeglosariotermos{Glossary}
+  \newenvironment{segundoresumo}
+                 {\begin{galician}\centerline{\bfseries \abstractname}\vspace*{0.5cm}}
+                 {\end{galician}}
+}{%
+  \message{Estilo TFG warning: non se detectou correctamente a lingua (fallback: galego)}
+}}
 
 \usepackage{latexsym}
 \usepackage{amsmath}
@@ -48,7 +101,7 @@
 \newenvironment{agradecementos}
                {\thispagestyle{empty}
                  \vspace*{175pt}
-                 \subsubsection*{\centering Agradecementos}}
+                 \subsubsection*{\centering \tituloagradecementos}}
                {\paxinaenbranco}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -88,15 +141,14 @@
  citecolor=ficblue
 }
 \hypersetup{pdfauthor={\nome},
-            pdftitle={\titulo},
-            pdfsubject={Traballo Fin de Grao}
+            pdftitle={\titulo}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % opcións datetime                     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newdateformat{datasimple}{\monthname[\THEMONTH], \THEYEAR}
+\newdateformat{datasimple}{\begin{galician}\monthname[\THEMONTH] de \THEYEAR\end{galician}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % opcións listings                     %
@@ -123,6 +175,5 @@
   tabsize=2,	                     % os tabuladores equivalen a dous espazos
   xleftmargin=0.05\textwidth         % identación extra desde a marxe esquerda
 }
-
 
 \endinput
