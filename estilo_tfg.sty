@@ -32,6 +32,7 @@
                  {\begin{english}\centerline{\bfseries \abstractname}\vspace*{0.5cm}}
                  {\end{english}}
   \renewcommand{\appendixpagename}{Apéndices}
+  \def\bibconfig{bibliografia/bibconf-gl}
 }{%
 \ifthenelse{\equal{\lingua}{esp}}{%
   \message{Estilo TFG: cargando definicións para español}
@@ -49,6 +50,7 @@
   \renewcommand{\appendixpagename}{Apéndices}
   \gappto\captionsspanish{\renewcommand{\tablename}{Tabla}}
   \gappto\captionsspanish{\renewcommand{\listtablename}{Índice de tablas}}
+  \def\bibconfig{bibliografia/bibconf-es}
 }
 }{%
 \ifthenelse{\equal{\lingua}{eng}}{%
@@ -63,6 +65,7 @@
   \newenvironment{segundoresumo}
                  {\begin{galician}\centerline{\bfseries \abstractname}\vspace*{0.5cm}}
                  {\end{galician}}
+  \def\bibconfig{bibliografia/bibconf-en}
 }{%
   \message{Estilo TFG warning: non se detectou correctamente a lingua (fallback: galego)}
 }}
@@ -77,10 +80,11 @@
 
 \usepackage{datetime}
 \usepackage{fancyhdr}
-\usepackage[numbers,sort]{natbib} 
-\usepackage{setspace}
+\usepackage{IEEEtrantools}
 \usepackage{listings}
 \usepackage{multicol}
+\usepackage[numbers,sort]{natbib}
+\usepackage{setspace}
 \usepackage{subcaption}
 \usepackage[nottoc,notlot,notlof,notindex]{tocbibind}
 \usepackage{titlesec}

@@ -5,8 +5,8 @@
 \documentclass[11pt,a4paper,titlepage,twoside,openright,openbib]{report}
 
 %%% RELACIÓN DE VARIABLES A PERSONALIZAR %%%
-%\def\lingua{gal}
-\def\lingua{esp} % descomenta esta liña se redactarás a memoria en español
+\def\lingua{gal}
+%\def\lingua{esp} % descomenta esta liña se redactarás a memoria en español
 %\def\lingua{eng} % descomenta esta liña se redactarás a memoria en inglés
 \def\nome{Nome Completo}                             % substitúe aquí o teu nome
 \def\nomedirectora1{Outro Nome Completo}             % substitúe aquí o nome de quen dirixe
@@ -69,6 +69,7 @@
  
  \pagenumbering{arabic}
  \setcounter{page}{1}
+ \bstctlcite{IEEEexample:BSTcontrol}
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  % Capítulos                            %
@@ -92,7 +93,7 @@
  \include{bibliografia/glosario}
 
  \bibliographystyle{IEEEtran}
- \bibliography{bibliografia/bibliografia}
+ \bibliography{\bibconfig,bibliografia/bibliografia}
  \cleardoublepage
  
 \end{document}
