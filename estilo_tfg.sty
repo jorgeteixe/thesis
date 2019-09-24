@@ -48,8 +48,11 @@
                  {\begin{english}\centerline{\bfseries \abstractname}\vspace*{0.5cm}}
                  {\end{english}}
   \renewcommand{\appendixpagename}{Apéndices}
-  \gappto\captionsspanish{\renewcommand{\tablename}{Tabla}}
-  \gappto\captionsspanish{\renewcommand{\listtablename}{Índice de tablas}}
+  \ifdefined\renomearcadros
+    \message{Estilo TFG: renomeando cadros en español}
+    \gappto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+    \gappto\captionsspanish{\renewcommand{\listtablename}{Índice de tablas}}
+  \fi
   \def\bibconfig{bibliografia/bibconf-es}
 }
 }{%
