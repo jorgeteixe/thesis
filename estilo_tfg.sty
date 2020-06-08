@@ -83,6 +83,7 @@
 
 \usepackage{datetime}
 \usepackage{fancyhdr}
+\usepackage[toc,acronym]{glossaries}
 \usepackage{IEEEtrantools}
 \usepackage{listings}
 \usepackage{multicol}
@@ -192,5 +193,12 @@
   tabsize=2,	                     % os tabuladores equivalen a dous espazos
   xleftmargin=0.05\textwidth         % identación extra desde a marxe esquerda
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% opcións relación de acrónimos e glosario %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeglossaries
+\input{bibliografia/acronimos}
+\input{bibliografia/glosario}
 
 \endinput

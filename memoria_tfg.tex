@@ -5,8 +5,8 @@
 \documentclass[11pt,a4paper,titlepage,twoside,openright,openbib]{report}
 
 %%% RELACIÓN DE VARIABLES A PERSONALIZAR %%%
-%\def\lingua{gal}
-\def\lingua{esp} % descomenta esta liña se redactarás a memoria en español
+\def\lingua{gal}
+%\def\lingua{esp} % descomenta esta liña se redactarás a memoria en español
 %\def\lingua{eng} % descomenta esta liña se redactarás a memoria en inglés
 \def\nome{Nome Completo}                             % substitúe aquí o teu nome
 \def\nomedirectorA{Outro Nome Completo}             % substitúe aquí o nome de quen dirixe
@@ -93,8 +93,8 @@
  \include{anexos/adicional}
 %\include{anexos/...}
 
- \include{bibliografia/acronimos}
- \include{bibliografia/glosario}
+ \printglossary[type=\acronymtype,title=\nomeglosarioacronimos]
+ \printglossary[title=\nomeglosariotermos]
 
  \bibliographystyle{IEEEtran}
  \bibliography{\bibconfig,bibliografia/bibliografia}
