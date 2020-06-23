@@ -7,7 +7,6 @@
 
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
-\RequirePackage[pdfencoding=auto,colorlinks]{hyperref}
 \RequirePackage{lettrine}
 \RequirePackage{appendix}
 \RequirePackage{polyglossia}
@@ -95,6 +94,7 @@
 \usepackage{url}
 
 \usepackage{blindtext}
+\usepackage[pdfencoding=auto,colorlinks]{hyperref}
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% % definición de comandos               %
@@ -152,15 +152,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \hypersetup{
- colorlinks=true,
  linkcolor=ficblue,
  filecolor=ficblue,      
  urlcolor=ficblue,
- citecolor=ficblue
+ citecolor=ficblue,
+ pdfauthor={\nome},
+ pdftitle={\titulo}
 }
-\hypersetup{pdfauthor={\nome},
-            pdftitle={\titulo}
-}
+\usepackage{footnotebackref}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % opcións datetime                     %
