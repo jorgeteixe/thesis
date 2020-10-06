@@ -85,7 +85,6 @@
 
 \usepackage{datetime}
 \usepackage{fancyhdr}
-\usepackage[toc,acronym]{glossaries}
 \usepackage{IEEEtrantools}
 \usepackage{listings}
 \usepackage{multicol}
@@ -173,6 +172,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % opcións listings                     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \lstset{
   basicstyle=\ttfamily\footnotesize, % estilo da fonte para entornos de código
   breakatwhitespace=true,            % pártense as liñas só polos espazos en branco
@@ -199,6 +199,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % opcións relación de acrónimos e glosario %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[toc,acronym]{glossaries}
 \makeglossaries
 \input{bibliografia/acronimos}
 \input{bibliografia/glosario}
