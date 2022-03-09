@@ -2,7 +2,7 @@
 % Preámbulo                                                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass[11pt,a4paper,titlepage,twoside,openright,openbib]{report}
+\documentclass[11pt,a4paper,titlepage,oneside]{report}
 
 %%% RELACIÓN DE VARIABLES A PERSONALIZAR %%%
 \def\lingua{gal}
@@ -54,16 +54,12 @@
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
  \include{portada/portada}
- \paxinaenbranco
  \dedicatoria{Dedicatoria} % escribe neste comando o teu texto de dedicatoria
- \paxinaenbranco
  \paxinaenbranco
  \begin{agradecementos}
  \blindtext                % substitúe este comando polo teu texto de agradecementos
  \end{agradecementos}
- \paxinaenbranco
  \include{portada/resumo}
- \paxinaenbranco
 
  \pagenumbering{roman}
  \setcounter{page}{1}
@@ -72,7 +68,7 @@
  \tableofcontents
  \listoffigures
  \listoftables
- \cleardoublepage
+ \clearpage
  
  \pagenumbering{arabic}
  \setcounter{page}{1}
@@ -100,7 +96,7 @@
 
  \bibliographystyle{IEEEtranN}
  \bibliography{\bibconfig,bibliografia/bibliografia}
- \cleardoublepage
+ \clearpage
  
 \end{document}
 
