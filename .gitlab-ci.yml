@@ -2,11 +2,13 @@
 # use docker image with latex preinstalled
 # since there is no official latex image, use https://github.com/blang/latex-docker
 # possible alternative: https://github.com/natlownes/docker-latex
-image: blang/latex
+image: registry.gitlab.com/islandoftex/images/texlive:latest
 
 build:
   script:
     - latexmk -xelatex memoria_tfg.tex
+  after_script:
+    - cat memoria_tfg.log
   artifacts:
     paths:
-      - "*.pdf"
+      - memoria_tfg.pdf
