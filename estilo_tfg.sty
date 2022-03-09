@@ -5,7 +5,7 @@
 %% Paquetes a incluir por defecto    %%
 %%                                   %%
 
-\RequirePackage{xcolor}
+\RequirePackage[table]{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{lettrine}
 \RequirePackage{appendix}
@@ -55,7 +55,6 @@
     \gappto\captionsspanish{\renewcommand{\listtablename}{Índice de tablas}}
   \fi
   \def\bibconfig{bibliografia/bibconf-es}
-}
 }{%
 \ifthenelse{\equal{\lingua}{eng}}{%
   \message{Estilo TFG: cargando definicións para inglés}
@@ -73,7 +72,7 @@
   \def\bibconfig{bibliografia/bibconf-en}
 }{%
   \message{Estilo TFG warning: non se detectou correctamente a lingua (fallback: galego)}
-}}
+}}}
 
 \usepackage{latexsym}
 \usepackage{amsmath}
@@ -96,6 +95,8 @@
 \usepackage{url}
 
 \usepackage{blindtext}
+\usepackage{silence}
+\WarningsOff[blindtext]% Suppress warnings related to package blindtext (galician not defined)
 \usepackage[pdfencoding=auto,colorlinks]{hyperref}
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,20 +135,22 @@
 \fancyfoot[CE,CO]{\thepage}
 \setlength{\headheight}{14pt}
 
-\usepackage{everypage}
-\makeatletter
-\AddEverypageHook{%
-  \ifthenelse{\(\value{page}>80\) \AND \(\NOT \equal{\@chapapp}{\appendixname}\)}
-             {\message{Estilo TFG warning: sobrepasado o límite de 80 páxinas antes dos apéndices!}
-              \fancyfoot[CE,CO]{\color{red} \hrulefill PÁXINA EXTRA \hrulefill \thepage{} \hrulefill PÁXINA EXTRA \hrulefill}}
-             {\fancyfoot[CE,CO]{\thepage}}
-}
-\makeatother
+\fancypagestyle{sobrante}{\fancyfoot[CE,CO]{\color{red} \hrulefill PÁXINA EXTRA \hrulefill \thepage{} \hrulefill PÁXINA EXTRA \hrulefill}}
+
+\AddToHook{shipout/background}{\put(1in,-1in){%
+%\AddEverypageHook{%
+  \ifthenelse{\(\value{page}>79\) \AND \(\NOT \equal{\@chapapp}{\appendixname}\)}
+             {\message{Estilo TFG warning: sobrepasado o límite de 80 páxinas antes dos apéndices!}\thispagestyle{sobrante}}
+}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % opcións setspace                     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \onehalfspacing
+
+\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{1.5}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % opcións hyperref                     %
@@ -167,7 +170,8 @@
 % opcións datetime                     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newdateformat{datasimple}{\begin{galician}\monthname[\THEMONTH] de \THEYEAR\end{galician}}
+\newdateformat{tfgdata}{\begin{galician}\monthname[\the\month] \the\year\end{galician}}
+\def\datasimple{\tfgdata\today}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % opcións listings                     %
