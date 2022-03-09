@@ -56,9 +56,41 @@ os elementos en cuestión.
   \label{fig:exemplo-subfiguras}
 \end{figure}
 
+\section{Inclusión de táboas}
+
+Se precisamos táboas no noso documento, incluirémolas do xeito que se
+indica na táboa~\ref{tab:exemplo} (páxina~\pageref{tab:exemplo}). Se
+o facemos así, \LaTeX ubicará cada táboa no mellor lugar posible,
+lugar que pode variar a medida que o documento vaia crecendo coa
+inclusión de máis texto e outros elementos (máis imaxes, táboas,
+etc.).
+
+\begin{table}[hp!]
+  \centering
+  \rowcolors{2}{white}{udcgray!25}
+  \begin{tabular}{c|c}
+  \rowcolor{udcpink!25}
+  \textbf{Título de columna} & \textbf{Outro título de columna} \\\hline
+  \textit{Título de fila} & Contido de celda \\
+  \textit{Título de fila} & Contido de celda \\
+  \textit{Título de fila} & Contido de celda \\
+  \textit{Título de fila} & Contido de celda \\
+  \textit{Título de fila} & Contido de celda \\
+  \textit{Título de fila} & Contido de celda \\
+  \end{tabular}
+  \caption{Pé de táboa descritivo}
+  \label{tab:exemplo}
+\end{table}
+
+Para táboas longas que ocupan varias páxinas, como é o caso da \ref{tab:longa},
+recoméndase o uso do paquete \texttt{lontable}, descomentando a liña
+correspondente no ficheiro raíz do proxecto (\verb+memoria_tfg.tex+).
+
+\input{contido/taboa-longa.tex}
+
 \section{Inclusión de código fonte}
 
-Se precisamos incluír fragmentos de código fonte, podemos facelo da
+Se precisamos incluír fragmentos de código fonte, podemos facelo, por exemplo, da
 seguinte maneira:
 
 \begin{lstlisting}[language=C]
