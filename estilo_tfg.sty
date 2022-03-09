@@ -82,7 +82,7 @@
 
 \usepackage{libertine}
 
-\usepackage{datetime}
+\usepackage[calc]{datetime2}
 \usepackage{fancyhdr}
 \usepackage{IEEEtrantools}
 \usepackage{listings}
@@ -167,11 +167,11 @@
 \usepackage{footnotebackref}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% opcións datetime                     %
+% opcións datetime2                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newdateformat{tfgdata}{\begin{galician}\monthname[\the\month] \the\year\end{galician}}
-\def\datasimple{\today}
+\DTMsavenow{lastcompilationdate}
+\def\datasimple{\DTMmonthname{\DTMfetchmonth{lastcompilationdate}} de \DTMfetchyear{lastcompilationdate}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % opcións listings                     %
