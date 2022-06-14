@@ -9,3 +9,5 @@ sub run_makeglossaries {
     system "makeglossaries '$_[0]'";
   };
 }
+
+$clean_ext = "acn acr alg bbl glg glo gls ist nav out snm xdv";
