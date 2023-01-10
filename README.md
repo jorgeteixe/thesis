@@ -50,4 +50,4 @@ a memoria en caso de producirse cambios nos diferentes ficheiros que a conforman
 
 Os ficheiros auxiliares xerados por `pdflatex` ou `latexmk` poden eliminarse doadamente con:
 
-     latexmk -c
+     latexmk -xelatex -c
