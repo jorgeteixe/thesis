@@ -4,6 +4,8 @@ Este proxecto LaTeX constitúe un modelo de referencia para as memorias de Traba
 do **Grao en Enxeñaría Informática** e do **Grao en Ciencia e Enxeñaría de Datos**
 da Facultade de Informática da Universidade da Coruña.
 
+Antes de usar este modelo, por favor, revisa con atención as [`FAQ (Frequently Asked Questions)`](https://gitlab.com/lauramcastro/modelo-tfg-gei-fic/-/wikis/Frequently-asked-questions-(faq)).
+
 ## Estrutura
 
   1) Ficheiros de autoría, contribucións, licenza e atribución
