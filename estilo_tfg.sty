@@ -74,6 +74,28 @@
   \message{Estilo TFG warning: non se detectou correctamente a lingua do documento (fallback: galego)}
 }}}
 
+\ifdefined\titulacion
+  \message{Estilo TFG: elixiuse como titulación do documento: \titulacion}
+\else
+  \message{Estilo TFG warning: non se elixiu titulación para o documento (fallback: Grao en Enxeñaría Informática)}
+  \def\titulacion{gei} % fórzase a definición da titulación ao GEI
+\fi
+
+\ifthenelse{\equal{\titulacion}{gei}}{
+  \def\nometitulacion{GRAO EN ENXEÑARÍA INFORMÁTICA}
+  \def\nomemencion{MENCIÓN EN \mencion}
+  \def\carimbo{\includegraphics[scale=0.08]{imaxes/euro_inf_seal_bachelor_light background}}
+  \ifdefined\mencion
+    \message{Estilo TFG: elixiuse como mención: \mencion}
+  \else
+    \message{Estilo TFG warning: non se elixiu mención, a compilación fallará}
+  \fi
+}{
+  \def\nometitulacion{GRAO EN CIENCIA E ENXEÑARÍA DE DATOS}
+  \def\nomemencion{\mbox{}}
+  \def\carimbo{\vspace*{125pt}\mbox{}}
+}
+
 \usepackage{latexsym}
 \usepackage{amsmath}
 \usepackage{amssymb}
