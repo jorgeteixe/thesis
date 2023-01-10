@@ -48,6 +48,8 @@ a memoria en caso de producirse cambios nos diferentes ficheiros que a conforman
 
 ## Eliminación dos ficheiros auxiliares
 
-Os ficheiros auxiliares xerados por `pdflatex` ou `latexmk` poden eliminarse doadamente con:
+No momento no que a redacción da memoria do TFG se dea por finalizada, os ficheiros auxiliares xerados poden eliminarse doadamente con:
 
      latexmk -xelatex -c
+
+Non se recomenda a eliminación dos ficheiros auxiliares durante o proceso de redacción, xa que a súa presenza contribúe a axilizar o proceso de compilación e xeración do PDF en construción.
