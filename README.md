@@ -1,7 +1,8 @@
-# Modelo de memoria de TFG (Grao en Enxeñaría Informática da FIC UDC)
+# Modelo de memoria de Traballo Fin de Grao (Grao en Enxeñaría Informática e Grao en Ciencia e Enxeñaría de Datos da FIC UDC)
 
 Este proxecto LaTeX constitúe un modelo de referencia para as memorias de Traballo Fin de Grao
-do Grao en Enxeñaría Informática da Facultade de Informática da Universidade da Coruña.
+do Grao en Enxeñaría Informática e do Grao en Ciencia e Enxeñaría de Datos
+da Facultade de Informática da Universidade da Coruña.
 
 ## Estrutura
 
