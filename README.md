@@ -1,5 +1,6 @@
 # 📝 My Thesis – [Title TBD]
 
+[![REUSE status](https://api.reuse.software/badge/github.com/jorgeteixe/thesis)](https://api.reuse.software/info/github.com/jorgeteixe/thesis)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 This repository contains my thesis, based on the [Modelo TFG FIC](https://gitlab.com/lauramcastro/modelo-tfg-fic) template.
