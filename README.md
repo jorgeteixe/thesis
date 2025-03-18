@@ -1,55 +1,17 @@
-# Modelo de memoria de Traballo Fin de Grao
+# 📝 My Thesis – [Title TBD]
 
-Este proxecto LaTeX constitúe un modelo de referencia para as memorias de Traballo Fin de Grao
-do **Grao en Enxeñaría Informática** e do **Grao en Ciencia e Enxeñaría de Datos**
-da Facultade de Informática da Universidade da Coruña.
+This repository contains my thesis, based on the [Modelo TFG FIC](https://gitlab.com/lauramcastro/modelo-tfg-fic) template.
 
-Antes de usar este modelo, por favor, revisa con atención as [`FAQ (Frequently Asked Questions)`](https://gitlab.com/lauramcastro/modelo-tfg-gei-fic/-/wikis/Frequently-asked-questions-(faq)).
+## 📜 License
 
-## Estrutura
+- The **LaTeX thesis template** is based on the original [Modelo TFG FIC](https://gitlab.com/lauramcastro/modelo-tfg-fic) and is licensed under the **GNU General Public License v2.0 or later**.
+- The **automation scripts (GitHub workflows)** keep the original license, under the **GNU General Public License v2.0 or later**.
+- The **content of my thesis (text, figures, and research)** is licensed under **Creative Commons CC BY-NC 4.0**.
 
-  1) Ficheiros de autoría, contribucións, licenza e atribución
+See [TEMPLATE_LICENSE](licenses/TEMPLATE_LICENSE) for the original GPL text and [CONTENT_LICENSE](licenses/CONTENT_LICENSE) for thesis content.
 
-     > `AUTHOR`
-     >
-     > `CONTRIBUTING.md`
-     >
-     > `COPYING`
-     >
-     > `CREDITS`
+## 📢 Acknowledgments
 
-  2) Ficheiro de estilo: `estilo_tfg.sty`
+This thesis is based on the **Modelo TFG FIC** template by **Laura M. Castro** and contributors. The original project is available at [GitLab](https://gitlab.com/lauramcastro/modelo-tfg-fic).
 
-  3) Ficheiro principal: `memoria_tfg.tex`
-
-  4) Directorios:
-
-     > `anexos/`		Contén os capítulos con materiais adicionais.
-     >
-     > `bibliografia/`	Contén a bibliografía e outros posibles índices (termos, glosario).
-     >
-     > `contido/`		Contén os capítulos da memoria.
-     >
-     > `imaxes/`		Contén as imaxes da memoria.
-     >
-     > `portada/`		Contén a portada, resumo e palabras chave.
-
-## Xeración da versión PDF
-
-A versión PDF pódese xerar empregando a ferramenta `latexmk`, que asegura o correcto procesamento
-de índices, bibliografía e referencias:
-
-     latexmk -xelatex memoria_tfg.tex
-
-A ferramenta `latexmk` pódese empregar de xeito que monitorice o proxecto e recompile automaticamente
-a memoria en caso de producirse cambios nos diferentes ficheiros que a conforman:
-
-     latexmk -xelatex -pvc memoria_tfg.tex
-
-## Eliminación dos ficheiros auxiliares
-
-No momento no que a redacción da memoria do TFG se dea por finalizada, os ficheiros auxiliares xerados poden eliminarse doadamente con:
-
-     latexmk -xelatex -c
-
-Non se recomenda a eliminación dos ficheiros auxiliares durante o proceso de redacción, xa que a súa presenza contribúe a axilizar o proceso de compilación e xeración do PDF en construción.
+Automation, modifications and content by **Jorge Teixeira Crespo**.
