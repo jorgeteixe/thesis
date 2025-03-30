@@ -6,8 +6,11 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # 📝 My Thesis – Renewing the infrastructure of an association using Open Source tools
 
+![GitHub License](https://img.shields.io/github/license/jorgeteixe/thesis)
 [![REUSE status](https://api.reuse.software/badge/github.com/jorgeteixe/thesis)](https://api.reuse.software/info/github.com/jorgeteixe/thesis)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+![GitHub Release](https://img.shields.io/github/v/release/jorgeteixe/thesis)
+
 
 This repository contains my thesis, based on the [Modelo TFG FIC](https://gitlab.com/lauramcastro/modelo-tfg-fic) template.
 
@@ -31,15 +34,13 @@ Please refer to [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for the guidelines on c
 
 ## Licensing
 
-This repository contains multiple components under different licenses:
-
-- The **LaTeX thesis template** is based on the original [Modelo TFG FIC](https://gitlab.com/lauramcastro/modelo-tfg-fic) and is licensed under the **GNU General Public License v2.0 or later**.
-- The **automation scripts (GitHub workflows)** maintain the original license under the **GNU General Public License v2.0 or later**.
-- The **content of my thesis (text, figures, and research)** is licensed under **Creative Commons CC BY-NC 4.0**.
+This repository is based on the original [Modelo TFG FIC](https://gitlab.com/lauramcastro/modelo-tfg-fic) and is licensed under the **GNU General Public License v2.0 or later**.
 
 For full details, see:
 - [`LICENSES/GPL-2.0-or-later.txt`](LICENSES/GPL-2.0-or-later.txt) (GPL License)
-- [`LICENSES/CC-BY-4.0.txt`](LICENSES/CC-BY-4.0.txt) (Creative Commons)
+
+> [!TIP]
+> Some of the auxiliary files have different licenses. The repository is licensed following REUSE Specification, you can find more information [here](https://reuse.software).
 
 ## Acknowledgments
 
