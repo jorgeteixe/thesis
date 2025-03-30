@@ -29,4 +29,4 @@ jobs:
             You can download the PDF here:
             - [memoria_tfg.pdf][1]
 
-            [1]: https://github.com/jorgeteixe/thesis/actions/runs/${{ github.run_id }}/artifacts/{${{ steps.upload-pdf.outputs.artifact-id }}}
+            [1]: https://github.com/jorgeteixe/thesis/actions/runs/${{ github.run_id }}/artifacts/${{ steps.upload-pdf.outputs.artifact-id }}
