@@ -1,6 +1,9 @@
 ## DS_Store file
 .DS_Store
 
+## PDF generated file
+memoria_tfg.pdf
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
