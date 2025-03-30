@@ -15,8 +15,18 @@ jobs:
         with:
           root_file: memoria_tfg.tex
           latexmk_use_xelatex: true
-      - name: Upload PDF file
+      - id: upload-pdf
+        name: Upload PDF file
         uses: actions/upload-artifact@v4
         with:
           name: PDF
           path: memoria_tfg.pdf
+      - name: Comment on PR with PDF link
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            You can download the PDF here:
+            - [memoria_tfg.pdf][1]
+
+            [1]: https://github.com/jorgeteixe/thesis/actions/runs/${{ github.run_id }}/artifacts/{${{ steps.upload-pdf.outputs.artifact-id }}}
