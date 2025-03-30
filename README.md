@@ -1,4 +1,4 @@
-# 📝 My Thesis – [Title TBD]
+# 📝 My Thesis – Renewing the infrastructure of an association using Open Source tools
 
 [![REUSE status](https://api.reuse.software/badge/github.com/jorgeteixe/thesis)](https://api.reuse.software/info/github.com/jorgeteixe/thesis)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
