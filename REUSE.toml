@@ -2,11 +2,3 @@ version = 1
 SPDX-PackageName = "thesis"
 SPDX-PackageSupplier = "Jorge Teixeira Crespo"
 SPDX-PackageDownloadLocation = "https://github.com/jorgeteixe/thesis"
-
-# Ignored files
-[[annotations]]
-path = [
-    ".gitignore",
-]
-SPDX-FileCopyrightText = "2025 Jorge Teixeira Crespo"
-SPDX-License-Identifier = "CC0-1.0"
