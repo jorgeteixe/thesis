@@ -1,8 +1,17 @@
 # SPDX-FileCopyrightText: 2025 Jorge Teixeira Crespo
 # SPDX-License-Identifier: CC0-1.0
-name: Build PDF on PR open
+name: Build PDF on PR
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - '**.tex'
+      - '**.sty'
+      - 'anexos/**'
+      - 'bibliografia/**'
+      - 'contido/**'
+      - 'imaxes/**'
+      - 'portada/**'
 
 jobs:
   build_latex:
