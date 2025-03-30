@@ -1,5 +1,12 @@
+# SPDX-FileCopyrightText: 2025 Jorge Teixeira Crespo
+#
+# SPDX-License-Identifier: CC0-1.0
+
 ## DS_Store file
 .DS_Store
+
+## PDF generated file
+memoria_tfg.pdf
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
@@ -123,7 +130,7 @@ acs-*.bib
 *.sls
 
 # uncomment this for glossaries-extra (will ignore makeindex's style files!)
-# *.ist
+*.ist
 
 # gnuplot
 *.gnuplot

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Laura Milagros Castro Souto <lcastro@udc.es>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 add_cus_dep('glo', 'gls', 0, 'run_makeglossaries');
 add_cus_dep('acn', 'acr', 0, 'run_makeglossaries');
 
