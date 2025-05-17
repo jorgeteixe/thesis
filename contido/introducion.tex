@@ -1,22 +1,39 @@
-% SPDX-FileCopyrightText: 2025 Laura Milagros Castro Souto <lcastro@udc.es>
+% SPDX-FileCopyrightText: 2025 Jorge Teixeira Crespo <jorge.teixeira@udc.es>
 %
 % SPDX-License-Identifier: GPL-2.0-or-later
 
-\chapter{Introdución}
+\chapter{Introduction}
 \label{chap:introducion}
 
-\lettrine{P}{rimer} capítulo da memoria, onde xeralmente se exporán as
-liñas mestras do traballo, os obxectivos, etc. Incluimos un par de
-exemplos de citas~\cite{ErlangBook,ErlangWebBook} e de referencias
-internas (sección \ref{sec:mostra}, páxina \pageref{sec:mostra}).
+\section{Context and Motivation}
 
-\Blindtext
+GPUL (Grupo de Programadores e Usuarios de Linux) \cite{gpul_web} is a non-profit association founded in 1998 in A Coruña, dedicated to promoting Free and Open Source Software (FOSS) through various community activities, including workshops, hackathons, and technical conferences. Over the years, GPUL has become an essential part of the Galician and broader Spanish FOSS communities, helping introduce students and young professionals to real-world software development and community engagement.
 
-\section{Sección de mostra}
-\label{sec:mostra}
+Currently, GPUL's infrastructure is spread across two legacy servers, GPULINO and GPULON. These servers host critical services, including an outdated Nextcloud instance containing vital administrative documents and historical content, and a Mailman 2 instance managing essential mailing lists. Despite their critical role, both servers suffer from severe maintenance issues, instability, and lack of proper backups. These problems are amplified by frequent turnover among the board members every two years, which creates significant knowledge gaps due to insufficient documentation. As the current president, I have directly faced challenges in maintaining this infrastructure, which limits our ability to reliably host essential services and forces us to rely on external providers during significant events, thereby incurring unnecessary expenses.
 
-\Blindtext
+Practical examples highlight the severity of these issues. Our email setup uses redirects for critical addresses under the gpul.org domain, leading to our emails frequently being marked as spam. This complicates event organization, affecting communication with sponsors and participants. Another instance occurred when our Nextcloud server became unresponsive just before the financial quarter deadline due to a full disk caused by unrotated logs. With no documentation and inadequate tools, it took four days of communication with our hosting provider and former administrators to resolve the issue. This incident brought us dangerously close to missing important administrative deadlines, potentially resulting in fines.
 
-\subsection{Subsección de mostra}
+\section{Objectives}
 
-\Blindtext
+Given these critical challenges, the objectives of this project are to:
+
+\begin{itemize}
+    \item Modernize and simplify GPUL's infrastructure to ensure long-term maintainability.
+    \item Replace outdated services (Mailman 2 and legacy Nextcloud) with modern, modular open-source solutions.
+    \item Implement proper documentation to facilitate knowledge transfer and reduce dependency on individual members.
+    \item Enhance the reliability, performance, and security of critical infrastructure services, incorporating robust backup solutions.
+    \item Empower new contributors with clear processes and documentation, ensuring continuity and sustainability.
+    \item Ensure alignment with GPUL's foundational values of openness and community-driven development.
+\end{itemize}
+
+The priority lies in modernization, simplification, and thorough documentation, underpinned by improved security and reliable backup procedures.
+
+\section{Existing Solutions}
+
+In evaluating potential solutions, we considered both fully managed SaaS platforms and integrated suites. While managed services generally conflict with our goal of self-hosting or impose significant licensing costs, we have decided to implement Odoo \cite{odoo_web} specifically for its invoicing capabilities, which are particularly valuable given Spain's new \gls{verifactu} requirements \cite{BOE-A-2024-22138}. While we are currently focusing on the invoicing module, we maintain the flexibility to adopt additional Odoo modules in the future if they prove beneficial. For other services, we continue with our modular approach, upgrading existing open-source solutions such as transitioning from Mailman 2 to Mailman 3 integrated with Fedora's HyperKitty \cite{hyperkitty_web} for better usability, and updating Nextcloud to a recent and stable version. For critical services like email, we are exploring modern self-hosted setups but remain open to outsourcing this component due to its crucial role and complexity.
+
+Thus, the customized renewal of GPUL's infrastructure, grounded in open-source principles and tailored specifically to our community's practical requirements and limitations, emerges as the best solution.
+
+\section{Thesis Structure}
+
+Following this introduction, the thesis will provide a detailed inventory and analysis of GPUL's existing infrastructure, propose a new infrastructure architecture, evaluate and select appropriate tools and hosting solutions, detail the migration strategy and execution, and conclude by providing comprehensive documentation for future maintainers.

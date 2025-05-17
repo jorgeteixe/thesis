@@ -1,0 +1,348 @@
+% SPDX-FileCopyrightText: 2025 Jorge Teixeira Crespo <jorge.teixeira@udc.es>
+%
+% SPDX-License-Identifier: GPL-2.0-or-later
+
+\chapter{Current Infrastructure Analysis}
+\label{chap:current_infrastructure}
+
+\section{Server Infrastructure Overview}
+
+GPUL currently operates two legacy servers, named GPULINO and GPULON, each hosts critical services but also poses serious operational and maintenance challenges. GPULINO was created on November 3, 2011, while GPULON was created on January 17, 2016. This chapter provides a detailed analysis of both servers' specifications, configurations, and the issues they present.
+
+\section{GPULINO Server Analysis}
+
+GPULINO is hosted with Gandi, located in their Paris, France (SD3 datacenter). It runs Debian GNU/Linux 8 (Jessie), which is significantly outdated as it reached End-of-Life (EOL) on June 17, 2018, with Extended LTS support ending on June 30, 2025.
+
+\subsection{Technical Specifications}
+
+\begin{table}[H]
+  \centering
+  \rowcolors{2}{white}{udcgray!25}
+  \caption{GPULINO Server Specifications}
+  \label{tab:gpulino_specs}
+  \begin{tabular}{ll}
+    \rowcolor{udcpink!25}
+    \textbf{Specification} & \textbf{Details} \\
+    \hline
+    CPU & 1 core \\
+    RAM & 640 MB \\
+    Storage & 3 x 10 GB volumes \\
+    Monthly Cost & €13.09 \\
+    IPv4 & 95.142.163.196 \\
+    IPv6 & 2001:4b98:dc0:47:216:3eff:fe56:1785 \\
+    OS & Debian GNU/Linux 8 (Jessie, EOL) \\
+  \end{tabular}
+\end{table}
+
+\subsection{Filesystem Structure}
+
+GPULINO uses three independent 10 GB volumes provided by the hosting provider. These are mounted as root (\verb|/|), data (\verb|/srv/srv_gpulino|), and backup (\verb|/srv/backup_gpulino|). Their current usage is visualized in Figure~\ref{fig:gpulino_disk_usage}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figuras/gpulino_disk_usage.pdf}
+  \caption{Disk usage across GPULINO volumes. Each volume is 10 GB.}
+  \label{fig:gpulino_disk_usage}
+\end{figure}
+
+While the root filesystem is nearing critical usage (~75\%), the backup volume remains largely underutilized (~1\%), showcasing the lack of backup strategy.
+
+\subsection{User Access and Management}
+
+The server maintains several user accounts, with varying levels of activity. Table \ref{tab:gpulino_users} shows the most relevant user logins:
+
+\begin{table}[H]
+  \centering
+  \rowcolors{2}{white}{udcgray!25}
+  \caption{GPULINO Active User Accounts (sorted by creation date)}
+  \label{tab:gpulino_users}
+  \begin{tabular}{ll}
+    \rowcolor{udcpink!25}
+    \textbf{Username} & \textbf{Last Login} \\
+    \hline
+    admin & September 26, 2020 \\
+    tsao & September 27, 2024 \\
+    ssaavedra & January 27, 2024 \\
+    marcos.chavarria & February 19, 2014 \\
+    castrinho8 & March 18, 2017 \\
+    chema & April 24, 2019 \\
+    teixe & January 19, 2025 \\
+  \end{tabular}
+\end{table}
+
+\subsection{Active Services and Usage Details}
+
+The server hosts several critical services:
+\begin{itemize}
+    \item Apache2 Web Server
+    \item Exim4 Mail Transport Agent
+    \item Mailman 2 (for mailing lists)
+    \item MySQL (database server, supporting Mailman)
+    \item SSH (Secure Shell)
+\end{itemize}
+
+Although these services were known to be active, GPULINO lacked formal documentation. A manual inspection of the server's filesystem and configuration files revealed various hosted domains, tools, and historical content.
+
+The Apache configuration included several virtual hosts pointing to subdomains, some of which were no longer functional. Others still displayed static content or redirected to internal projects.
+
+\begin{table}[H]
+  \centering
+  \rowcolors{2}{white}{udcgray!15}
+  \caption{Web domains served by Apache on GPULINO}
+  \label{tab:gpulino_apache_domains}
+  \begin{tabular}{ll}
+    \rowcolor{udcpink!25}
+    \textbf{Domain} & \textbf{Notes} \\
+    \hline
+    \texttt{planet.gpul.org} & Hosts a blog or webpage \\
+    \texttt{old.gpul.org} & Returns a PHP error \\
+    \texttt{stuff.gpul.org} & Hosts a webpage \\
+    \texttt{dudesconf.org} & Hosts a webpage (some links broken) \\
+    \texttt{junoffice.gpul.org} & Returns an empty page \\
+    Other domains & Serve the default Apache welcome page \\
+  \end{tabular}
+\end{table}
+
+These domains pointed to directories inside \texttt{/var/www}, which contained a variety of static and symlinked content likely tied to past events, services, or internal documentation.
+
+\begin{table}[H]
+  \centering
+  \rowcolors{2}{white}{udcgray!15}
+  \caption{Apache web directories found under \texttt{/var/www}}
+  \label{tab:gpulino_www_dirs}
+  \begin{tabular}{ll}
+    \rowcolor{udcpink!25}
+    \textbf{Directory} & \textbf{Description} \\
+    \hline
+    \texttt{apache-default} & Default Apache content \\
+    \texttt{artwork} & Publicly accessible artwork files \\
+    \texttt{drupal} & Linked to \texttt{/var/www/gpul.org/drupal} \\
+    \texttt{dudesconf} & Hosts content for \texttt{dudesconf.org} \\
+    \texttt{estatutos} & Organizational rules or statutes \\
+    \texttt{etherpad-lite} & Likely collaborative editor \\
+    \texttt{eventostuff} & Linked to \verb|/srv/srv_gpulino/eventos| \\
+    \texttt{gallery2} & Public gallery \\
+    \texttt{gpul-latex} & LaTeX-related files \\
+    \texttt{gpul.org} & Main content for GPUL \\
+    \texttt{gpul.org-eventos} & Event-specific content \\
+    \texttt{guademy} & Linked to \verb|/srv/srv_gpulino/www/guademy/| \\
+    \texttt{indico} & Linked to \verb|/srv/srv_gpulino/indico| \\
+    \texttt{junoffice} & Content for \texttt{junoffice.gpul.org} \\
+    \texttt{labs.gpul.org} & Lab-related subdomain \\
+    \texttt{piwik} & Web analytics platform \\
+    \texttt{planet.gpul.org} & Static site content \\
+    \texttt{rexistro.labs.gpul.org} & Registry or logs \\
+    \texttt{votologo} & Likely a voting tool \\
+  \end{tabular}
+\end{table}
+
+Mailman was configured to manage mailing lists under the \texttt{lists.gpul.org} domain, using a CGI interface and Apache redirection rules. The configuration was minimal but functional.
+
+\begin{table}[H]
+  \centering
+  \rowcolors{2}{white}{udcgray!15}
+  \caption{Mailman service details on GPULINO}
+  \label{tab:gpulino_mailman}
+  \begin{tabular}{ll}
+    \rowcolor{udcpink!25}
+    \textbf{Parameter} & \textbf{Value} \\
+    \hline
+    Domain & \texttt{lists.gpul.org} \\
+    VirtualHost & Redirects root to \texttt{/cgi-bin/mailman/listinfo} \\
+    CGI Path & \texttt{/usr/lib/cgi-bin/} \\
+    DocumentRoot & \texttt{/var/www/} \\
+    Admin Email & \texttt{mailman@lists.gpul.org} \\
+  \end{tabular}
+\end{table}
+
+The server also ran a Git daemon that served multiple repositories under a single base path. These were accessible via the \texttt{git://} protocol and configured to run from a root-owned script.
+
+\begin{table}[H]
+  \centering
+  \rowcolors{2}{white}{udcgray!15}
+  \caption{Git daemon configuration details}
+  \label{tab:gpulino_git_daemon}
+  \begin{tabular}{ll}
+    \rowcolor{udcpink!25}
+    \textbf{Parameter} & \textbf{Value} \\
+    \hline
+    Startup Script & \texttt{/root/git-daemon} \\
+    Base Path & \verb|/srv/srv_gpulino/git/repositories/| \\
+  \end{tabular}
+\end{table}
+
+\noindent
+\textbf{Git Daemon Command:}
+\begin{verbatim}
+/usr/bin/git-daemon \
+  --user=git --group=git \
+  --verbose \
+  --reuseaddr \
+  --base-path=/srv/srv_gpulino/git/repositories/ \
+  /srv/srv_gpulino/git/repositories/
+\end{verbatim}
+
+\begin{table}[H]
+  \centering
+  \rowcolors{2}{white}{udcgray!15}
+  \caption{Git repositories hosted}
+  \label{tab:gpulino_git_repos}
+  \begin{tabular}{ll}
+    \rowcolor{udcpink!25}
+    \textbf{Repository} & \textbf{Description} \\
+    \hline
+    \texttt{actas.git} & Meeting minutes \\
+    \texttt{certificado-asistencia.git} & Attendance certificates \\
+    \texttt{cuentas.git} & Financial records \\
+    \texttt{gitosis-admin.git} & Git access management \\
+    \texttt{gpul-estatutos.git} & Organization statutes \\
+    \texttt{manual-latex.git} & LaTeX training material \\
+    \texttt{mem-dudesconf.git} & DudesConf report \\
+    \texttt{parte-gasto.git} & Expense reports \\
+    \texttt{subvencion-udc-2011.git} & UDC grant files (2011) \\
+  \end{tabular}
+\end{table}
+
+These findings illustrate the range of active uses the server had, many of which were not documented but still functional at the time of analysis. They also reflect the historical depth and variety of GPUL's activities over the years.
+
+\subsection{Conclusion}
+
+Overall, GPULINO presents a high maintenance burden due to its outdated OS, undocumented legacy services, and limited hardware resources.
+
+\section{GPULON Server Analysis}
+
+GPULON is hosted with Kimsufi and configured as a KS-4C server running Debian GNU/Linux 11 (Bullseye).
+
+\subsection{Technical Specifications}
+
+\begin{table}[H]
+  \centering
+  \rowcolors{2}{white}{udcgray!25}
+  \caption{GPULON Server Specifications}
+  \label{tab:gpulon_specs}
+  \begin{tabular}{ll}
+    \rowcolor{udcpink!25}
+    \textbf{Specification} & \textbf{Details} \\
+    \hline
+    CPU & Intel i5-2300 \\
+    RAM & 16 GB \\
+    Storage & 1 x 2TB HDD \\
+    Monthly Cost & €30.60 \\
+    IPv4 & 91.121.65.91 \\
+    OS & Debian GNU/Linux 11 (Bullseye) \\
+  \end{tabular}
+\end{table}
+
+\subsection{Filesystem Structure}
+
+GPULON has a single 2 TB physical disk, divided into logical volumes for \texttt{/home}, \texttt{/var/lib/docker}, and the root filesystem (\texttt{/}). This setup is visualized in Figure~\ref{fig:gpulon_disk_usage}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figuras/gpulon_disk_usage.pdf}
+  \caption{Disk usage across GPULON logical volumes after reallocation.}
+  \label{fig:gpulon_disk_usage}
+\end{figure}
+
+Originally, the Docker directory (\texttt{/var/lib/docker}) had been restricted to approximately 450 GB and became rapidly saturated, primarily due to logs generated by long-running containerized services. One Nextcloud log file alone exceeded 250 GB.
+
+This issue led to an operational incident that impacted system stability. The resolution required manual deletion of the oversized log and redistribution of the disk space to expand the Docker volume.
+
+The updated logical volume allocation now stands as follows:
+
+\begin{itemize}
+    \item \texttt{/home} — 272 GB (7\% usage)
+    \item \texttt{/var/lib/docker} — 1.5 TB (14\% usage)
+    \item Root filesystem (\texttt{/}) — 58 GB (10\% usage)
+\end{itemize}
+
+This reallocation has significantly improved headroom for service logs and application data, reducing the risk of similar incidents in the future.
+
+\subsection{User Access and Management}
+
+Table \ref{tab:gpulon_users} shows the active user accounts on GPULON:
+
+\begin{table}[H]
+  \centering
+  \rowcolors{2}{white}{udcgray!25}
+  \caption{GPULON Active User Accounts (sorted by creation date)}
+  \label{tab:gpulon_users}
+  \begin{tabular}{ll}
+    \rowcolor{udcpink!25}
+    \textbf{Username} & \textbf{Last Login} \\
+    \hline
+    root & January 17, 2016 \\
+    ssaavedra & April 1, 2025 \\
+    castrinho8 & September 25, 2020 \\
+    davidmaseda & August 22, 2023 \\
+    bruno.cabado & August 9, 2024 \\
+    tsao & October 1, 2023 \\
+    pedro.costal & March 27, 2022 \\
+    teixe & May 17, 2025 \\
+    delthia & March 29, 2025 \\
+  \end{tabular}
+\end{table}
+
+\subsection{Docker Environment}
+
+GPULON primarily uses Docker for service deployment, hosting:
+\begin{itemize}
+  \item Nextcloud (cloud suite platform)
+  \item Listmonk (email marketing platform)
+  \item Activepieces (automation platform)
+  \item Traefik (reverse proxy)
+  \item Various supporting databases (Postgres, Redis, MariaDB)
+\end{itemize}
+
+\subsection{Conclusion}
+
+While GPULON provides modern hardware and supports containerized workflows, its Docker configuration suffers from a lack of structure and documentation, complicating maintenance and upgrades.
+
+\section{Critical Issues and Challenges}
+
+\subsection{Known Critical Issues}
+
+The current infrastructure presents several critical issues:
+\begin{itemize}
+  \item \textbf{OS Obsolescence}: GPULINO is severely outdated, running an EOL operating system.
+  \item \textbf{Nextcloud Obsolescence}: The Nextcloud version used is 24.0.6, which is no longer maintained. The latest is version 32.
+  \item \textbf{Manual Interventions}: Critical services require manual restart post-reboot.
+  \item \textbf{Insufficient Backup Strategy}: No systematic backup; sporadic manual backups to personal NAS.
+  \item \textbf{Lack of Automated Log Rotation}: Manual log maintenance required, causing periodic instability.
+\end{itemize}
+
+\subsection{Known Infrastructure Issues}
+
+Additional challenges include:
+\begin{itemize}
+  \item \textbf{Docker Misconfiguration (GPULON)}: Docker Compose files are scattered and poorly documented across the \texttt{/srv/docker} directory tree, significantly hindering effective troubleshooting and maintenance. A visual representation of this directory layout is shown in Figure~\ref{fig:gpulon_dir_tree_srv_docker}.
+  \item \textbf{Unknown Installed Services (GPULINO)}: Legacy services were poorly documented, making it difficult to determine what was hosted or how services were configured. Understanding the system required manual inspection of configuration files, web directories, and service logs, effectively turning the process into a forensic investigation.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[height=0.9\textheight]{figuras/gpulon_dir_tree_srv_docker.pdf}
+  \caption{Structure of texttt{/srv/docker} with services and Compose files}
+  \label{fig:gpulon_dir_tree_srv_docker}
+\end{figure}
+
+\section{Impact on Operations}
+
+The current infrastructure issues have led to several significant incidents. Two recent ones are:
+
+\subsection{Email System Problems}
+
+The email setup, using redirects for critical addresses under the \texttt{gpul.org} domain, frequently results in emails being marked as spam. This has severely impacted event organization and communication with sponsors and participants.
+
+\subsection{GPULON Failure Incident}
+
+A critical incident occurred when the GPULON server became unresponsive due to unrotated log files filling the storage capacity. This happened right before a financial quarter deadline, requiring:
+\begin{itemize}
+  \item Four days of downtime
+  \item External hosting provider support
+  \item Risk of missing critical administrative deadlines
+\end{itemize}
+
+\subsection{Conclusion}
+
+These incidents highlight the urgent need for infrastructure modernization and proper documentation to ensure reliable service delivery, ease of maintenance, and organizational resilience.
