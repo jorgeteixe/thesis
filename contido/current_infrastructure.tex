@@ -5,17 +5,15 @@
 \chapter{Current Infrastructure Analysis}
 \label{chap:current_infrastructure}
 
-This chapter provides an in-depth analysis of GPUL's current server infrastructure. It reviews the specifications, configurations, and operational challenges of the two main servers, GPULINO and GPULON. The chapter also highlights critical issues such as outdated software, inconsistent backup strategies, and the lack of documentation. Lastly, it discusses the impact these challenges have had on GPUL's operations, underlining the need for a comprehensive infrastructure renewal.
-
-\section{Server Infrastructure Overview}
-
-GPUL currently operates two legacy servers, named GPULINO and GPULON, each hosts critical services but also poses serious operational and maintenance challenges. GPULINO was created on November 3, 2011, while GPULON was created on January 17, 2016. This chapter provides a detailed analysis of both servers' specifications, configurations, and the issues they present.
+\lettrine{T}{his} chapter provides an in-depth analysis of GPUL's current server infrastructure, focusing on the two legacy servers: GPULINO and GPULON. These servers host critical services but also pose significant operational and maintenance challenges. GPULINO, created on November 3, 2011, and GPULON, launched on January 17, 2016, have remained largely unchanged since their deployment. The chapter reviews their specifications, configurations, and highlights key issues such as outdated software, inconsistent backup strategies, and the lack of proper documentation. It also discusses the impact of these limitations on GPUL's operations, underlining the urgent need for a comprehensive infrastructure renewal.
 
 \section{GPULINO Server Analysis}
 
 GPULINO is hosted with Gandi, located in their Paris, France (SD3 datacenter). It runs Debian GNU/Linux 8 (Jessie), which is significantly outdated as it reached End-of-Life (EOL) on June 17, 2018, with Extended LTS support ending on June 30, 2025.
 
 \subsection{Technical Specifications}
+
+GPULINO is a legacy virtual machine still in active use within the association's infrastructure. It was provisioned many years ago and has remained mostly unchanged since. The table below summarizes its key specifications, which reflect the outdated and limited nature of the system. These constraints have direct implications for performance, maintenance, and security.
 
 \begin{table}[H]
   \centering
@@ -43,7 +41,7 @@ GPULINO uses three independent 10 GB volumes provided by the hosting provider. T
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{figuras/gpulino_disk_usage.pdf}
-  \caption{Disk usage across GPULINO volumes. Each volume is 10 GB.}
+  \caption{Disk usage across GPULINO volumes.}
   \label{fig:gpulino_disk_usage}
 \end{figure}
 
@@ -116,25 +114,25 @@ These domains pointed to directories inside \texttt{/var/www}, which contained a
     \rowcolor{udcpink!25}
     \textbf{Directory} & \textbf{Description} \\
     \hline
-    \texttt{apache-default} & Default Apache content \\
-    \texttt{artwork} & Publicly accessible artwork files \\
-    \texttt{drupal} & Linked to \texttt{/var/www/gpul.org/drupal} \\
-    \texttt{dudesconf} & Hosts content for \texttt{dudesconf.org} \\
-    \texttt{estatutos} & Organizational rules or statutes \\
-    \texttt{etherpad-lite} & Likely collaborative editor \\
-    \texttt{eventostuff} & Linked to \verb|/srv/srv_gpulino/eventos| \\
-    \texttt{gallery2} & Public gallery \\
-    \texttt{gpul-latex} & LaTeX-related files \\
-    \texttt{gpul.org} & Main content for GPUL \\
-    \texttt{gpul.org-eventos} & Event-specific content \\
-    \texttt{guademy} & Linked to \verb|/srv/srv_gpulino/www/guademy/| \\
-    \texttt{indico} & Linked to \verb|/srv/srv_gpulino/indico| \\
-    \texttt{junoffice} & Content for \texttt{junoffice.gpul.org} \\
-    \texttt{labs.gpul.org} & Lab-related subdomain \\
-    \texttt{piwik} & Web analytics platform \\
-    \texttt{planet.gpul.org} & Static site content \\
-    \texttt{rexistro.labs.gpul.org} & Registry or logs \\
-    \texttt{votologo} & Likely a voting tool \\
+    apache-default & Default Apache content \\
+    artwork & Publicly accessible artwork files \\
+    drupal & Linked to \texttt{/var/www/gpul.org/drupal} \\
+    dudesconf & Hosts content for dudesconf.org \\
+    estatutos & Organizational rules or statutes \\
+    etherpad-lite & Likely collaborative editor \\
+    eventostuff & Linked to \verb|/srv/srv_gpulino/eventos| \\
+    gallery2 & Public gallery \\
+    gpul-latex & LaTeX-related files \\
+    gpul.org & Main content for GPUL \\
+    gpul.org-eventos & Event-specific content \\
+    guademy & Linked to \verb|/srv/srv_gpulino/www/guademy/| \\
+    indico & Linked to \verb|/srv/srv_gpulino/indico| \\
+    junoffice & Content for junoffice.gpul.org \\
+    labs.gpul.org & Lab-related subdomain \\
+    piwik & Web analytics platform \\
+    planet.gpul.org & Static site content \\
+    rexistro.labs.gpul.org & Registry or logs \\
+    votologo & Likely a voting tool \\
   \end{tabular}
 \end{table}
 
@@ -175,14 +173,15 @@ The server also ran a Git daemon that served multiple repositories under a singl
 
 \noindent
 \textbf{Git Daemon Command:}
-\begin{verbatim}
+
+\begin{lstlisting}[language=sh]
 /usr/bin/git-daemon \
   --user=git --group=git \
   --verbose \
   --reuseaddr \
   --base-path=/srv/srv_gpulino/git/repositories/ \
   /srv/srv_gpulino/git/repositories/
-\end{verbatim}
+\end{lstlisting}
 
 \begin{table}[H]
   \centering
@@ -302,6 +301,8 @@ While GPULON provides modern hardware and supports containerized workflows, its 
 
 \section{Critical Issues and Challenges}
 
+Although GPUL's servers are still running, they have many problems that make them hard to maintain and unreliable. Over time, different people have made changes without clear planning or documentation, which has led to a fragile system. This section describes the main problems we found, divided into two groups: serious issues that affect how the servers work, and general problems with how the infrastructure is set up.
+
 \subsection{Known Critical Issues}
 
 The current infrastructure presents several critical issues:
@@ -317,34 +318,13 @@ The current infrastructure presents several critical issues:
 
 Additional challenges include:
 \begin{itemize}
-  \item \textbf{Docker Misconfiguration (GPULON)}: Docker Compose files are scattered and poorly documented across the \texttt{/srv/docker} directory tree, significantly hindering effective troubleshooting and maintenance. A visual representation of this directory layout is shown in Figure~\ref{fig:gpulon_dir_tree_srv_docker}.
+  \item \textbf{Docker Misconfiguration (GPULON)}: The \texttt{/srv/docker} directory has grown into a chaotic collection of loosely organized folders and services, with multiple Docker Compose files scattered across subdirectories in inconsistent ways. There is little to no documentation, naming is irregular, and services are grouped without a clear structure, making it extremely difficult to understand what is running or how components are connected.
   \item \textbf{Unknown Installed Services (GPULINO)}: Legacy services were poorly documented, making it difficult to determine what was hosted or how services were configured. Understanding the system required manual inspection of configuration files, web directories, and service logs, effectively turning the process into a forensic investigation.
 \end{itemize}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[height=0.9\textheight]{figuras/gpulon_dir_tree_srv_docker.pdf}
-  \caption{Structure of texttt{/srv/docker} with services and Compose files}
-  \label{fig:gpulon_dir_tree_srv_docker}
-\end{figure}
-
 \section{Impact on Operations}
 
-The current infrastructure issues have led to several significant incidents. Two recent ones are:
 
-\subsection{Email System Problems}
+The problems in GPUL's current infrastructure have already caused serious disruptions to the organization's day-to-day work. These issues are not only technical, they affect how GPUL communicates, plans events, and meets important deadlines. A clear example of this is the ongoing trouble with the email system. GPUL uses redirects for several critical email addresses under the \texttt{gpul.org} domain. However, this setup often causes messages to be marked as spam. As a result, important emails related to event organization, sponsors, or participants are sometimes not delivered or go unnoticed, making coordination much harder.
 
-The email setup, using redirects for critical addresses under the \texttt{gpul.org} domain, frequently results in emails being marked as spam. This has severely impacted event organization and communication with sponsors and participants.
-
-\subsection{GPULON Failure Incident}
-
-A critical incident occurred when the GPULON server became unresponsive due to unrotated log files filling the storage capacity. This happened right before a financial quarter deadline, requiring:
-\begin{itemize}
-  \item Four days of downtime
-  \item External hosting provider support
-  \item Risk of missing critical administrative deadlines
-\end{itemize}
-
-\subsection{Conclusion}
-
-These incidents highlight the urgent need for infrastructure modernization and proper documentation to ensure reliable service delivery, ease of maintenance, and organizational resilience.
+Another major incident occurred when the GPULON server became unresponsive due to unrotated log files completely filling up the server's disk. This failure happened just before the end of a financial quarter, a key moment for administrative tasks. Fixing the issue took four full days, required help from the external hosting provider, and put GPUL at risk of missing important reporting deadlines. This event highlighted just how fragile and poorly maintained the current system is, and how technical problems can quickly become organizational ones.
