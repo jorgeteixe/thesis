@@ -3,7 +3,7 @@
 % SPDX-License-Identifier: GPL-2.0-or-later
 
 \chapter{Current Infrastructure Analysis}
-\label{chap:current_infrastructure}
+\label{chap:current-infrastructure}
 
 \lettrine{T}{his} chapter provides an in-depth analysis of GPUL's current server infrastructure, focusing on the two legacy servers: GPULINO and GPULON. These servers host critical services but also pose significant operational and maintenance challenges. GPULINO, created on November 3, 2011, and GPULON, launched on January 17, 2016, have remained largely unchanged since their deployment. The chapter reviews their specifications, configurations, and highlights key issues such as outdated software, inconsistent backup strategies, and the lack of proper documentation. It also discusses the impact of these limitations on GPUL's operations, underlining the urgent need for a comprehensive infrastructure renewal.
 
@@ -206,10 +206,6 @@ The server also ran a Git daemon that served multiple repositories under a singl
 
 These findings illustrate the range of active uses the server had, many of which were not documented but still functional at the time of analysis. They also reflect the historical depth and variety of GPUL's activities over the years.
 
-\subsection{Conclusion}
-
-Overall, GPULINO presents a high maintenance burden due to its outdated OS, undocumented legacy services, and limited hardware resources.
-
 \section{GPULON Server Analysis}
 
 GPULON is hosted with Kimsufi and configured as a KS-4C server running Debian GNU/Linux 11 (Bullseye).
@@ -294,10 +290,6 @@ GPULON primarily uses Docker for service deployment, hosting:
   \item Traefik (reverse proxy)
   \item Various supporting databases (Postgres, Redis, MariaDB)
 \end{itemize}
-
-\subsection{Conclusion}
-
-While GPULON provides modern hardware and supports containerized workflows, its Docker configuration suffers from a lack of structure and documentation, complicating maintenance and upgrades.
 
 \section{Critical Issues and Challenges}
 
