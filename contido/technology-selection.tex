@@ -1,0 +1,65 @@
+% SPDX-FileCopyrightText: 2025 Jorge Teixeira Crespo <jorge.teixeira@udc.es>
+%
+% SPDX-License-Identifier: GPL-2.0-or-later
+
+\chapter{Technology Selection}
+\label{chap:technology-selection}
+
+\lettrine{B}{ased} on the comparative analysis in the previous chapter, this section outlines the final decisions taken for each service in the infrastructure.  
+Each subsection details the chosen solution, the motivation behind the decision, and the key trade-offs considered.  
+The focus is on ensuring coherence with GPUL's values, long-term maintainability, and the practical constraints of a volunteer-run environment.
+
+%--------------------------------------------------------------------
+\section{Mailing-list Managers}
+
+This section presents the selected mailing-list manager solution, its rationale, implementation considerations, and migration strategy from the current Mailman 2 system.
+
+%--------------------------------------------------------------------
+\section{Cloud Storage / Groupware}
+
+This section outlines the chosen cloud storage and groupware solution, focusing on continuity of service, data accessibility, and enhanced collaboration features compared to the current Nextcloud deployment.
+
+%--------------------------------------------------------------------
+\section{Video Conferencing Platforms}
+
+This section details the selected video conferencing platform, addressing GPUL's need for a self-hosted solution that ensures data sovereignty while providing reliable meeting infrastructure for internal and external collaboration.
+
+%--------------------------------------------------------------------
+\section{Git Forges}
+
+This section describes the chosen Git forge solution, explaining the approach to code hosting, repository management, and contribution workflows, with consideration for migrating legacy repositories from the existing git daemon.
+
+%--------------------------------------------------------------------
+\section{Team Chat Platforms}
+
+This section presents the selected team chat platform, addressing the need to replace the current mix of proprietary services with a self-hosted solution that aligns with GPUL's values while maintaining usability and accessibility.
+
+%--------------------------------------------------------------------
+\section{Secrets / Password Vault}
+
+This section outlines the chosen password management solution, focusing on security, access control, and usability improvements over the current plaintext storage in Nextcloud.
+
+%--------------------------------------------------------------------
+\section{Monitoring \& Logging}
+
+This section details the selected monitoring and logging stack, emphasizing the transition from no formal monitoring to a comprehensive solution that ensures service reliability and operational visibility.
+
+%--------------------------------------------------------------------
+\section{Event Ticketing \& CFP Tooling}
+
+This section presents the chosen solutions for event management, addressing the need to replace the current mix of proprietary services with integrated, self-hosted tools for ticketing and call-for-proposals.
+
+%--------------------------------------------------------------------
+\section{Invoicing / Accounting}
+
+This section outlines the selected invoicing solution, focusing on regulatory compliance, automation, and improvements over the current manual process using LibreOffice templates.
+
+%--------------------------------------------------------------------
+\section{Phone / VoIP Integration}
+
+This section describes the chosen approach to VoIP integration, addressing how the existing analog university line will be connected to a digital telephony system for remote access and enhanced functionality.
+
+%--------------------------------------------------------------------
+\section{Service Deployment and Management}
+
+This section details the selected infrastructure orchestration and deployment strategy, emphasizing the transition from the current mixed approach to a more consistent, maintainable, and reproducible system.
