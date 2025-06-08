@@ -36,7 +36,7 @@
 % \usepackage{alltt}       % proporciona o entorno alltt, semellante a verbatim pero que respecta comandos
 % \usepackage{enumitem}    % permite personalizar os entornos de lista
 % \usepackage{eurofont}    % proporciona o comando \euro
-% \usepackage{float}       % permite máis opcións para controlar obxectos flotantes (táboas, figuras)
+\usepackage{float}       % permite máis opcións para controlar obxectos flotantes (táboas, figuras)
 % \usepackage{hhline}      % permite personalizar as liñas horizontais en arrays e táboas
   \usepackage{longtable}   % permite construir táboas que ocupan máis dunha páxina
 % \usepackage{lscape}      % permite colocar partes do documento en orientación apaisada
@@ -47,6 +47,9 @@
 % \usepackage{subcaption}  % permite a inclusión de varias subfiguras nunha figura
 % \usepackage{tabu}        % permite táboas flexibles
 % \usepackage{tabularx}    % permite táboas con columnas de anchura determinada
+
+% Paquetes engadido a maiores
+\usepackage[edges]{forest}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Corpo                                                                        %
@@ -82,10 +85,12 @@
  % Capítulos                            %
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- \include{contido/introducion}
- \include{contido/demo}
-%\include{contido/...}
- \include{contido/conclusions}
+ \include{contido/introduction}
+ \include{contido/methodology}
+ \include{contido/current-infrastructure}
+%  \include{contido/demo}
+%  \include{contido/...}
+%  \include{contido/conclusions}
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  % Apéndices, glosarios e bibliografía  %
