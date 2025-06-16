@@ -9,7 +9,7 @@
 
 \section{GPULINO Server Analysis}
 
-GPULINO is hosted with Gandi, located in their Paris, France (SD3 datacenter). It runs Debian GNU/Linux 8 (Jessie), which is significantly outdated as it reached End-of-Life (EOL) on June 17, 2018, with Extended LTS support ending on June 30, 2025.
+GPULINO is hosted with Gandi, located in their Paris, France (SD3 datacenter). It runs Debian GNU/Linux 8 (Jessie), which is significantly outdated. Its official End-of-Life (EOL) was June 17, 2018, and Long-Term Support (LTS) concluded on June 30, 2020.
 
 \subsection{Technical Specifications}
 
@@ -60,13 +60,13 @@ The server maintains several user accounts, with varying levels of activity. Tab
     \rowcolor{udcpink!25}
     \textbf{Username} & \textbf{Last Login} \\
     \hline
-    admin & September 26, 2020 \\
-    tsao & September 27, 2024 \\
-    ssaavedra & January 27, 2024 \\
-    marcos.chavarria & February 19, 2014 \\
-    castrinho8 & March 18, 2017 \\
-    chema & April 24, 2019 \\
-    teixe & January 19, 2025 \\
+    adm***** & September 26, 2020 \\
+    tsa***** & September 27, 2024 \\
+    ssa***** & January 27, 2024 \\
+    mar***** & February 19, 2014 \\
+    cas***** & March 18, 2017 \\
+    che***** & April 24, 2019 \\
+    tei***** & January 19, 2025 \\
   \end{tabular}
 \end{table}
 
@@ -268,15 +268,15 @@ Table \ref{tab:gpulon_users} shows the active user accounts on GPULON:
     \rowcolor{udcpink!25}
     \textbf{Username} & \textbf{Last Login} \\
     \hline
-    root & January 17, 2016 \\
-    ssaavedra & April 1, 2025 \\
-    castrinho8 & September 25, 2020 \\
-    davidmaseda & August 22, 2023 \\
-    bruno.cabado & August 9, 2024 \\
-    tsao & October 1, 2023 \\
-    pedro.costal & March 27, 2022 \\
-    teixe & May 17, 2025 \\
-    delthia & March 29, 2025 \\
+    roo***** & January 17, 2016 \\
+    ssa***** & April 1, 2025 \\
+    cas***** & September 25, 2020 \\
+    dav***** & August 22, 2023 \\
+    bru***** & August 9, 2024 \\
+    tsa***** & October 1, 2023 \\
+    ped***** & March 27, 2022 \\
+    tei***** & May 17, 2025 \\
+    del***** & March 29, 2025 \\
   \end{tabular}
 \end{table}
 
@@ -300,7 +300,7 @@ Although GPUL's servers are still running, they have many problems that make the
 The current infrastructure presents several critical issues:
 \begin{itemize}
   \item \textbf{OS Obsolescence}: GPULINO is severely outdated, running an EOL operating system.
-  \item \textbf{Nextcloud Obsolescence}: The Nextcloud version used is 24.0.6, which is no longer maintained. The latest is version 32.
+  \item \textbf{Nextcloud Obsolescence}: The Nextcloud version used is 24.0.6, which is no longer maintained. The latest is version 31.
   \item \textbf{Manual Interventions}: Critical services require manual restart post-reboot.
   \item \textbf{Insufficient Backup Strategy}: No systematic backup; sporadic manual backups to personal NAS.
   \item \textbf{Lack of Automated Log Rotation}: Manual log maintenance required, causing periodic instability.
@@ -315,7 +315,6 @@ Additional challenges include:
 \end{itemize}
 
 \section{Impact on Operations}
-
 
 GPUL's current infrastructure has already caused serious disruptions to the organization's daily operations. These issues are not only technical, they affect how GPUL communicates, plans events, and meets important deadlines. A clear example of this is the ongoing trouble with the email system. GPUL uses redirects for several critical email addresses under the \texttt{gpul.org} domain. However, this setup often causes messages to be marked as spam. As a result, important emails related to event organization, sponsors, or participants are sometimes not delivered or go unnoticed, making coordination much harder.
 
