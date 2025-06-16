@@ -248,7 +248,7 @@ Passbolt is a web-based team password manager licensed under AGPLv3~\cite{passbo
 \subsection{HashiCorp Vault 1.17}
 Vault is a general-purpose secrets manager aimed at infrastructure-level secrets rather than password sharing. It supports dynamic secrets, time-to-live (TTL) credentials, and multiple authentication backends (e.g., GitHub, LDAP). Secrets are encrypted server-side and stored in a pluggable backend such as files, Consul, or PostgreSQL. Vault is source-available under the BSL 1.1 license~\cite{vault-bsl}.
 
-\subsection{Proprietary Solutions}
+\subsection{Proprietary Alternatives}
 Popular proprietary services like 1Password, LastPass, and Keeper offer similar functionality but require the use of externally hosted infrastructure. Due to GPUL's preference for open-source and self-hosted tools, these are excluded from further evaluation.
 
 %--------------------------------------------------------------------
@@ -284,7 +284,7 @@ Zabbix is a mature open source monitoring solution that uses a central server an
 \subsection{OpenSearch Dashboards (formerly ELK)}
 The ELK stack—Elasticsearch, Logstash, and Kibana—is widely used for log aggregation and analysis. Elasticsearch handles indexing and querying, Logstash parses and ships logs, and Kibana provides visualization. The original ELK stack shifted away from open source licenses, but forks like OpenSearch continue under Apache 2.0~\cite{opensearch_web}. Alternatively, Elastic recently reintroduced AGPLv3 licensing for their stack~\cite{elastic_license}. While powerful, the ELK/OpenSearch stack is resource-intensive and typically more complex to manage.
 
-\subsection{Proprietary Solutions}
+\subsection{Proprietary Alternatives}
 Cloud-based observability platforms such as Datadog, New Relic, and Splunk offer complete solutions with minimal setup and powerful features. However, their pricing models, data sovereignty implications, and closed-source nature make them less suitable for GPUL's goals of open, self-hosted, and cost-effective infrastructure~\cite{datadog_web}.
 
 %--------------------------------------------------------------------
@@ -321,7 +321,7 @@ GPUL currently uses a mix of proprietary platforms. \emph{Meetup} is used to pro
 \subsection{Indico}
 \textbf{Indico}, developed at CERN, is a comprehensive event platform supporting abstracts, reviews, scheduling, registration, and badge printing. It is designed to scale and includes academic-focused features such as paper submissions and room booking~\cite{indico-github}. It is written in Python (Flask) and released under the MIT license~\cite{indico-faq}.
 
-\subsection{Proprietary tools}
+\subsection{Proprietary Alternatives}
 While this report focuses on open-source alternatives, GPUL currently relies on several proprietary services:
 
 \begin{itemize}
@@ -365,7 +365,8 @@ Spanish-made open source ERP with strong native support for Facturae and IRPF/IV
   \label{fig:facturascripts-ui}
 \end{figure}
 
-\subsection{Proprietary SaaS Options}
+\subsection{Proprietary Alternatives}
+
 \textbf{Holded} and \textbf{Quipu} are both popular Spanish cloud ERPs with direct AEAT and VeriFactu compliance out of the box \cite{HoldedVerifactu, QuipuVerifactu}. \textbf{Sage} offers several solutions (Sage 50, Sage Despachos) and promotes VeriFactu-compliant accountant platforms \cite{SageVerifactu, SageBlogAsesoria}.
 
 \subsection{External Accountant}
