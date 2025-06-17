@@ -5,13 +5,13 @@
 \chapter{Current Infrastructure Analysis}
 \label{chap:current-infrastructure}
 
-\lettrine{T}{his} chapter provides an in-depth analysis of GPUL's current server infrastructure, focusing on the two legacy servers: GPULINO and GPULON. These servers host critical services but also pose significant operational and maintenance challenges. GPULINO, created on November 3, 2011, and GPULON, launched on January 17, 2016, have remained largely unchanged since their deployment. The chapter reviews their specifications, configurations, and highlights key issues such as outdated software, inconsistent backup strategies, and the lack of proper documentation. It also discusses the impact of these limitations on GPUL's operations, underlining the urgent need for a comprehensive infrastructure renewal.
+\lettrine{A}{n} in-depth analysis of GPUL's current server infrastructure focuses on the two legacy servers: GPULINO and GPULON. These servers host critical services but also pose significant operational and maintenance challenges. GPULINO, created on November 3, 2011, and GPULON, launched on January 17, 2016, have remained largely unchanged since their deployment. The chapter reviews their specifications, configurations, and highlights key issues such as outdated software, inconsistent backup strategies, and the lack of proper documentation. It also discusses the impact of these limitations on GPUL's operations, underlining the urgent need for a comprehensive infrastructure renewal.
 
 \section{GPULINO Server Analysis}
 
 GPULINO is hosted with Gandi, located in their Paris, France (SD3 datacenter). It runs Debian GNU/Linux 8 (Jessie), which is significantly outdated as it reached End-of-Life (EOL) on June 17, 2018, with Extended LTS support ending on June 30, 2025.
 
-\subsection{Technical Specifications}
+\subsection*{Technical Specifications}
 
 GPULINO is a legacy virtual machine that remains in active use within the association's infrastructure. Provisioned in 2011, it has undergone minimal changes since its deployment. The table below summarizes its key specifications, which reflect the outdated and limited nature of the system. These constraints have direct implications for performance, maintenance, and security.
 
@@ -34,7 +34,7 @@ GPULINO is a legacy virtual machine that remains in active use within the associ
   \end{tabular}
 \end{table}
 
-\subsection{Filesystem Structure}
+\subsection*{Filesystem Structure}
 
 GPULINO uses three independent 10 GB volumes provided by the hosting provider. These are mounted as root (\verb|/|), data (\verb|/srv/srv_gpulino|), and backup (\verb|/srv/backup_gpulino|). Their current usage is visualized in Figure~\ref{fig:gpulino_disk_usage}.
 
@@ -47,7 +47,7 @@ GPULINO uses three independent 10 GB volumes provided by the hosting provider. T
 
 While the root filesystem is nearing critical usage (~75\%), the backup volume remains largely underutilized (~1\%), showcasing the lack of backup strategy.
 
-\subsection{User Access and Management}
+\subsection*{User Access and Management}
 
 The server maintains several user accounts, with varying levels of activity. Table \ref{tab:gpulino_users} shows the most relevant user logins:
 
@@ -70,7 +70,7 @@ The server maintains several user accounts, with varying levels of activity. Tab
   \end{tabular}
 \end{table}
 
-\subsection{Active Services and Usage Details}
+\subsection*{Active Services and Usage Details}
 
 The server hosts several critical services:
 \begin{itemize}
@@ -210,7 +210,7 @@ These findings illustrate the range of active uses the server had, many of which
 
 GPULON is hosted with Kimsufi and configured as a KS-4C server running Debian GNU/Linux 11 (Bullseye).
 
-\subsection{Technical Specifications}
+\subsection*{Technical Specifications}
 
 \begin{table}[H]
   \centering
@@ -230,7 +230,7 @@ GPULON is hosted with Kimsufi and configured as a KS-4C server running Debian GN
   \end{tabular}
 \end{table}
 
-\subsection{Filesystem Structure}
+\subsection*{Filesystem Structure}
 
 GPULON has a single 2 TB physical disk, divided into logical volumes for \texttt{/home}, \texttt{/var/lib/docker}, and the root filesystem (\texttt{/}). This setup is visualized in Figure~\ref{fig:gpulon_disk_usage}.
 
@@ -255,7 +255,7 @@ The updated logical volume allocation now stands as follows:
 
 This reallocation has significantly improved headroom for service logs and application data, reducing the risk of similar incidents in the future.
 
-\subsection{User Access and Management}
+\subsection*{User Access and Management}
 
 Table \ref{tab:gpulon_users} shows the active user accounts on GPULON:
 
@@ -280,7 +280,7 @@ Table \ref{tab:gpulon_users} shows the active user accounts on GPULON:
   \end{tabular}
 \end{table}
 
-\subsection{Docker Environment}
+\subsection*{Docker Environment}
 
 GPULON primarily uses Docker for service deployment, hosting:
 \begin{itemize}
@@ -295,7 +295,7 @@ GPULON primarily uses Docker for service deployment, hosting:
 
 Although GPUL's servers are still running, they have many problems that make them hard to maintain and unreliable. Over time, different people have made changes without clear planning or documentation, which has led to a fragile system. This section describes the main problems we found, divided into two groups: serious issues that affect how the servers work, and general problems with how the infrastructure is set up.
 
-\subsection{Known Critical Issues}
+\subsection*{Known Critical Issues}
 
 The current infrastructure presents several critical issues:
 \begin{itemize}
@@ -306,7 +306,7 @@ The current infrastructure presents several critical issues:
   \item \textbf{Lack of Automated Log Rotation}: Manual log maintenance required, causing periodic instability.
 \end{itemize}
 
-\subsection{Known Infrastructure Issues}
+\subsection*{Known Infrastructure Issues}
 
 Additional challenges include:
 \begin{itemize}
