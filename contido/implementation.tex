@@ -11,7 +11,7 @@
 
 The base system was installed using Hetzner's \texttt{installimage}\cite{hetzner-installimage} provisioning tool. The configuration focused on separating system and data storage for flexibility and performance.
 
-Debian was chosen as the operating system, a decision rooted in the board's deep familiarity with the distribution. This choice also honors GPUL's historical ties to Debian and the contributions of past board members who are official Debian maintainers.
+Debian was chosen as the operating system, a decision rooted in its renowned stability for server roles, as well as the board's deep familiarity with the distribution. This choice also honors GPUL's historical ties to Debian and the contributions of past board members who are official Debian maintainers\cite{berto-debian-page}.
 
 \subsection*{installimage Configuration}
 
@@ -252,4 +252,178 @@ The integration with Loki enables deep exploration of system logs. As shown in F
 	\includegraphics[width=\textwidth]{imaxes/grafana-journal.png}
 	\caption{Loki logs in Grafana, showing journal entries with custom labels.}
 	\label{fig:grafana-journal}
+\end{figure}
+
+\section{Email Server with Mailcow}
+\label{sec:mailcow}
+
+Although not discussed in the technology selection chapter, a robust email server is a critical requirement for the new infrastructure, needed for services like Grafana and Passbolt to send alerts and notifications. Mailcow was selected for this role due to its widespread adoption and positive reputation in the open-source self-hosting community. As a complete mail server suite based on Docker, it provides a powerful foundation that will also serve as the Mail Transfer Agent (MTA) for the community's mailing lists, which will be managed by Mailman 3.
+
+\subsection*{Mailcow Container Setup}
+
+To maintain isolation and simplify management, Mailcow is deployed within its own dedicated Incus container. As Mailcow relies on Docker and Docker Compose for its operation, the container needs to be configured to support nested virtualization\cite{incus-faq-docker-nesting}. A new container named \texttt{mailcow} is launched from the Debian 12 image.
+
+\begin{lstlisting}[language=bash,caption={Creating and configuring the Mailcow container.}]
+incus launch images:debian/12 mailcow
+incus config set mailcow security.nesting=true
+incus config set mailcow security.privileged=true
+\end{lstlisting}
+
+The \texttt{security.nesting} flag enables the container to run its own containerization environment, while \texttt{security.privileged} is required for Mailcow to manage the networking stack correctly. Inside the container, Docker is installed following the official Docker documentation.
+
+A critical step in deploying an email server on a cloud provider like Hetzner is ensuring that outgoing email ports are not blocked. By default, Hetzner blocks these ports to prevent spam. A support ticket was opened to request the unblocking of these ports for \texttt{gpulux}'s IP address.
+
+To allow external access to Mailcow's services, several ports must be forwarded from the host to the container. This is achieved using Incus proxy devices, which redirect traffic from the host's public IP to the container. Table~\ref{tab:mailcow-ports} lists the required ports.
+
+\begin{table}[H]
+    \centering
+    \rowcolors{2}{white}{udcgray!25}
+    \caption{Ports forwarded to the Mailcow container\cite{mailcow-prerequisites}.}
+    \label{tab:mailcow-ports}
+    \begin{tabular}{lll}
+        \rowcolor{udcpink!25}
+        \textbf{Service} & \textbf{Protocol} & \textbf{Port} \\
+        \hline
+        Postfix SMTP & TCP & 25 \\
+        Postfix SMTPS & TCP & 465 \\
+        Postfix Submission & TCP & 587 \\
+        Dovecot IMAP & TCP & 143 \\
+        Dovecot IMAPS & TCP & 993 \\
+        Dovecot POP3 & TCP & 110 \\
+        Dovecot POP3S & TCP & 995 \\
+        Dovecot ManageSieve & TCP & 4190 \\
+    \end{tabular}
+\end{table}
+
+The commands to create these proxy devices follow a similar pattern as the Caddy proxy setup, created for each port listed in the table. For example, to forward the SMTP port:
+
+\begin{lstlisting}[language=bash,caption={Example of forwarding a port to the Mailcow container.}]
+# SMTP (25)
+incus config device add mailcow smtp-proxy proxy listen=tcp:0.0.0.0:25 connect=tcp:127.0.0.1:25
+\end{lstlisting}
+
+\subsection*{Mailcow Configuration}
+
+After setting up the container and installing Docker, Mailcow is installed by following its official documentation\cite{mailcow-install}. The primary configuration is managed through the \texttt{mailcow.conf} file. Key settings include configuring the server to run behind a reverse proxy\cite{mailcow-reverse-proxy} and disabling IPv6 support to resolve connectivity issues\cite{mailcow-disable-ipv6}. The mail server is configured to run on \texttt{mail.gpulux.org}.
+
+To integrate with the existing monitoring stack, a Prometheus exporter is added to Mailcow's Docker Compose setup. This allows Prometheus to scrape metrics about the mail server's health and performance. The following service definition was added to \texttt{docker\allowbreak-compose.yml}\cite{mailcow-prometheus-exporter}:
+
+\begin{lstlisting}[caption={Docker Compose service for the Mailcow Prometheus exporter.}]
+mailcow-exporter:
+  image: ghcr.io/mailcow/prometheus-exporter:2
+  ports:
+    - "9099:9099"
+  environment:
+    MAILCOW_EXPORTER_HOST: mail.gpulux.org
+    MAILCOW_EXPORTER_API_KEY: redacted
+  restart: unless-stopped
+\end{lstlisting}
+
+Once Mailcow is running, mailboxes for \texttt{grafana@\allowbreak gpulux.org} and \texttt{passbolt@\allowbreak gpulux.org} are created through its web UI. These will be used by the respective services to send email notifications and alerts.
+
+\subsection*{Reverse Proxy Configuration}
+
+To expose Mailcow's web interface and mail autoconfiguration endpoints, the Caddy reverse proxy is configured to forward requests for \texttt{mail.gpulux.org} and its autodiscovery subdomains to the Mailcow container.
+
+\begin{lstlisting}[caption={Caddyfile configuration to reverse proxy Mailcow.}]
+mail.gpulux.org autodiscover.mail.gpulux.org autoconfig.mail.gpulux.org {
+    reverse_proxy mailcow:80
+}
+\end{lstlisting}
+
+\section{Password Manager with Passbolt}
+
+The next service to be deployed is Passbolt, the password manager chosen to securely manage credentials for the new infrastructure.
+
+\subsection*{Passbolt Container Setup}
+
+Similar to other services, Passbolt is deployed in a dedicated Incus container named \texttt{passbolt} using a Debian 12 image. No special container configuration was required.
+
+\begin{lstlisting}[language=bash,caption={Creating the Passbolt container.}]
+incus launch images:debian/12 passbolt
+\end{lstlisting}
+
+\subsection*{Passbolt Configuration}
+
+The installation of Passbolt was performed following the official documentation\cite{passbolt-install-debian}. The process involves adding a dedicated APT repository and installing the \texttt{passbolt-ce-server} package, which triggers a configuration wizard that prompts for database settings.
+
+\begin{lstlisting}[language=bash,caption={Installing Passbolt CE server package.}]
+sudo apt install passbolt-ce-server
+\end{lstlisting}
+
+Passbolt's package includes Nginx for serving its web interface. However, the existing infrastructure uses a central Caddy instance as a reverse proxy. The automated Nginx setup provided by the Passbolt package was disabled, and manual adjustments were made to its configuration file to ensure compatibility. The key changes involved setting the \texttt{X-Forwarded-Proto} header to ensure that Passbolt generates correct HTTPS URLs when operating behind the proxy.
+
+\begin{lstlisting}[caption={Modified Passbolt Nginx configuration to work behind a reverse proxy.}]
+#
+#  Passbolt.conf - Nginx configuration file to run the Passbolt software.
+#
+
+server {
+
+  listen 80;
+  listen [::]:80;
+
+  # Managed by Passbolt
+  server_name _;
+
+  set $forwarded_proto $http_x_forwarded_proto; # added this line
+
+  client_body_buffer_size     100K;
+  client_header_buffer_size   1K;
+  client_max_body_size        5M;
+
+  client_body_timeout   10;
+  client_header_timeout 10;
+  keepalive_timeout     5 5;
+  send_timeout          10;
+
+  root /usr/share/php/passbolt/webroot;
+  index index.php;
+  error_log /var/log/nginx/passbolt-error.log info;
+  access_log /var/log/nginx/passbolt-access.log;
+
+  # Managed by Passbolt
+  # include __PASSBOLT_SSL__
+
+  location / {
+    try_files $uri $uri/ /index.php?$args;
+  }
+
+  location ~ \.php$ {
+    try_files                $uri =404;
+    include                  fastcgi_params;
+    fastcgi_pass             unix:/run/php/php8.2-fpm.sock;
+    fastcgi_index            index.php;
+    fastcgi_intercept_errors on;
+    fastcgi_split_path_info  ^(.+\.php)(.+)$;
+    fastcgi_param            SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param            SERVER_NAME $http_host;
+
+    fastcgi_param HTTPS $forwarded_proto; # added this line
+
+    fastcgi_param PHP_VALUE  "upload_max_filesize=5M \n post_max_size=5M";
+  }
+
+}
+\end{lstlisting}
+
+With the Nginx configuration corrected, accessing \texttt{passbolt.gpulux.org} launches the web-based setup wizard. This final step involves configuring the database connection, generating a GPG key for the server, setting up the SMTP connection to Mailcow, and creating the initial administrator account.
+
+\subsection*{Reverse Proxy Configuration}
+
+To expose Passbolt's web interface, the Caddy reverse proxy is configured to forward requests for \texttt{passbolt.gpulux.org} to the Passbolt container.
+
+\begin{lstlisting}[caption={Caddyfile configuration to reverse proxy Passbolt.}]
+passbolt.gpulux.org {
+    reverse_proxy passbolt:80
+}
+\end{lstlisting}
+
+Figure~\ref{fig:passbolt-ui} shows the Passbolt interface after configuration, populated with credentials for other services in the infrastructure.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imaxes/passbolt-gpulux.png}
+	\caption{Passbolt web interface showing stored credentials.}
+	\label{fig:passbolt-ui}
 \end{figure}
