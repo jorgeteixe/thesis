@@ -437,13 +437,13 @@ passbolt.gpulux.org {
 }
 \end{lstlisting}
 
-Figure~\ref{fig:passbolt-ui} shows the Passbolt interface after configuration, populated with credentials for other services in the infrastructure.
+Figure~\ref{fig:passbolt-gpulux} shows the Passbolt interface after configuration, populated with credentials for other services in the infrastructure.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/passbolt-gpulux.png}
 	\caption{Passbolt web interface showing stored credentials.}
-	\label{fig:passbolt-ui}
+	\label{fig:passbolt-gpulux}
 \end{figure}
 
 \section{Mailing Lists with Mailman 3}
@@ -547,11 +547,58 @@ The installation of FacturaScripts was performed following the official document
 
 To simplify the reverse proxy configuration, the application was installed directly in the web server's root directory (\texttt{/var/www/html}), avoiding the need for path rewrites. Apache's \texttt{remoteip} module was enabled to ensure that client IP addresses are correctly logged through the proxy.
 
-Figure~\ref{fig:facturascripts-ui} shows the FacturaScripts setup wizard after a successful installation.
+Figure~\ref{fig:facturascripts-wizard} shows the FacturaScripts setup wizard after a successful installation.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/facturascripts-wizard.png}
 	\caption{FacturaScripts web interface showing the wizard.}
-	\label{fig:facturascripts-ui}
+	\label{fig:facturascripts-wizard}
+\end{figure}
+
+\section{Event Management with Pretalx}
+
+The next service to be deployed is Pretalx, the platform chosen for event management. Following the established pattern, the service was deployed in a dedicated Incus container named \texttt{pretalx} using a Debian 12 image. The installation was performed following the official documentation\cite{pretalx-intstall}, and the central Caddy reverse proxy was configured to expose the service at \texttt{pretalx.gpulux.org}.
+
+\subsection*{Pretalx Configuration}
+
+Inside the container, Nginx was configured to serve static files directly and to act as a reverse proxy for the main Pretalx application, which runs on a separate port. This setup is standard for web applications of this type.
+
+\begin{lstlisting}[caption={Pretalx Nginx configuration to proxy the application and serve static files.}]
+server {
+    listen 80 default_server;
+
+    # Serve static files
+    location /static/ {
+        alias /var/pretalx/static/;
+        expires 7d;
+        access_log off;
+    }
+
+    # Serve uploaded media
+    location /media/ {
+        alias /var/pretalx/data/media/;
+        expires 7d;
+        add_header Content-Disposition 'attachment';
+        access_log off;
+    }
+
+    # Proxy everything else
+    location / {
+        proxy_pass http://127.0.0.1:8345;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto http;
+    }
+}
+\end{lstlisting}
+
+Figure~\ref{fig:pretalx-ui} shows the Pretalx administration dashboard, where organizers can manage event details, submissions, and schedules.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imaxes/pretalx-admin.png}
+	\caption{Pretalx web interface showing the event administration dashboard.}
+	\label{fig:pretalx-admin}
 \end{figure}
