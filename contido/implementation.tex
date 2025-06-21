@@ -602,3 +602,47 @@ Figure~\ref{fig:pretalx-admin} shows the Pretalx administration dashboard, where
 	\caption{Pretalx web interface showing the event administration dashboard.}
 	\label{fig:pretalx-admin}
 \end{figure}
+
+\section{Groupware with Nextcloud}
+
+To provide file hosting, calendar, and contact management capabilities, Nextcloud was deployed as the primary groupware solution. The official Nextcloud All-in-One (AIO) Docker image\cite{nextcloud-aio} was used, which simplifies the installation and management of Nextcloud and its components, including Nextcloud Talk for video conferencing.
+
+\subsection*{Nextcloud Container Setup}
+
+Following the pattern of other Docker-based services, Nextcloud AIO runs within a dedicated Incus container with nesting enabled. A container named \texttt{nextcloud} was created from a Debian 12 image and configured to support Docker.
+
+\begin{lstlisting}[language=bash,caption={Creating and configuring the Nextcloud container.}]
+incus launch images:debian/12 nextcloud
+incus config set nextcloud security.nesting=true
+\end{lstlisting}
+
+The installation is managed through a web interface provided by the AIO image. A temporary proxy device was created to expose the AIO interface during the initial setup, and was removed afterward.
+
+\begin{lstlisting}[language=bash,caption={Temporarily exposing the Nextcloud AIO interface.}]
+incus config device add nextcloud nextcloud-aio proxy \
+  listen=tcp:0.0.0.0:8080 connect=tcp:127.0.0.1:8080
+\end{lstlisting}
+
+\subsection*{Nextcloud Configuration}
+
+The AIO web interface guides the administrator through the entire setup process, including domain configuration and the selection of optional components.
+
+For Nextcloud Talk to function correctly, the TURN server requires port 3478 to be accessible over both TCP and UDP. Two proxy devices were added to the container to forward this traffic.
+
+\begin{lstlisting}[language=bash,caption={Forwarding ports for Nextcloud Talk.}]
+incus config device add nextcloud talk-stun-udp proxy \
+  listen=udp:0.0.0.0:3478 connect=udp:127.0.0.1:3478
+
+incus config device add nextcloud talk-stun-tcp proxy \
+  listen=tcp:0.0.0.0:3478 connect=tcp:127.0.0.1:3478
+\end{lstlisting}
+
+\subsection*{Reverse Proxy Configuration}
+
+The Caddy reverse proxy was configured to expose the Nextcloud instance at \texttt{cloud.gpulux.org}. The AIO stack runs the Apache web server in a container that listens on port 11000.
+
+\begin{lstlisting}[caption={Caddyfile configuration to reverse proxy Nextcloud.}]
+cloud.gpulux.org {
+    reverse_proxy nextcloud:11000
+}
+\end{lstlisting}
