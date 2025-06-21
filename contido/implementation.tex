@@ -482,6 +482,28 @@ mailman-web hyperkitty_import -l xunta@lists.gpulux.org /opt/mailman-data/xunta.
 mailman-web update_index_one_list xunta@lists.gpulux.org
 \end{lstlisting}
 
+\subsection*{Log Management}
+
+Since Mailman was installed from official Debian packages, log rotation is handled automatically. The packages provide configuration files at \texttt{/etc/logrotate.d/mailman3} and \texttt{/etc/logrotate.d/mailman3-web}, which ensure that log files are regularly rotated to prevent them from consuming excessive disk space.
+
+These log files are forwarded to Loki by the Grafana Alloy agent running on the host, centralizing them with other system and application logs. The following configuration was added to scrape the Mailman log files:
+
+\begin{lstlisting}[caption={Grafana Alloy configuration to forward Mailman logs to Loki.}]
+  loki.source.file "mailman" {
+    targets    = [
+      {__path__ = "/var/log/mailman3/mailman.log"},
+      {__path__ = "/var/log/mailman3/web/mailman-web.log"},
+    ]
+    forward_to = [loki.write.local.receiver]
+  }
+  
+  loki.write "local" {
+    endpoint {
+      url = "http://127.0.0.1:8310/loki/api/v1/push"
+    }
+  }
+\end{lstlisting}
+
 \subsection*{Reverse Proxy Configuration}
 
 To expose Mailman's web interface (Postorius and HyperKitty), the Caddy reverse proxy is configured to forward requests for \texttt{lists.gpulux.org} to the Mailman container.
@@ -500,4 +522,5 @@ Figure~\ref{fig:mailman-ui} shows the HyperKitty web archiver after the migratio
 	\caption{HyperKitty web archiver showing imported mailing list archives.}
 	\label{fig:mailman-ui}
 \end{figure}
+
 
