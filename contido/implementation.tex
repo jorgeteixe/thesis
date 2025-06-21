@@ -306,7 +306,7 @@ incus config device add mailcow smtp-proxy proxy listen=tcp:0.0.0.0:25 connect=t
 
 After setting up the container and installing Docker, Mailcow is installed by following its official documentation\cite{mailcow-install}. The primary configuration is managed through the \texttt{mailcow.conf} file. Key settings include configuring the server to run behind a reverse proxy\cite{mailcow-reverse-proxy} and disabling IPv6 support to resolve connectivity issues\cite{mailcow-disable-ipv6}. The mail server is configured to run on \texttt{mail.gpulux.org}.
 
-To integrate with the existing monitoring stack, a Prometheus exporter is added to Mailcow's Docker Compose setup. This allows Prometheus to scrape metrics about the mail server's health and performance. The following service definition was added to \texttt{docker\allowbreak-compose.yml}\cite{mailcow-prometheus-exporter}:
+To integrate with the existing monitoring stack, a Prometheus exporter is added to Mailcow's Docker Compose setup. This allows Prometheus to scrape metrics about the mail server's health and performance. The following service definition was added to \texttt{docker-compose.yml}\cite{mailcow-prometheus-exporter}:
 
 \begin{lstlisting}[caption={Docker Compose service for the Mailcow Prometheus exporter.}]
 mailcow-exporter:
@@ -325,7 +325,7 @@ Once Mailcow is running, a single mailbox for \texttt{admin@gpulux.org} is creat
 
 Log management for Mailcow is handled by integrating it with the central Loki instance. Since Mailcow's services run as Docker containers, the recommended approach is to use the Loki logging driver for Docker\cite{loki-docker-driver}. This driver intercepts the standard output and error streams of each container and forwards them directly to Loki, eliminating the need for log file scraping.
 
-To enable this, the Docker daemon inside the \texttt{mailcow} container must be configured to use \texttt{loki} as its logging driver. This is done by creating a configuration file at \texttt{/etc/docker /daemon.json}\cite{loki-docker-driver-config}.
+To enable this, the Docker daemon inside the \texttt{mailcow} container must be configured to use \texttt{loki} as its logging driver. This is done by creating a configuration file at \texttt{/etc/docker/daemon.json}\cite{loki-docker-driver-config}.
 
 \begin{lstlisting}[caption={Docker daemon configuration to use the Loki logging driver.}]
 {
@@ -472,13 +472,13 @@ Inside the container, the \texttt{mailman3-full} package was installed from the 
 
 \subsection*{Mailman Configuration}
 
-The default configurations for Redis were sufficient for this deployment. For Nginx, the provided configuration file at \texttt{/etc/mailman3/nginx.conf} was linked to \texttt{/etc/nginx/\allowbreak sites-enabled/}. The \texttt{server\_name} directive was set to \texttt{\_} to accept requests for any hostname, as Caddy handles the public-facing routing.
+The default configurations for Redis were sufficient for this deployment. For Nginx, the provided configuration file at \texttt{/etc/mailman3/nginx.conf} was linked to \texttt{/etc/nginx/sites-enabled/}. The \texttt{server\_name} directive was set to \texttt{\_} to accept requests for any hostname, as Caddy handles the public-facing routing.
 
 The most significant configuration was for Postfix. Since both Mailman and Mailcow operate under the same public IP address, they cannot simultaneously listen on the same standard email ports. To resolve this port conflict and to avoid duplicating email server setup (e.g., SPF, DKIM records), Mailman is configured to use Mailcow as a mail relay.
 
 \begin{itemize}
     \item \textbf{Outgoing Mail:} All outgoing emails from Mailman are relayed through the Mailcow container. This is configured in Mailman's Postfix settings by setting \texttt{relayhost = [mailcow]:25}.
-    \item \textbf{Incoming Mail:} Incoming mail for mailing lists (e.g., to \texttt{list@lists.gpulux\allowbreak .org}) is first received by Mailcow and then routed to Mailman's Postfix instance via LMTP. A transport map was added in Mailcow's UI to forward all mail for the \texttt{lists.gpulux\allowbreak .org} subdomain to the Mailman container's internal IP address. Mailcow's Postfix was also configured to trust relays from the local network.
+    \item \textbf{Incoming Mail:} Incoming mail for mailing lists (e.g., to \texttt{list@lists.gpulux.org}) is first received by Mailcow and then routed to Mailman's Postfix instance via LMTP. A transport map was added in Mailcow's UI to forward all mail for the \texttt{lists.gpulux.org} subdomain to the Mailman container's internal IP address. Mailcow's Postfix was also configured to trust relays from the local network.
 \end{itemize}
 
 This setup centralizes mail handling in Mailcow while allowing Mailman to manage the lists.
@@ -487,7 +487,7 @@ This setup centralizes mail handling in Mailcow while allowing Mailman to manage
 
 The old mailing lists and their archives from the Mailman 2.1 instance were migrated following the official migration guide\cite{mailman3-migration}. The process involved exporting list configurations and archives from the old server and importing them into Mailman 3.
 
-The following commands demonstrate the import process for a single list, \texttt{xunta@lists .gpulux.org}. The list configuration is imported first, followed by the message archive (\texttt{.mbox} file).
+The following commands demonstrate the import process for a single list, \texttt{xunta@lists.gpulux.org}. The list configuration is imported first, followed by the message archive (\texttt{.mbox} file).
 
 \begin{lstlisting}[language=bash,caption={Commands to migrate a Mailman 2.1 list to Mailman 3.}]
 # Import list settings and subscribers
@@ -534,3 +534,24 @@ lists.gpulux.org {
     reverse_proxy mailman:80
 }
 \end{lstlisting}
+
+\section{Invoicing with FacturaScripts}
+
+To handle the association's billing and financial records, FacturaScripts was chosen as the invoicing software. Its deployment provides a centralized platform for managing invoices, clients, and products, streamlining administrative workflows.
+
+Following the established pattern, the service was deployed in a dedicated Incus container named \texttt{invoicing} using a Debian 12 image. The central Caddy reverse proxy was configured to expose the service at \texttt{invoicing.gpulux.org}.
+
+\subsection*{FacturaScripts Configuration}
+
+The installation of FacturaScripts was performed following the official documentation\cite{facturascripts-install-linux}, which outlines the setup of a standard LAMP stack. MariaDB was used as the database server instead of MySQL.
+
+To simplify the reverse proxy configuration, the application was installed directly in the web server's root directory (\texttt{/var/www/html}), avoiding the need for path rewrites. Apache's \texttt{remoteip} module was enabled to ensure that client IP addresses are correctly logged through the proxy.
+
+Figure~\ref{fig:facturascripts-ui} shows the FacturaScripts setup wizard after a successful installation.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imaxes/facturascripts-wizard.png}
+	\caption{FacturaScripts web interface showing the wizard.}
+	\label{fig:facturascripts-ui}
+\end{figure}
