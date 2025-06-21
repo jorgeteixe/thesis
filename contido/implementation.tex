@@ -319,7 +319,7 @@ mailcow-exporter:
   restart: unless-stopped
 \end{lstlisting}
 
-Once Mailcow is running, mailboxes for \texttt{grafana@\allowbreak gpulux.org} and \texttt{passbolt@\allowbreak gpulux.org} are created through its web UI. These will be used by the respective services to send email notifications and alerts.
+Once Mailcow is running, a single mailbox for \texttt{admin@gpulux.org} is created through its web UI. Aliases for \texttt{grafana@gpulux.org} and \texttt{passbolt@gpulux.org} were configured to deliver mail to this main account. These will be used by the respective services to send email notifications and alerts.
 
 \subsection*{Reverse Proxy Configuration}
 
@@ -427,3 +427,77 @@ Figure~\ref{fig:passbolt-ui} shows the Passbolt interface after configuration, p
 	\caption{Passbolt web interface showing stored credentials.}
 	\label{fig:passbolt-ui}
 \end{figure}
+
+\section{Mailing Lists with Mailman 3}
+\label{sec:mailman}
+
+With the core services in place, the next step is to deploy the mailing list manager. Mailman 3 was chosen to replace the outdated Mailman 2.1 instance. The order of installation for this service is not critical, as it only depends on previously configured components like the email server.
+
+\subsection*{Mailman Container Setup}
+
+A dedicated Incus container named \texttt{mailman} was created for this service using a Debian 12 image. The setup largely follows the official installation guides:
+\begin{itemize}
+    \item The official Debian installation guides for Mailman 3:
+    \begin{itemize}
+        \item \texttt{/usr/share/doc/mailman3/README.Debian}
+        \item \texttt{/usr/share/doc/mailman3-web/README.Debian.gz}
+        \item \texttt{/usr/share/doc/python3-mailman-hyperkitty/README.rst}
+    \end{itemize}
+    \item The online documentation for Mailman 3\cite{mailman3-docs}.
+\end{itemize}
+
+\begin{lstlisting}[language=bash,caption={Creating the Mailman container.}]
+incus launch images:debian/12 mailman
+\end{lstlisting}
+
+Inside the container, the \texttt{mailman3-full} package was installed from the Debian repositories. This package bundles Mailman Core, the HyperKitty archiver, and Postorius for web-based list management. However, dependencies such as Postfix, Nginx, and Redis must be installed and configured separately to create a fully functional system.
+
+\subsection*{Mailman Configuration}
+
+The default configurations for Redis were sufficient for this deployment. For Nginx, the provided configuration file at \texttt{/etc/mailman3/nginx.conf} was linked to \texttt{/etc/nginx/\allowbreak sites-enabled/}. The \texttt{server\_name} directive was set to \texttt{\_} to accept requests for any hostname, as Caddy handles the public-facing routing.
+
+The most significant configuration was for Postfix. Since both Mailman and Mailcow operate under the same public IP address, they cannot simultaneously listen on the same standard email ports. To resolve this port conflict and to avoid duplicating email server setup (e.g., SPF, DKIM records), Mailman is configured to use Mailcow as a mail relay.
+
+\begin{itemize}
+    \item \textbf{Outgoing Mail:} All outgoing emails from Mailman are relayed through the Mailcow container. This is configured in Mailman's Postfix settings by setting \texttt{relayhost = [mailcow]:25}.
+    \item \textbf{Incoming Mail:} Incoming mail for mailing lists (e.g., to \texttt{list@lists.gpulux\allowbreak .org}) is first received by Mailcow and then routed to Mailman's Postfix instance via LMTP. A transport map was added in Mailcow's UI to forward all mail for the \texttt{lists.gpulux\allowbreak .org} subdomain to the Mailman container's internal IP address. Mailcow's Postfix was also configured to trust relays from the local network.
+\end{itemize}
+
+This setup centralizes mail handling in Mailcow while allowing Mailman to manage the lists.
+
+\subsection*{Data Migration}
+
+The old mailing lists and their archives from the Mailman 2.1 instance were migrated following the official migration guide\cite{mailman3-migration}. The process involved exporting list configurations and archives from the old server and importing them into Mailman 3.
+
+The following commands demonstrate the import process for a single list, \texttt{xunta@lists .gpulux.org}. The list configuration is imported first, followed by the message archive (\texttt{.mbox} file).
+
+\begin{lstlisting}[language=bash,caption={Commands to migrate a Mailman 2.1 list to Mailman 3.}]
+# Import list settings and subscribers
+mailman --run-as-root import21 xunta@lists.gpulux.org /opt/mailman-data/config.pck
+
+# Import message archive into HyperKitty
+mailman-web hyperkitty_import -l xunta@lists.gpulux.org /opt/mailman-data/xunta.mbox
+
+# Update the search index for the imported list
+mailman-web update_index_one_list xunta@lists.gpulux.org
+\end{lstlisting}
+
+\subsection*{Reverse Proxy Configuration}
+
+To expose Mailman's web interface (Postorius and HyperKitty), the Caddy reverse proxy is configured to forward requests for \texttt{lists.gpulux.org} to the Mailman container.
+
+\begin{lstlisting}[caption={Caddyfile configuration to reverse proxy Mailman 3.}]
+lists.gpulux.org {
+    reverse_proxy mailman:80
+}
+\end{lstlisting}
+
+Figure~\ref{fig:mailman-ui} shows the HyperKitty web archiver after the migration, displaying the imported messages from an old mailing list.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imaxes/hyperkitty-ui.png}
+	\caption{HyperKitty web archiver showing imported mailing list archives.}
+	\label{fig:mailman-ui}
+\end{figure}
+
