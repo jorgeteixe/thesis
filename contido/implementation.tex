@@ -321,6 +321,24 @@ mailcow-exporter:
 
 Once Mailcow is running, a single mailbox for \texttt{admin@gpulux.org} is created through its web UI. Aliases for \texttt{grafana@gpulux.org} and \texttt{passbolt@gpulux.org} were configured to deliver mail to this main account. These will be used by the respective services to send email notifications and alerts.
 
+\subsection*{Log Management}
+
+Log management for Mailcow is handled by integrating it with the central Loki instance. Since Mailcow's services run as Docker containers, the recommended approach is to use the Loki logging driver for Docker\cite{loki-docker-driver}. This driver intercepts the standard output and error streams of each container and forwards them directly to Loki, eliminating the need for log file scraping.
+
+To enable this, the Docker daemon inside the \texttt{mailcow} container must be configured to use \texttt{loki} as its logging driver. This is done by creating a configuration file at \texttt{/etc/docker /daemon.json}\cite{loki-docker-driver-config}.
+
+\begin{lstlisting}[caption={Docker daemon configuration to use the Loki logging driver.}]
+{
+    "log-driver": "loki",
+    "log-opts": {
+        "loki-url": "http://monitoring:3100/loki/api/v1/push",
+        "loki-batch-size": "400"
+    }
+}
+\end{lstlisting}
+
+The \texttt{loki-url} option specifies the address of the Loki push API endpoint. Since both the \texttt{mailcow} and \texttt{monitoring} containers are on the same Incus network bridge, they can communicate directly using their container names. After applying this configuration, restarting the Docker daemon and recreating the containers, logs from all Mailcow services are automatically sent to Loki, where they can be queried and visualized in Grafana.
+
 \subsection*{Reverse Proxy Configuration}
 
 To expose Mailcow's web interface and mail autoconfiguration endpoints, the Caddy reverse proxy is configured to forward requests for \texttt{mail.gpulux.org} and its autodiscovery subdomains to the Mailcow container.
@@ -482,26 +500,29 @@ mailman-web hyperkitty_import -l xunta@lists.gpulux.org /opt/mailman-data/xunta.
 mailman-web update_index_one_list xunta@lists.gpulux.org
 \end{lstlisting}
 
+Figure~\ref{fig:mailman-ui} shows the HyperKitty web archiver after the migration, displaying the imported messages from an old mailing list.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{imaxes/hyperkitty-ui.png}
+	\caption{HyperKitty web archiver showing imported mailing list archives.}
+	\label{fig:mailman-ui}
+\end{figure}
+
 \subsection*{Log Management}
 
 Since Mailman was installed from official Debian packages, log rotation is handled automatically. The packages provide configuration files at \texttt{/etc/logrotate.d/mailman3} and \texttt{/etc/logrotate.d/mailman3-web}, which ensure that log files are regularly rotated to prevent them from consuming excessive disk space.
 
-These log files are forwarded to Loki by the Grafana Alloy agent running on the host, centralizing them with other system and application logs. The following configuration was added to scrape the Mailman log files:
+These log files are forwarded to Loki by the Grafana Alloy agent, centralizing them with other system and application logs. The following configuration was added to scrape the Mailman log files:
 
 \begin{lstlisting}[caption={Grafana Alloy configuration to forward Mailman logs to Loki.}]
-  loki.source.file "mailman" {
-    targets    = [
-      {__path__ = "/var/log/mailman3/mailman.log"},
-      {__path__ = "/var/log/mailman3/web/mailman-web.log"},
-    ]
-    forward_to = [loki.write.local.receiver]
-  }
-  
-  loki.write "local" {
-    endpoint {
-      url = "http://127.0.0.1:8310/loki/api/v1/push"
-    }
-  }
+loki.source.file "mailman" {
+  targets    = [
+    {__path__ = "/var/log/mailman3/mailman.log"},
+    {__path__ = "/var/log/mailman3/web/mailman-web.log"},
+  ]
+  forward_to = [loki.write.local.receiver]
+}
 \end{lstlisting}
 
 \subsection*{Reverse Proxy Configuration}
@@ -513,14 +534,3 @@ lists.gpulux.org {
     reverse_proxy mailman:80
 }
 \end{lstlisting}
-
-Figure~\ref{fig:mailman-ui} shows the HyperKitty web archiver after the migration, displaying the imported messages from an old mailing list.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{imaxes/hyperkitty-ui.png}
-	\caption{HyperKitty web archiver showing imported mailing list archives.}
-	\label{fig:mailman-ui}
-\end{figure}
-
-
