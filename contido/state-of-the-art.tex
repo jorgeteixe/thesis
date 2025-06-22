@@ -25,7 +25,7 @@ For every category an introduction explains its relevance, followed by one \emph
 
 \subsection*{Mailman 3 + HyperKitty}
 
-Mailman~3 is a modular mailing list management system, described in its official documentation~\cite{mailman-install-docs}. It is the modern successor to the Mailman~2 software currently in use, and includes official migration tools to assist in upgrading existing lists and archives. Its core component, Mailman Core, is responsible for all mailing list logic and message delivery. It communicates with a Mail Transfer Agent (MTA) via \gls{lmtp} for incoming messages and \gls{smtp} for outgoing ones, and exposes a \gls{restapi} for external interfaces.
+Mailman~3 is a modular mailing list management system, described in its official documentation~\cite{mailman-install-docs}. It is the modern successor to the Mailman~2 software currently in use, and includes official migration tools to assist in upgrading existing lists and archives. Its core component, Mailman Core, is responsible for all mailing list logic and message delivery. It communicates with a Mail Transfer Agent (\gls{mta}) via \gls{lmtp} for incoming messages and \gls{smtp} for outgoing ones, and exposes a \gls{restapi} for external interfaces.
 
 HyperKitty~\cite{hyperkitty-docs} is the web-based archiver of Mailman~3, designed to replace Pipermail. It receives messages from Mailman Core through the \texttt{mailman-hyperkitty} plugin and indexes them into a database. The messages are then accessible via a modern web interface that allows browsing, searching, and replying to threads.
 
@@ -87,7 +87,7 @@ Version~11 adds collaborative document editing functionality via SeaDoc, along w
 
 \subsection*{Proprietary Alternatives}
 
-Proprietary cloud storage and collaboration services such as Google Drive, Dropbox, and Microsoft 365 are widely used across various sectors. These platforms offer file sharing, document editing, and communication tools delivered as Software-as-a-Service (SaaS). They are not self-hostable and operate on third-party infrastructure, with licensing and usage conditions defined by the service providers.
+Proprietary cloud storage and collaboration services such as Google Drive, Dropbox, and Microsoft 365 are widely used across various sectors. These platforms offer file sharing, document editing, and communication tools delivered as Software-as-a-Service (\gls{saas}). They are not self-hostable and operate on third-party infrastructure, with licensing and usage conditions defined by the service providers.
 
 %--------------------------------------------------------------------
 \section{Video Conferencing Platforms}
@@ -215,7 +215,7 @@ Bitwarden is a password manager licensed under AGPLv3 with both a self-hosted se
 \end{figure}
 
 \subsection*{Passbolt 4}
-Passbolt is a web-based team password manager licensed under AGPLv3~\cite{passbolt-security}. It uses OpenPGP encryption in the browser, with each password encrypted for specific users' keys. It supports fine-grained sharing, activity logs, and role-based access, and uses a MySQL-compatible backend. Unlike Bitwarden, it requires users to manage their private GPG keys.
+Passbolt is a web-based team password manager licensed under AGPLv3~\cite{passbolt-security}. It uses OpenPGP encryption in the browser, with each password encrypted for specific users' keys. It supports fine-grained sharing, activity logs, and role-based access, and uses a MySQL-compatible backend. Unlike Bitwarden, it requires users to manage their private \gls{gpg} keys.
 
 \subsection*{HashiCorp Vault 1.17}
 Vault is a general-purpose secrets manager aimed at infrastructure-level secrets rather than password sharing. It supports dynamic secrets, time-to-live (TTL) credentials, and multiple authentication backends (e.g., GitHub, LDAP). Secrets are encrypted server-side and stored in a pluggable backend such as files, Consul, or PostgreSQL. Vault is source-available under the BSL 1.1 license~\cite{vault-bsl}.
@@ -241,7 +241,7 @@ A popular open source stack for monitoring and logging is the combination of Pro
   \label{fig:grafana-ui}
 \end{figure}
 
-Each component is open source: Prometheus is under the Apache 2.0 license, while Grafana and Loki are licensed under AGPLv3~\cite{grafana-license-change}. Together, they form a well-integrated observability suite, often referred to as the PLG stack.
+Each component is open source: Prometheus is under the Apache 2.0 license, while Grafana and Loki are licensed under AGPLv3~\cite{grafana-license-change}. Together, they form a well-integrated observability suite, often referred to as the \gls{plg} stack.
 
 \subsection*{Zabbix}
 Zabbix is a mature open source monitoring solution that uses a central server and lightweight agents~\cite{zabbix-web}. It supports metric collection through agents, SNMP, IPMI, and scriptable checks. Zabbix provides a web interface for dashboards and alerts, and includes automatic discovery, distributed proxies, and a large template library. It stores metrics in SQL databases and is licensed under AGPLv3. A screenshot of the interface is shown in Figure~\ref{fig:zabbix-ui}.
@@ -311,7 +311,7 @@ LibreOffice templates stored in Nextcloud, with manual PDF generation and signin
 \end{figure}
 
 \subsection*{Odoo}
-Full ERP with accounting and invoicing modules. Spanish localization modules allow Facturae XML export, AEAT integration, SII support and planned VeriFactu readiness \cite{odoo-einvoice-spain}. Heavy stack and learning curve, but suitable for full integration. A screenshot of the interface is shown in Figure~\ref{fig:odoo-ui}.
+Full \gls{erp} with accounting and invoicing modules. Spanish localization modules allow Facturae XML export, AEAT integration, SII support and planned VeriFactu readiness \cite{odoo-einvoice-spain}. Heavy stack and learning curve, but suitable for full integration. A screenshot of the interface is shown in Figure~\ref{fig:odoo-ui}.
 
 \begin{figure}[H]
   \centering
@@ -321,7 +321,7 @@ Full ERP with accounting and invoicing modules. Spanish localization modules all
 \end{figure}
 
 \subsection*{FacturaScripts}
-Spanish-made open source ERP with strong native support for Facturae and IRPF/IVA reporting. Plugin system allows automatic signing and XML export \cite{facturascripts-antifraude}. VeriFactu modules are planned by the maintainers.
+Spanish-made open source \gls{erp} with strong native support for Facturae and IRPF/IVA reporting. Plugin system allows automatic signing and XML export \cite{facturascripts-antifraude}. VeriFactu modules are planned by the maintainers.
 
 \subsection*{Proprietary Alternatives}
 
@@ -340,7 +340,7 @@ The current infrastructure consists of a mixture of services deployed directly o
 
 \subsection*{Proxmox VE}
 
-Proxmox Virtual Environment (VE) is an open-source virtualization management platform (Debian-based) that integrates KVM-based virtual machines and LXC containers \cite{proxmox-admin-guide-2025}. It provides a unified web-based interface and CLI for creating and managing VMs and containers, aiming for ease of administration so that even novices can deploy it within minutes . Proxmox can run on a single server or in a multi-node cluster (with a multi-master design and a clustered filesystem) to enable high availability and live migration of workloads . It supports flexible storage backends (local or shared storage) and includes a fully integrated backup/restore solution (via Proxmox Backup Server or vzdump) for protecting VM and container data . These features make Proxmox suitable for self-hosted labs needing a mix of VM and container workloads managed in a unified open-source platform. A screenshot of the interface is shown in Figure~\ref{fig:proxmox-ui}.
+Proxmox Virtual Environment (VE) is an open-source virtualization management platform (Debian-based) that integrates KVM-based virtual machines and LXC containers \cite{proxmox-admin-guide-2025}. It provides a unified web-based interface and \gls{cli} for creating and managing VMs and containers, aiming for ease of administration so that even novices can deploy it within minutes . Proxmox can run on a single server or in a multi-node cluster (with a multi-master design and a clustered filesystem) to enable high availability and live migration of workloads . It supports flexible storage backends (local or shared storage) and includes a fully integrated backup/restore solution (via Proxmox Backup Server or vzdump) for protecting VM and container data . These features make Proxmox suitable for self-hosted labs needing a mix of VM and container workloads managed in a unified open-source platform. A screenshot of the interface is shown in Figure~\ref{fig:proxmox-ui}.
 
 \begin{figure}[H]
   \centering
@@ -351,11 +351,11 @@ Proxmox Virtual Environment (VE) is an open-source virtualization management pla
 
 \subsection*{Incus (LXD)}
 
-Incus is a modern open-source container and VM manager (a fork of LXD) that provides a cloud-like experience on Linux hosts \cite{incus-linux-containers-2023}. It is image-based and supports a wide range of Linux distributions, providing both system containers (sharing the host kernel) and application containers, as well as full virtual machines with guest kernels . Incus uses a single command-line tool and REST API for local or remote management of instances, with features like snapshots, live migration, and resource profiling. It is designed to scale from a single node up to large clusters (thousands of servers)  and works on any recent Linux distribution (packages available via various distros) . In practice, Incus is used for lightweight virtualization on commodity hardware, where administrators want to mix containers and VMs with relatively low overhead and a straightforward CLI/API interface.
+Incus is a modern open-source container and VM manager (a fork of LXD) that provides a cloud-like experience on Linux hosts \cite{incus-linux-containers-2023}. It is image-based and supports a wide range of Linux distributions, providing both system containers (sharing the host kernel) and application containers, as well as full virtual machines with guest kernels . Incus uses a single command-line tool and REST API for local or remote management of instances, with features like snapshots, live migration, and resource profiling. It is designed to scale from a single node up to large clusters (thousands of servers)  and works on any recent Linux distribution (packages available via various distros) . In practice, Incus is used for lightweight virtualization on commodity hardware, where administrators want to mix containers and VMs with relatively low overhead and a straightforward \gls{cli}/API interface.
 
 \subsection*{Docker and Podman}
 
-Docker and Podman are containerization platforms for running applications in isolated environments. Docker (Docker Engine) popularized this approach by packaging code and dependencies into portable containers \cite{spacelift-podman-docker-2024}. It follows a daemon-based model and supports layered images and declarative Dockerfiles. Docker also provides Docker Compose for defining multi-container applications via a single YAML file and (historically) a Swarm mode for basic clustering and service replication . Podman is a daemonless, rootless container engine (a drop-in Docker replacement) that runs containers as child processes of the user, improving security isolation . Podman supports most Docker CLI commands and introduces "pods" (groups of containers sharing the same network namespace) similar to Kubernetes pods . For orchestration, Docker relies on Docker Compose and Swarm, whereas Podman can use \texttt{podman-compose} or generate Kubernetes manifests; Podman itself has no built-in high-availability orchestrator . Podman is often favored in security-sensitive or multi-user environments (and is default on many Linux distributions), while Docker remains widely used in development and CI/CD environments due to its mature ecosystem and tools .
+Docker and Podman are containerization platforms for running applications in isolated environments. Docker (Docker Engine) popularized this approach by packaging code and dependencies into portable containers \cite{spacelift-podman-docker-2024}. It follows a daemon-based model and supports layered images and declarative Dockerfiles. Docker also provides Docker Compose for defining multi-container applications via a single YAML file and (historically) a Swarm mode for basic clustering and service replication . Podman is a daemonless, rootless container engine (a drop-in Docker replacement) that runs containers as child processes of the user, improving security isolation . Podman supports most Docker \gls{cli} commands and introduces "pods" (groups of containers sharing the same network namespace) similar to Kubernetes pods . For orchestration, Docker relies on Docker Compose and Swarm, whereas Podman can use \texttt{podman-compose} or generate Kubernetes manifests; Podman itself has no built-in high-availability orchestrator . Podman is often favored in security-sensitive or multi-user environments (and is default on many Linux distributions), while Docker remains widely used in development and CI/CD environments due to its mature ecosystem and tools .
 
 \subsection*{Kubernetes}
 

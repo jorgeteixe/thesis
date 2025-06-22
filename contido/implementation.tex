@@ -222,7 +222,7 @@ The integration with Loki enables deep exploration of system logs. Logs from the
 \section{Email Server with Mailcow}
 \label{sec:mailcow}
 
-Although not discussed in the technology selection chapter, a robust email server is a critical requirement for the new infrastructure, needed for services like Grafana and Passbolt to send alerts and notifications. Mailcow was selected for this role due to its widespread adoption and positive reputation in the open-source self-hosting community. As a complete mail server suite based on Docker, it provides a powerful foundation that will also serve as the Mail Transfer Agent (MTA) for the community's mailing lists, which will be managed by Mailman 3.
+Although not discussed in the technology selection chapter, a robust email server is a critical requirement for the new infrastructure, needed for services like Grafana and Passbolt to send alerts and notifications. Mailcow was selected for this role due to its widespread adoption and positive reputation in the open-source self-hosting community. As a complete mail server suite based on Docker, it provides a powerful foundation that will also serve as the Mail Transfer Agent (\gls{mta}) for the community's mailing lists, which will be managed by Mailman 3.
 
 \subsection*{Mailcow Container Setup}
 
@@ -334,7 +334,7 @@ sudo apt install passbolt-ce-server
 \end{lstlisting}
 
 Passbolt's package includes Nginx for serving its web interface. However, since the existing infrastructure uses a central Caddy instance as a reverse proxy, the Nginx service within the Passbolt container required manual configuration to operate correctly behind it. This ensured that Passbolt would generate the proper HTTPS URLs.
-With the Nginx configuration corrected, accessing \texttt{passbolt.gpulux.org} launches the web-based setup wizard. This final step involves configuring the database connection, generating a GPG key for the server, setting up the SMTP connection to Mailcow, and creating the initial administrator account.
+With the Nginx configuration corrected, accessing \texttt{passbolt.gpulux.org} launches the web-based setup wizard. This final step involves configuring the database connection, generating a \gls{gpg} key for the server, setting up the SMTP connection to Mailcow, and creating the initial administrator account.
 
 \subsection*{Reverse Proxy Configuration}
 
