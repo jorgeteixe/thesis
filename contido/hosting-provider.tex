@@ -1,0 +1,62 @@
+% SPDX-FileCopyrightText: 2025 Jorge Teixeira Crespo <jorge.teixeira@udc.es>
+%
+% SPDX-License-Identifier: GPL-2.0-or-later
+
+\chapter{Hosting Provider}
+\label{chap:hosting-provider}
+
+\lettrine{B}{efore} deploying any services, it was essential to choose a hosting provider that aligned with both the technical requirements of the project and the values of the association. This chapter outlines the selection process, including efforts to partner with local providers and the rationale behind the final decision.
+
+\section{Motivations and Evaluation Criteria}
+
+GPUL has historically prioritized working with local businesses and promoting community-centric values. In line with this, the project initially explored the possibility of deploying infrastructure on servers provided by Galician or Spanish hosting companies, ideally through a sponsorship or discount agreement. The main evaluation criteria were:
+
+\begin{itemize}
+  \item Sufficient CPU, RAM, and disk I/O performance to support containerized services
+  \item Competitive and predictable pricing, ideally with sponsor support
+  \item Support for IPv6 and high-bandwidth connections
+  \item Root access with flexibility for custom OS installation
+  \item Operational reliability and location in or near Spain
+\end{itemize}
+
+\section{Sponsorship Negotiation with a Local Provider}
+
+One of the most promising contacts during this phase was with a Galician hosting company. After outreach and negotiation, the company offered a partial sponsorship in exchange for visibility at future GPUL events. The proposed infrastructure consisted of:
+
+\begin{itemize}
+  \item \textbf{Dedicated Server Starter (Madrid)}
+    \begin{itemize}
+      \item Dell PowerEdge R340
+      \item Intel Xeon E-2000 (6 cores / 12 threads)
+      \item 16 GB DDR4 RAM
+      \item 2x240 GB SSD (boot) + 2x2 TB HDD
+      \item Full management included
+      \item \textit{Monthly cost after discount: €99.96 + VAT}
+    \end{itemize}
+  \item \textbf{VPS Cloud 5}
+    \begin{itemize}
+      \item 8 vCPU, 12 GB RAM, 150 GB NVMe
+      \item 500 Mbps bandwidth, unmetered transfer
+      \item Free of charge (fully sponsored)
+    \end{itemize}
+\end{itemize}
+
+While this offer demonstrated a significant effort on the company's part to support the project, it was ultimately limited in terms of performance and flexibility, especially the low RAM on the dedicated server and the 500 Mbps cap. Furthermore, after discussions with various association members and the board, concerns were raised about the dependency that a special "discount" agreement would create with the provider.
+
+\section{Final Decision: Hetzner Dedicated Server}
+
+After comparing the offer from the local provider with other providers, a dedicated machine from Hetzner was selected due to its superior performance at a much lower monthly cost. The decision was also supported by the positive experiences that several members had already had with Hetzner's services. The chosen configuration was:
+
+\begin{itemize}
+  \item \textbf{Dedicated Server AX41-NVMe (Finland, HEL1)}
+  \begin{itemize}
+    \item AMD Ryzen 5 3600 (6 cores / 12 threads) with SMT
+    \item 64 GB DDR4 RAM
+    \item 2 x 512 GB NVMe SSD (software-RAID 1)
+    \item 2 x 2 TB NVMe SSD (software-RAID 1)
+    \item 1 Gbps guaranteed bandwidth, unlimited traffic
+  \end{itemize}
+  \item \textit{Monthly cost: €65.00 (VAT exempt)}
+\end{itemize}
+
+Despite the lack of local presence, Hetzner's offer was far more cost-effective and better aligned with the performance and autonomy needed for long-term maintainability. The additional CPU performance and 4x RAM were critical for running multiple containers, and the unlimited bandwidth simplified public exposure of services like Nextcloud Talk and other web applications.
