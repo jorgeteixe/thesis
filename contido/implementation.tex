@@ -334,62 +334,7 @@ The installation of Passbolt was performed following the official documentation\
 sudo apt install passbolt-ce-server
 \end{lstlisting}
 
-Passbolt's package includes Nginx for serving its web interface. However, the existing infrastructure uses a central Caddy instance as a reverse proxy. The automated Nginx setup provided by the Passbolt package was disabled, and manual adjustments were made to its configuration file to ensure compatibility. The key changes involved setting the \texttt{X-Forwarded-Proto} header to ensure that Passbolt generates correct HTTPS URLs when operating behind the proxy.
-
-\begin{lstlisting}[caption={Modified Passbolt Nginx configuration to work behind a reverse proxy.}]
-#
-#  Passbolt.conf - Nginx configuration file to run the Passbolt software.
-#
-
-server {
-
-  listen 80;
-  listen [::]:80;
-
-  # Managed by Passbolt
-  server_name _;
-
-  set $forwarded_proto $http_x_forwarded_proto; # added this line
-
-  client_body_buffer_size     100K;
-  client_header_buffer_size   1K;
-  client_max_body_size        5M;
-
-  client_body_timeout   10;
-  client_header_timeout 10;
-  keepalive_timeout     5 5;
-  send_timeout          10;
-
-  root /usr/share/php/passbolt/webroot;
-  index index.php;
-  error_log /var/log/nginx/passbolt-error.log info;
-  access_log /var/log/nginx/passbolt-access.log;
-
-  # Managed by Passbolt
-  # include __PASSBOLT_SSL__
-
-  location / {
-    try_files $uri $uri/ /index.php?$args;
-  }
-
-  location ~ \.php$ {
-    try_files                $uri =404;
-    include                  fastcgi_params;
-    fastcgi_pass             unix:/run/php/php8.2-fpm.sock;
-    fastcgi_index            index.php;
-    fastcgi_intercept_errors on;
-    fastcgi_split_path_info  ^(.+\.php)(.+)$;
-    fastcgi_param            SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    fastcgi_param            SERVER_NAME $http_host;
-
-    fastcgi_param HTTPS $forwarded_proto; # added this line
-
-    fastcgi_param PHP_VALUE  "upload_max_filesize=5M \n post_max_size=5M";
-  }
-
-}
-\end{lstlisting}
-
+Passbolt's package includes Nginx for serving its web interface. However, since the existing infrastructure uses a central Caddy instance as a reverse proxy, the Nginx service within the Passbolt container required manual configuration to operate correctly behind it. This ensured that Passbolt would generate the proper HTTPS URLs.
 With the Nginx configuration corrected, accessing \texttt{passbolt.gpulux.org} launches the web-based setup wizard. This final step involves configuring the database connection, generating a GPG key for the server, setting up the SMTP connection to Mailcow, and creating the initial administrator account.
 
 \subsection*{Reverse Proxy Configuration}
