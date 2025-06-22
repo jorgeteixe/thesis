@@ -637,6 +637,10 @@ incus config device add nextcloud talk-stun-tcp proxy \
   listen=tcp:0.0.0.0:3478 connect=tcp:127.0.0.1:3478
 \end{lstlisting}
 
+\subsection*{Log Management}
+
+As with other Dockerized services, logs from Nextcloud AIO are forwarded to Loki using the Docker logging driver. The Docker daemon inside the \texttt{nextcloud} container was configured with the same Loki driver settings used for Mailcow. This ensures that logs from all Nextcloud AIO containers are centralized in Grafana for monitoring and analysis.
+
 \subsection*{Reverse Proxy Configuration}
 
 The Caddy reverse proxy was configured to expose the Nextcloud instance at \texttt{cloud.gpulux.org}. The AIO stack runs the Apache web server in a container that listens on port 11000.
@@ -646,3 +650,60 @@ cloud.gpulux.org {
     reverse_proxy nextcloud:11000
 }
 \end{lstlisting}
+
+\section{Real-Time Communication with Matrix}
+
+For real-time communication, including instant messaging and voice/video calls, a Matrix\cite{matrix-docs} homeserver was deployed. Synapse, the reference homeserver implementation from the Matrix Foundation, was chosen for this role.
+
+\subsection*{Matrix Container Setup}
+
+As with other services, Synapse was installed in a dedicated Incus container named \texttt{matrix} using a Debian 12 image.
+
+\begin{lstlisting}[language=bash,caption={Creating the Matrix container.}]
+incus launch images:debian/12 matrix
+\end{lstlisting}
+
+\subsection*{Matrix Configuration}
+
+The installation was performed following the official documentation\cite{synapse-install-debian}. The \texttt{matrix-syn apse-py3} package was installed from the official Matrix repository. During the installation, PostgreSQL was configured as the database backend, as it is the recommended choice for production environments. The rest of the configuration was handled through the \texttt{debconf} utility.
+
+User registration is currently managed via a command-line script. While public registration is disabled for now, this can be changed in the future, or other methods like token-based registration can be implemented.
+
+\begin{lstlisting}[language=bash,caption={Command to register a new Matrix user.}]
+register_new_matrix_user -c /etc/matrix-synapse/homeserver.yaml http://localhost:8008
+\end{lstlisting}
+
+\subsection*{Reverse Proxy Configuration}
+
+The Caddy reverse proxy was configured to handle federation and client connections for the Matrix server. For federation, the main domain \texttt{gpulux.org} is configured with \texttt{.well-k nown} endpoints to direct clients and other servers to the correct Matrix homeserver address. The \texttt{matrix.gpulux.org} subdomain is then proxied to the Synapse instance.
+
+\begin{lstlisting}[caption={Caddyfile configuration for Matrix Synapse.}]
+gpulux.org {
+    header /.well-known/matrix/* Content-Type application/json
+    header /.well-known/matrix/* Access-Control-Allow-Origin *
+    respond /.well-known/matrix/server `{"m.server": "matrix.gpulux.org:443"}`
+    respond /.well-known/matrix/client `{"m.homeserver":{"base_url":"https://matrix.gpulux.org"}}`
+}
+
+matrix.gpulux.org {
+    reverse_proxy /_matrix/* matrix:8008
+    reverse_proxy /_synapse/client/* matrix:8008
+}
+\end{lstlisting}
+
+Figure~\ref{fig:element-example} shows the Element web client, a popular client for the Matrix protocol, being used for a conversation and a video call between two members of the association, demonstrating the successful deployment of the service.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imaxes/element-example.png}
+	\caption{Element web client showing a chat and video call.}
+	\label{fig:element-example}
+\end{figure}
+
+\section{Source Code Management with GitHub}
+
+As established in the technology selection chapter, GitHub will continue to be used for the association's source code management. As a cloud-based service, this required no specific implementation on the new infrastructure.
+
+\section{Future Work: VoIP Integration}
+
+The integration of the university's physical phone line via a VoIP system has been deferred as future work. The primary obstacle was the unavailability of the necessary FXO gateway hardware required to connect the analog phone line to a self-hosted PBX like Asterisk. Once the hardware is acquired, this integration can be revisited to provide remote access to the association's phone line.
