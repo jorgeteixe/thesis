@@ -19,17 +19,17 @@ For every category an introduction explains its relevance, followed by one \emph
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/mailman-2-current.png}
-  \caption{Current Mailman 2 interface}
+  \caption{Screenshot of the Mailman 2 web interface currently in use}
   \label{fig:mailman2}
 \end{figure}
 
 \subsection*{Mailman 3 + HyperKitty}
 
-Mailman~3 is a modular mailing list management system, described in its official documentation~\cite{mailman-install-docs}. It is the modern successor to the Mailman~2 software currently in use, and includes official migration tools to assist in upgrading existing lists and archives. Its core component, Mailman Core, is responsible for all mailing list logic and message delivery. It communicates with a Mail Transfer Agent (\gls{mta}) via \gls{lmtp} for incoming messages and \gls{smtp} for outgoing ones, and exposes a \gls{restapi} for external interfaces.
+Mailman~3 is a modular mailing list management system, described in its official documentation~\cite{mailman-install-docs}. It is the modern successor to the Mailman~2 software currently in use, and includes official migration tools to assist in upgrading existing lists and archives. Its core component, Mailman Core, is responsible for all mailing list logic and message delivery. It communicates with a Mail Transfer Agent (MTA) via \gls{lmtp} for incoming messages and \gls{smtp} for outgoing ones, and exposes a \gls{restapi} for external interfaces.
 
 HyperKitty~\cite{hyperkitty-docs} is the web-based archiver of Mailman~3, designed to replace Pipermail. It receives messages from Mailman Core through the \texttt{mailman-hyperkitty} plugin and indexes them into a database. The messages are then accessible via a modern web interface that allows browsing, searching, and replying to threads.
 
-While Postorius~\cite{postorius-docs} is often deployed alongside HyperKitty as part of the Mailman suite, it is not required for operation. Postorius provides a web interface for managing mailing lists, users, and settings, serving as a frontend to the REST API. However, these tasks can also be performed using the command-line tools or direct API calls.
+While Postorius~\cite{postorius-docs} is often deployed alongside HyperKitty as part of the Mailman suite, it is not required for operation. Postorius provides a web interface for managing mailing lists, users, and settings, serving as a frontend to the \gls{restapi}. However, these tasks can also be performed using the command-line tools or direct API calls.
 
 All components of the Mailman~3 project are fully open source and licensed under the GNU General Public License (GPL), aligning with the principles of this work.
 
@@ -42,7 +42,7 @@ Its web interface (WWSympa) allows users and administrators to manage subscripti
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/sympa.png}
-  \caption{Sympa 7 interface}
+  \caption{Screenshot of the Sympa 7 mailing list interface}
   \label{fig:sympa}
 \end{figure}
 
@@ -69,7 +69,7 @@ Version~10 introduces performance improvements, including faster file uploads, o
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/nextcloud-ui.png}
-  \caption{Nextcloud Hub 10 interface}
+  \caption{Screenshot of the Nextcloud Hub 10 user interface}
   \label{fig:nextcloud-ui}
 \end{figure}
 
@@ -105,7 +105,7 @@ Jitsi Meet is an open-source video conferencing platform licensed under the Apac
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/jitsi-ui.png}
-  \caption{Jitsi Cloud interface}
+  \caption{Screenshot of the Jitsi Meet interface}
   \label{fig:jitsi-ui}
 \end{figure}
 
@@ -125,14 +125,14 @@ Talk uses WebRTC for peer-to-peer connections and supports a High Performance Ba
 
 \subsection*{Proprietary Alternatives}
 
-Proprietary services such as Google Meet, Zoom, Microsoft Teams, and Cisco Webex are commonly used and offer feature-rich conferencing. However, they are not open-source and operate on third-party infrastructure, which raises concerns about data control and compliance. For this reason, they are not considered further in this analysis.
+Proprietary services such as Google Meet, Zoom, Microsoft Teams, and Cisco Webex are commonly used and offer feature-rich conferencing. However, they are not open-source and operate on third-party infrastructure, which raises concerns about data control and compliance. For this reason, they are not deeply explored.
 %--------------------------------------------------------------------
 \section{Git Forges}
 
 \textbf{Importance.} A Git forge is a collaborative hub for software development, providing essential tools like issue tracking, pull requests, and CI/CD. For community-driven projects, a user-friendly forge is crucial for lowering the barrier to entry and streamlining contributor workflows. While not every association develops software, it is a key activity for GPUL. A modern forge is therefore essential to ease contributor onboarding and consolidate development, moving beyond the limitations of a legacy \texttt{git daemon}.
 
 \subsection*{Current stack}
-The current setup combines a legacy \verb|git daemon| exposed over SSH and HTTP with GitHub repositories. Most active development and contribution workflows have migrated to GitHub, while the \texttt{git daemon} continues to serve older repositories.
+The current setup combines a legacy \verb|git daemon| exposed over SSH and HTTP with GitHub repositories. Most active development and contribution workflows have migrated to GitHub, while the \texttt{git daemon} continues to serve inactive older repositories.
 
 \subsection*{Gitea 1.23 and Forgejo}
 
@@ -143,7 +143,7 @@ A screenshot of the Gitea interface is shown in Figure~\ref{fig:gitea-ui}.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/gitea-ui.png}
-  \caption{Gitea interface}
+  \caption{Screenshot of the Gitea interface}
   \label{fig:gitea-ui}
 \end{figure}
 
@@ -155,7 +155,7 @@ GitLab Community Edition (CE) is an open-source Git forge licensed under the MIT
 
 GitHub is a proprietary Git forge provided as a cloud-based service~\cite{github-docs}. It includes Git repository hosting, pull requests, issue tracking, integrated GitHub Actions for \gls{cicd}, project boards, and repository wikis. While a self-hosted variant exists (GitHub Enterprise), most users interact through GitHub.com.
 
-GPUL currently uses GitHub alongside a legacy \texttt{git daemon}. The service is publicly accessible at\newline\url{https://github.com/}.
+GPUL currently uses GitHub alongside a legacy \texttt{git daemon}. The service is publicly accessible at \url{https://github.com/gpul-org}.
 
 %--------------------------------------------------------------------
 \section{Team Chat Platforms}
@@ -173,7 +173,7 @@ Matrix is an open standard protocol for real-time communication, supporting dece
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/element-ui.png}
-  \caption{Element interface}
+  \caption{Screenshot of the Element chat interface}
   \label{fig:element-ui}
 \end{figure}
 
@@ -184,7 +184,7 @@ Mattermost is a self-hosted team messaging platform released under the MIT Licen
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/mattermost-ui.png}
-  \caption{Mattermost interface}
+  \caption{Screenshot of the Mattermost chat interface}
   \label{fig:mattermost-ui}
 \end{figure}
 
@@ -210,12 +210,12 @@ Bitwarden is a password manager licensed under AGPLv3 with both a self-hosted se
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/bitwarden-ui.png}
-  \caption{Bitwarden interface}
+  \caption{Screenshot of the Bitwarden password manager interface}
   \label{fig:bitwarden-ui}
 \end{figure}
 
 \subsection*{Passbolt 4}
-Passbolt is a web-based team password manager licensed under AGPLv3~\cite{passbolt-security}. It uses OpenPGP encryption in the browser, with each password encrypted for specific users' keys. It supports fine-grained sharing, activity logs, and role-based access, and uses a MySQL-compatible backend. Unlike Bitwarden, it requires users to manage their private \gls{gpg} keys.
+Passbolt is a web-based team password manager licensed under AGPLv3~\cite{passbolt-security}. It uses OpenPGP encryption in the browser, with each password encrypted for specific users' keys. It supports fine-grained sharing, activity logs, and uses a MySQL-compatible backend. Unlike Bitwarden, it requires users to manage their private \gls{gpg} keys.
 
 \subsection*{HashiCorp Vault 1.17}
 Vault is a general-purpose secrets manager aimed at infrastructure-level secrets rather than password sharing. It supports dynamic secrets, time-to-live (TTL) credentials, and multiple authentication backends (e.g., GitHub, LDAP). Secrets are encrypted server-side and stored in a pluggable backend such as files, Consul, or PostgreSQL. Vault is source-available under the BSL 1.1 license~\cite{vault-bsl}.
@@ -226,22 +226,15 @@ Popular proprietary services like 1Password, LastPass, and Keeper offer similar 
 %--------------------------------------------------------------------
 \section{Monitoring \& Logging}
 
-\textbf{Importance.} Monitoring and logging are essential for ensuring the stability and performance of critical services, providing visibility into system behavior to help administrators detect and resolve issues proactively. For a volunteer-run, community-managed infrastructure like GPUL's, where resources are limited and continuity is key, a reliable observability setup is not a luxury but a necessity. It is crucial for preventing service degradation, reducing downtime, and easing the burden on future maintainers.
+\textbf{Importance.} Monitoring and logging are essential for ensuring the stability and performance of critical services, providing visibility into system behavior to help administrators detect and resolve issues proactively. For a volunteer-run, community-managed infrastructure like GPUL's, it is crucial for preventing service degradation, reducing downtime, and easing the burden on future maintainers.
 
 \subsection*{Current stack}
 Currently, no formal monitoring stack is in place. Most services log to local files with no rotation configured, often resulting in uncontrolled disk usage. There is no log centralization, alerting, or metric tracking, making it difficult to respond proactively to incidents.
 
 \subsection*{Prometheus + Grafana + Loki}
-A popular open source stack for monitoring and logging is the combination of Prometheus, Grafana, and Loki. Prometheus is a time-series database and alerting system that collects numeric metrics from instrumented services via HTTP endpoints~\cite{prometheus-docs}. It supports service discovery, pull-based scraping, and label-based queries using PromQL. Grafana acts as a dashboard and visualization layer, connecting to Prometheus and other sources to present interactive panels, graphs, and alerts. Loki is a log aggregation system inspired by Prometheus: it stores log streams with associated labels, allowing queries using LogQL~\cite{loki-docs}. Unlike traditional log engines, Loki only indexes metadata, making it efficient and lightweight. A screenshot of the Grafana interface is shown in Figure~\ref{fig:grafana-ui}.
+A popular open source stack for monitoring and logging is the combination of Prometheus, Grafana, and Loki. Prometheus is a time-series database and alerting system that collects numeric metrics from instrumented services via HTTP endpoints~\cite{prometheus-docs}. It supports service discovery, pull-based scraping, and label-based queries using PromQL. Grafana acts as a dashboard and visualization layer, connecting to Prometheus and other sources to present interactive panels, graphs, and alerts. Loki is a log aggregation system inspired by Prometheus: it stores log streams with associated labels, allowing queries using LogQL~\cite{loki-docs}. Unlike traditional log engines, Loki only indexes metadata, making it efficient and lightweight.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{imaxes/grafana-ui.png}
-  \caption{Grafana interface}
-  \label{fig:grafana-ui}
-\end{figure}
-
-Each component is open source: Prometheus is under the Apache 2.0 license, while Grafana and Loki are licensed under AGPLv3~\cite{grafana-license-change}. Together, they form a well-integrated observability suite, often referred to as the \gls{plg} stack.
+Each component is open source: Prometheus is under the Apache 2.0 license, while Grafana and Loki are licensed under AGPLv3~\cite{grafana-license-change}. Together, they form a well-integrated observability suite, often referred to as the PLG stack.
 
 \subsection*{Zabbix}
 Zabbix is a mature open source monitoring solution that uses a central server and lightweight agents~\cite{zabbix-web}. It supports metric collection through agents, SNMP, IPMI, and scriptable checks. Zabbix provides a web interface for dashboards and alerts, and includes automatic discovery, distributed proxies, and a large template library. It stores metrics in SQL databases and is licensed under AGPLv3. A screenshot of the interface is shown in Figure~\ref{fig:zabbix-ui}.
@@ -249,7 +242,7 @@ Zabbix is a mature open source monitoring solution that uses a central server an
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/zabbix-ui.png}
-  \caption{Zabbix interface}
+  \caption{Screenshot of the Zabbix monitoring dashboard}
   \label{fig:zabbix-ui}
 \end{figure}
 
@@ -273,18 +266,18 @@ GPUL currently uses a mix of proprietary platforms. \emph{Meetup} is used to pro
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/pretalx.com-ui.png}
-  \caption{pretalx interface}
+  \caption{Screenshot of the pretalx conference management interface}
   \label{fig:pretalx-ui}
 \end{figure}
 
 \subsection*{pretix}
-\textbf{pretix} is a feature-rich ticketing platform for events. It provides a configurable online shop, generates e-tickets, supports multiple payment gateways, and includes mobile apps for check-in~\cite{pretix-docs}. It is released under the AGPLv3 license and supports plugins for extensibility~\cite{pretix-license-faq}.
+\textbf{pretix} is a feature-rich ticketing platform for events. It provides a configurable online shop, generates e-tickets, supports multiple payment gateways, and includes mobile apps for check-in~\cite{pretix-docs}. It is released under the AGPLv3 license and supports plugins for extensibility.
 
 \subsection*{Koliseo}
 \textbf{Koliseo} is an integrated open-source platform covering CFP, scheduling, and ticketing. It includes submission and agenda tools as well as QR-based ticketing using Stripe for payments. It is released under the Apache~2.0 license and offers a hosted version with a freemium model~\cite{koliseo-website}.
 
 \subsection*{Indico}
-\textbf{Indico}, developed at CERN, is a comprehensive event platform supporting abstracts, reviews, scheduling, registration, and badge printing. It is designed to scale and includes academic-focused features such as paper submissions and room booking~\cite{indico-github}. It is written in Python (Flask) and released under the MIT license~\cite{indico-faq}.
+\textbf{Indico}, developed at CERN, is a comprehensive event platform supporting abstracts, reviews, scheduling, registration, and badge printing. It is designed to scale and includes academic-focused features such as paper submissions and room booking~\cite{indico-github}. It is written in Python (Flask) and released under the MIT license.
 
 \subsection*{Proprietary Alternatives}
 While this report focuses on open-source alternatives, GPUL currently relies on several proprietary services:
@@ -303,20 +296,20 @@ While this report focuses on open-source alternatives, GPUL currently relies on 
 \subsection*{Current stack}
 LibreOffice templates stored in Nextcloud, with manual PDF generation and signing. No Facturae, XML or AEAT compliance is currently met. A screenshot of the current invoice template is shown in Figure~\ref{fig:invoice}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/invoice.png}
-  \caption{Current invoice template}
+  \caption{Example of the invoice template currently used}
   \label{fig:invoice}
 \end{figure}
 
 \subsection*{Odoo}
 Full \gls{erp} with accounting and invoicing modules. Spanish localization modules allow Facturae XML export, AEAT integration, SII support and planned VeriFactu readiness \cite{odoo-einvoice-spain}. Heavy stack and learning curve, but suitable for full integration. A screenshot of the interface is shown in Figure~\ref{fig:odoo-ui}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/odoo-ui.png}
-  \caption{Odoo interface}
+  \caption{Screenshot of the Odoo management interface}
   \label{fig:odoo-ui}
 \end{figure}
 
@@ -340,26 +333,26 @@ The current infrastructure consists of a mixture of services deployed directly o
 
 \subsection*{Proxmox VE}
 
-Proxmox Virtual Environment (VE) is an open-source virtualization management platform (Debian-based) that integrates KVM-based virtual machines and LXC containers \cite{proxmox-admin-guide-2025}. It provides a unified web-based interface and \gls{cli} for creating and managing VMs and containers, aiming for ease of administration so that even novices can deploy it within minutes . Proxmox can run on a single server or in a multi-node cluster (with a multi-master design and a clustered filesystem) to enable high availability and live migration of workloads . It supports flexible storage backends (local or shared storage) and includes a fully integrated backup/restore solution (via Proxmox Backup Server or vzdump) for protecting VM and container data . These features make Proxmox suitable for self-hosted labs needing a mix of VM and container workloads managed in a unified open-source platform. A screenshot of the interface is shown in Figure~\ref{fig:proxmox-ui}.
+Proxmox Virtual Environment (VE) is an open-source virtualization management platform (Debian-based) that integrates KVM-based virtual machines and LXC containers \cite{proxmox-admin-guide-2025}. It provides a unified web-based interface and \gls{cli} for creating and managing VMs and containers, aiming for ease of administration so that even novices can deploy it within minutes. Proxmox can run on a single server or in a multi-node cluster (with a multi-master design and a clustered filesystem) to enable high availability and live migration of workloads. It supports flexible storage backends (local or shared storage) and includes a fully integrated backup/restore solution (via Proxmox Backup Server or vzdump) for protecting VM and container data. These features make Proxmox suitable for self-hosted labs needing a mix of VM and container workloads managed in a unified open-source platform. A screenshot of the interface is shown in Figure~\ref{fig:proxmox-ui}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/proxmox-ui.png}
-  \caption{Proxmox interface}
+  \caption{Screenshot of the Proxmox management interface}
   \label{fig:proxmox-ui}
 \end{figure}
 
 \subsection*{Incus (LXD)}
 
-Incus is a modern open-source container and VM manager (a fork of LXD) that provides a cloud-like experience on Linux hosts \cite{incus-linux-containers-2023}. It is image-based and supports a wide range of Linux distributions, providing both system containers (sharing the host kernel) and application containers, as well as full virtual machines with guest kernels . Incus uses a single command-line tool and REST API for local or remote management of instances, with features like snapshots, live migration, and resource profiling. It is designed to scale from a single node up to large clusters (thousands of servers)  and works on any recent Linux distribution (packages available via various distros) . In practice, Incus is used for lightweight virtualization on commodity hardware, where administrators want to mix containers and VMs with relatively low overhead and a straightforward \gls{cli}/API interface.
+Incus is a modern open-source container and VM manager (a fork of LXD) that provides a cloud-like experience on Linux hosts \cite{incus-linux-containers-2023}. It is image-based and supports a wide range of Linux distributions, providing both system containers (sharing the host kernel) and application containers, as well as full virtual machines with guest kernels. Incus uses a single command-line tool and \gls{restapi} for local or remote management of instances, with features like snapshots, live migration, and resource profiling. It is designed to scale from a single node up to large clusters (thousands of servers)  and works on any recent Linux distribution (packages available via various distros). In practice, Incus is used for lightweight virtualization on commodity hardware, where administrators want to mix containers and VMs with relatively low overhead and a straightforward \gls{cli}/API interface.
 
 \subsection*{Docker and Podman}
 
-Docker and Podman are containerization platforms for running applications in isolated environments. Docker (Docker Engine) popularized this approach by packaging code and dependencies into portable containers \cite{spacelift-podman-docker-2024}. It follows a daemon-based model and supports layered images and declarative Dockerfiles. Docker also provides Docker Compose for defining multi-container applications via a single YAML file and (historically) a Swarm mode for basic clustering and service replication . Podman is a daemonless, rootless container engine (a drop-in Docker replacement) that runs containers as child processes of the user, improving security isolation . Podman supports most Docker \gls{cli} commands and introduces "pods" (groups of containers sharing the same network namespace) similar to Kubernetes pods . For orchestration, Docker relies on Docker Compose and Swarm, whereas Podman can use \texttt{podman-compose} or generate Kubernetes manifests; Podman itself has no built-in high-availability orchestrator . Podman is often favored in security-sensitive or multi-user environments (and is default on many Linux distributions), while Docker remains widely used in development and CI/CD environments due to its mature ecosystem and tools .
+Docker and Podman are containerization platforms for running applications in isolated environments. Docker (Docker Engine) popularized this approach by packaging code and dependencies into portable containers \cite{spacelift-podman-docker-2024}. It follows a daemon-based model and supports layered images and declarative Dockerfiles. Docker also provides Docker Compose for defining multi-container applications via a single YAML file and a Swarm mode for basic clustering and service replication. Podman is a daemonless, rootless container engine (a drop-in Docker replacement) that runs containers as child processes of the user, improving security isolation. Podman supports most Docker \gls{cli} commands and introduces "pods" (groups of containers sharing the same network namespace) similar to Kubernetes pods. For orchestration, Docker relies on Docker Compose and Swarm, whereas Podman can use \texttt{podman-compose} or generate Kubernetes manifests; Podman itself has no built-in high-availability orchestrator. Podman is often favored in security-sensitive or multi-user environments (and is default on many Linux distributions), while Docker remains widely used in development and CI/CD environments due to its mature ecosystem and tools.
 
 \subsection*{Kubernetes}
 
-Kubernetes is an open-source container orchestration system originally developed by Google \cite{kubernetes-docs-2025}. It automates deployment, scaling, and management of containerized applications. Kubernetes groups containers into logical units called \emph{pods} (each pod contains one or more containers with shared storage and networking) . A Kubernetes cluster typically includes multiple control-plane (master) and worker nodes; users define desired application state via declarative manifests (Deployments, Services, etc.), and Kubernetes automatically schedules pods onto nodes. The platform handles service discovery, load balancing, rolling updates/rollbacks, and self-healing (restarting failed containers) . It "provides a framework to run distributed systems resiliently," automatically handling scaling, failover, and automated rollouts . Kubernetes also supports secrets/config management and horizontal pod autoscaling. However, Kubernetes has substantial operational complexity and resource requirements. For small-scale setups, lightweight distributions like k3s or MicroK8s strip out legacy components to simplify installation and reduce footprint, making Kubernetes feasible even for edge or two-node deployments \cite{k3s-microk8s-2022}. In summary, Kubernetes excels in orchestrating multi-host container clusters with advanced features, whereas simpler tools (like Docker Compose or single-node Incus/Proxmox) may suffice for smaller self-hosted environments.
+Kubernetes is an open-source container orchestration system originally developed by Google \cite{kubernetes-docs-2025}. It automates deployment, scaling, and management of containerized applications. Kubernetes groups containers into logical units called \emph{pods} (each pod contains one or more containers with shared storage and networking). A Kubernetes cluster typically includes a control-plane (master) and multiple worker nodes; users define desired application state via declarative manifests (Deployments, Services, etc.), and Kubernetes automatically schedules pods onto nodes. The platform handles service discovery, load balancing, rolling updates/rollbacks, and self-healing (restarting failed containers). It "provides a framework to run distributed systems resiliently," automatically handling scaling, failover, and automated rollouts. Kubernetes also supports secrets/config management and horizontal pod autoscaling. However, Kubernetes has substantial operational complexity and resource requirements. For small-scale setups, lightweight distributions like k3s or MicroK8s strip out legacy components to simplify installation and reduce footprint, making Kubernetes feasible even for edge or two-node deployments \cite{k3s-microk8s-2022}. In summary, Kubernetes excels in orchestrating multi-host container clusters with advanced features, whereas simpler tools (like Docker Compose or single-node Incus/Proxmox) may suffice for smaller self-hosted environments.
 
 \subsection*{Proprietary Alternatives}
 

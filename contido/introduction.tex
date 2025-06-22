@@ -22,7 +22,7 @@ Today, GPUL's services are distributed across two aging servers, GPULINO and GPU
 
 For instance, misconfigured email redirection caused emails to be flagged as spam, and a full disk on Nextcloud nearly made us miss administrative deadlines.
 
-Faced with this situation, we began a complete renewal of GPUL's infrastructure. The goal is to modernize services while keeping them well documented and sustainable. Managed services and commercial tools were mostly ruled out for cost or philosophical reasons. For invoicing we selected FacturaScripts\cite{facturascripts-antifraude}, a Spanish open source solution compatible with the new VeriFactu regulations\cite{boe-a-2024-22138}. The rest of the stack revolves around upgraded \gls{foss} tools: migrating from Mailman 2 to Mailman 3 with HyperKitty\cite{hyperkitty-web}, a modern Nextcloud, and improved backups and monitoring. We continue to evaluate whether email should remain self-hosted or move to a trusted provider. This thesis documents the entire renewal process, aiming to leave a maintainable and resilient infrastructure for future teams.
+Faced with this situation, we began a complete renewal of GPUL's infrastructure. The goal is to modernize services while keeping them well documented and sustainable. Managed services and commercial tools were mostly ruled out for cost or philosophical reasons. For invoicing we selected FacturaScripts\cite{facturascripts-antifraude}, a Spanish open source solution compatible with the new VeriFactu regulations\cite{boe-a-2024-22138}. The rest of the stack revolves around upgraded \gls{foss} tools: migrating from Mailman 2 to Mailman 3 with HyperKitty\cite{hyperkitty-web}, a modern Nextcloud, and improved backups and monitoring. We continue to evaluate whether email should remain self-hosted or move to a trusted provider, given the challenges of maintaining sender reputation and ensuring deliverability amidst increasingly complex anti-spam measures. This thesis documents the entire renewal process, aiming to leave a maintainable and resilient infrastructure for future teams.
 
 \section{Objectives}
 
@@ -32,12 +32,12 @@ Given these critical challenges, the objectives of this project are to:
     \item Modernize and simplify GPUL's infrastructure to ensure long-term maintainability.
     \item Replace outdated services (like Mailman 2 and legacy Nextcloud) with modern, modular open-source solutions.
     \item Implement proper documentation to facilitate knowledge transfer and reduce dependency on individual members.
-    \item Enhance the reliability, performance, and security of critical infrastructure services, incorporating robust backup solutions.
+    \item Enhance the reliability, performance, and security of critical infrastructure services, incorporating backup solutions.
     \item Empower new contributors with clear processes and documentation, ensuring continuity and sustainability.
     \item Ensure alignment with GPUL's foundational values of openness and community-driven development.
 \end{itemize}
 
-The priority lies in modernization, simplification, and thorough documentation, underpinned by improved security and reliable backup procedures.
+The priority lies in modernization, simplification, and thorough documentation, underpinned by improved security and backup procedures.
 
 \section{Thesis Structure}
 

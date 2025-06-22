@@ -18,7 +18,7 @@ GPULINO is a legacy virtual machine that remains in active use within the associ
 \begin{table}[H]
   \centering
   \rowcolors{2}{white}{udcgray!25}
-  \caption{GPULINO Server Specifications}
+  \caption{Summary of GPULINO server specifications}
   \label{tab:gpulino_specs}
   \begin{tabular}{ll}
     \rowcolor{udcpink!25}
@@ -30,7 +30,7 @@ GPULINO is a legacy virtual machine that remains in active use within the associ
     Monthly Cost & €13.09 \\
     IPv4 & 95.142.163.196 \\
     IPv6 & 2001:4b98:dc0:47:216:3eff:fe56:1785 \\
-    OS & Debian GNU/Linux 8 (Jessie, EOL) \\
+    OS & Debian GNU/Linux 8 (Jessie) \\
   \end{tabular}
 \end{table}
 
@@ -41,7 +41,7 @@ GPULINO uses three independent 10 GB volumes provided by the hosting provider. T
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{figuras/gpulino_disk_usage.pdf}
-  \caption{Disk usage across GPULINO volumes.}
+  \caption{Disk usage across the GPULINO volumes}
   \label{fig:gpulino_disk_usage}
 \end{figure}
 
@@ -54,7 +54,7 @@ The server maintains several user accounts, with varying levels of activity. Tab
 \begin{table}[H]
   \centering
   \rowcolors{2}{white}{udcgray!25}
-  \caption{GPULINO Active User Accounts (sorted by creation date)}
+  \caption{Active user accounts on GPULINO, sorted by creation date}
   \label{tab:gpulino_users}
   \begin{tabular}{ll}
     \rowcolor{udcpink!25}
@@ -88,7 +88,7 @@ The Apache configuration included several virtual hosts pointing to subdomains, 
 \begin{table}[H]
   \centering
   \rowcolors{2}{white}{udcgray!15}
-  \caption{Web domains served by Apache on GPULINO}
+  \caption{Web domains served by the Apache instance on GPULINO}
   \label{tab:gpulino_apache_domains}
   \begin{tabular}{ll}
     \rowcolor{udcpink!25}
@@ -105,43 +105,14 @@ The Apache configuration included several virtual hosts pointing to subdomains, 
 
 These domains pointed to directories inside \texttt{/var/www}, which contained a variety of static and symlinked content likely tied to past events, services, or internal documentation.
 
-\begin{table}[H]
-  \centering
-  \rowcolors{2}{white}{udcgray!15}
-  \caption{Apache web directories found under \texttt{/var/www}}
-  \label{tab:gpulino_www_dirs}
-  \begin{tabular}{ll}
-    \rowcolor{udcpink!25}
-    \textbf{Directory} & \textbf{Description} \\
-    \hline
-    apache-default & Default Apache content \\
-    artwork & Publicly accessible artwork files \\
-    drupal & Linked to \texttt{/var/www/gpul.org/drupal} \\
-    dudesconf & Hosts content for dudesconf.org \\
-    estatutos & Organizational rules or statutes \\
-    etherpad-lite & Likely collaborative editor \\
-    eventostuff & Linked to \verb|/srv/srv_gpulino/eventos| \\
-    gallery2 & Public gallery \\
-    gpul-latex & LaTeX-related files \\
-    gpul.org & Main content for GPUL \\
-    gpul.org-eventos & Event-specific content \\
-    guademy & Linked to \verb|/srv/srv_gpulino/www/guademy/| \\
-    indico & Linked to \verb|/srv/srv_gpulino/indico| \\
-    junoffice & Content for junoffice.gpul.org \\
-    labs.gpul.org & Lab-related subdomain \\
-    piwik & Web analytics platform \\
-    planet.gpul.org & Static site content \\
-    rexistro.labs.gpul.org & Registry or logs \\
-    votologo & Likely a voting tool \\
-  \end{tabular}
-\end{table}
+The \texttt{/var/www} directory contained a diverse set of folders. Some, like \texttt{apache-default} and \texttt{gpul.org}, served static webpages, while others linked to different volumes to host event pages or internal tools. Among the notable examples were directories for the \texttt{eventostuff} archive, collaborative editing through \texttt{etherpad-lite}, a small \texttt{indico} instance, and a \texttt{piwik} analytics setup. This mixture of content and symlinks showed how services had accumulated organically over time. Most of this services are no longer active.
 
 Mailman was configured to manage mailing lists under the \texttt{lists.gpul.org} domain, using a CGI interface and Apache redirection rules. The configuration was minimal but functional.
 
 \begin{table}[H]
   \centering
   \rowcolors{2}{white}{udcgray!15}
-  \caption{Mailman service details on GPULINO}
+  \caption{Configuration details for the Mailman service on GPULINO}
   \label{tab:gpulino_mailman}
   \begin{tabular}{ll}
     \rowcolor{udcpink!25}
@@ -150,7 +121,6 @@ Mailman was configured to manage mailing lists under the \texttt{lists.gpul.org}
     Domain & \texttt{lists.gpul.org} \\
     VirtualHost & Redirects root to \texttt{/cgi-bin/mailman/listinfo} \\
     CGI Path & \texttt{/usr/lib/cgi-bin/} \\
-    DocumentRoot & \texttt{/var/www/} \\
     Admin Email & \texttt{mailman@lists.gpul.org} \\
   \end{tabular}
 \end{table}
@@ -160,7 +130,7 @@ The server also ran a Git daemon that served multiple repositories under a singl
 \begin{table}[H]
   \centering
   \rowcolors{2}{white}{udcgray!15}
-  \caption{Git daemon configuration details}
+  \caption{Configuration parameters for the Git daemon}
   \label{tab:gpulino_git_daemon}
   \begin{tabular}{ll}
     \rowcolor{udcpink!25}
@@ -186,7 +156,7 @@ The server also ran a Git daemon that served multiple repositories under a singl
 \begin{table}[H]
   \centering
   \rowcolors{2}{white}{udcgray!15}
-  \caption{Git repositories hosted}
+  \caption{Repositories hosted by the Git daemon}
   \label{tab:gpulino_git_repos}
   \begin{tabular}{ll}
     \rowcolor{udcpink!25}
@@ -215,7 +185,7 @@ GPULON is hosted with Kimsufi and configured as a KS-4C server running Debian GN
 \begin{table}[H]
   \centering
   \rowcolors{2}{white}{udcgray!25}
-  \caption{GPULON Server Specifications}
+  \caption{Summary of GPULON server specifications}
   \label{tab:gpulon_specs}
   \begin{tabular}{ll}
     \rowcolor{udcpink!25}
@@ -232,12 +202,12 @@ GPULON is hosted with Kimsufi and configured as a KS-4C server running Debian GN
 
 \subsection*{Filesystem Structure}
 
-GPULON has a single 2 TB physical disk, divided into logical volumes for \texttt{/home}, \texttt{/var/lib/docker}, and the root filesystem (\texttt{/}). This setup is visualized in Figure~\ref{fig:gpulon_disk_usage}.
+GPULON has a single 2 TB physical disk, divided into logical volumes for \texttt{/home}, \texttt{/var/ lib/docker}, and the root filesystem (\texttt{/}). This setup is visualized in Figure~\ref{fig:gpulon_disk_usage}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{figuras/gpulon_disk_usage.pdf}
-  \caption{Disk usage across GPULON logical volumes after reallocation.}
+  \caption{Disk usage across GPULON logical volumes after reallocation}
   \label{fig:gpulon_disk_usage}
 \end{figure}
 
@@ -257,12 +227,12 @@ This reallocation has significantly improved headroom for service logs and appli
 
 \subsection*{User Access and Management}
 
-Table \ref{tab:gpulon_users} shows the active user accounts on GPULON:
+The server has 10 active user accounts, most of them are no longer actively used. Table \ref{tab:gpulon_users} shows the user accounts.
 
 \begin{table}[H]
   \centering
   \rowcolors{2}{white}{udcgray!25}
-  \caption{GPULON Active User Accounts (sorted by creation date)}
+  \caption{Active user accounts on GPULON, sorted by creation date}
   \label{tab:gpulon_users}
   \begin{tabular}{ll}
     \rowcolor{udcpink!25}

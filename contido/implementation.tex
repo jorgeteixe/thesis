@@ -11,7 +11,7 @@
 
 The base system was installed using Hetzner's \texttt{installimage}\cite{hetzner-installimage} provisioning tool. The configuration focused on separating system and data storage for flexibility and performance.
 
-Debian was chosen as the operating system, a decision rooted in its renowned stability for server roles, as well as the board's deep familiarity with the distribution. This choice also honors GPUL's historical ties to Debian and the contributions of past board members who are official Debian maintainers\cite{berto-debian-page}.
+Debian was chosen as the operating system, a decision rooted in its renowned stability for server roles, as well as the board's deep familiarity with the distribution. This choice also honors GPUL's historical ties to Debian and the contributions of past board members who are consolidated Debian maintainers\cite{berto-debian-page}.
 
 \subsection*{installimage Configuration}
 
@@ -19,7 +19,7 @@ The installation was performed on the two 512 GB disks using software RAID 1 to 
 
 The following snippet shows the \texttt{installimage} configuration file:
 
-\begin{lstlisting}[caption={Hetzner's installimage script for automated Debian installation on gpulux.}]
+\begin{lstlisting}[caption={Configuration used by Hetzner's installimage script to deploy Debian on gpulux}]
 DRIVE1 /dev/nvme2n1
 DRIVE2 /dev/nvme3n1
 SWRAID 1
@@ -37,7 +37,7 @@ This setup results in the following RAID arrays:
 \begin{itemize}
   \item \texttt{/dev/md0} - 32 GB swap
   \item \texttt{/dev/md1} - 1 GB \texttt{/boot}
-  \item \texttt{/dev/md2} - remaining space (440 GB) for root filesystem
+  \item \texttt{/dev/md2} - 440 GB for root filesystem
 \end{itemize}
 
 \subsection*{Post-Install Configuration}
@@ -50,14 +50,14 @@ Incus is not included in the standard Debian 12 (Bookworm) repositories, so it m
 
 To enable the backports, a new APT source file is created, including both the official Debian mirror and the Hetzner mirror for optimized download speeds.
 
-\begin{lstlisting}[language=bash,caption={APT sources list to enable the bookworm-backports repository.}]
+\begin{lstlisting}[language=bash,caption={APT sources list enabling the bookworm-backports repository}]
 deb http://mirror.hetzner.com/debian bookworm-backports main
 deb http://deb.debian.org/debian bookworm-backports main
 \end{lstlisting}
 
 With the backports repository configured, Incus can be installed. Only the \texttt{incus-base} package is installed, as this provides the necessary tools for managing containers without the overhead of full virtual machine support. This approach aligns with the current plan, and support for VMs can be added later if needed.
 
-\begin{lstlisting}[language=bash,caption={Installing the Incus server from Debian backports.}]
+\begin{lstlisting}[language=bash,caption={Commands to install the Incus server from Debian backports}]
 sudo apt update
 sudo apt install incus-base/bookworm-backports
 \end{lstlisting}
@@ -70,7 +70,7 @@ Incus was initialized using the \texttt{incus admin init} command. The key confi
 \begin{itemize}
     \item \textbf{Mode:} Standalone (non-clustered).
     \item \textbf{Storage Pool:} A new BTRFS storage pool named \texttt{default} was created on the dedicated data RAID array (\texttt{/dev/md3}).
-    \item \textbf{Network:} A new local network bridge, \texttt{incusbr0}, was configured with the IPv4 subnet \texttt{10.42.0.1/24} and NAT enabled. IPv6 was disabled for this bridge.
+    \item \textbf{Network:} A new local network bridge, \texttt{incusbr0}, was configured with the IPv4 subnet \texttt{10.42.0.1/24} and NAT enabled. IPv6 was disabled internally for this bridge.
     \item \textbf{Remote Access:} The Incus server is not exposed over the network.
     \item \textbf{Image Management:} Automatic updates for stale cached images were enabled.
 \end{itemize}
@@ -85,13 +85,13 @@ The first container to be created is for the monitoring stack. This stack is a c
 
 A new container named \texttt{monitoring} is launched using the official Debian 12 image. The following command is used:
 
-\begin{lstlisting}[language=bash,caption={Creating the monitoring container with a Debian 12 image.}]
+\begin{lstlisting}[language=bash,caption={Command to create the monitoring container from a Debian 12 image}]
 incus launch images:debian/12 monitoring
 \end{lstlisting}
 
 Once the container is running, it is possible to get an interactive shell inside it to perform administrative tasks. This is achieved with the \texttt{exec} command:
 
-\begin{lstlisting}[language=bash,caption={Obtaining a shell inside the monitoring container.}]
+\begin{lstlisting}[language=bash,caption={Command used to obtain a shell inside the monitoring container}]
 incus exec monitoring -- bash
 \end{lstlisting}
 
@@ -107,7 +107,7 @@ Inside the \texttt{monitoring} container, a full monitoring stack is deployed. T
 
 Prometheus was installed following the official documentation\cite{prometheus-getting-started} and configured to scrape both itself and the Incus host metrics:
 
-\begin{lstlisting}[caption={Prometheus configuration to scrape metrics from itself and the Incus host.}]
+\begin{lstlisting}[caption={Prometheus configuration scraping metrics from itself and the Incus host}]
 scrape_configs:
   - job_name: "prometheus"
     static_configs:
@@ -118,7 +118,7 @@ scrape_configs:
     tls_config:
       insecure_skip_verify: true
     static_configs:
-      - targets: ['10.42.0.1:8444']
+      - targets: ['10.42.0.1:8444'] # internal incus gw addr
 \end{lstlisting}
 
 The host was previously configured to expose metrics without authentication using:
@@ -139,9 +139,9 @@ incus config device add monitoring loki-proxy proxy \
   listen=tcp:127.0.0.1:3100 connect=tcp:127.0.0.1:3100
 \end{lstlisting}
 
-Grafana Alloy, installed on the host\cite{grafana-alloy-install}, forwards logs from the system journal to Loki. The configuration\cite{grafana-alloy-config-example} extracts key metadata such as unit name, boot ID, transport, and priority level:
+Grafana Alloy, installed on the host following official documentation\cite{grafana-alloy-install}, forwards logs from the system journal to Loki. The configuration\cite{grafana-alloy-config-example} extracts key metadata such as unit name, boot ID, transport, and priority level:
 
-\begin{lstlisting}[caption={Grafana Alloy configuration for forwarding journal logs to Loki.}]
+\begin{lstlisting}[caption={Grafana Alloy configuration forwarding systemd journal logs to Loki}]
 loki.source.journal "all" {
   relabel_rules = discovery.relabel.journal_relabel.rules
   forward_to    = [loki.write.local.receiver]
@@ -155,20 +155,7 @@ discovery.relabel "journal_relabel" {
     target_label  = "unit"
   }
 
-  rule {
-    source_labels = ["__journal__boot_id"]
-    target_label  = "boot_id"
-  }
-
-  rule {
-    source_labels = ["__journal__transport"]
-    target_label  = "transport"
-  }
-
-  rule {
-    source_labels = ["__journal_priority_keyword"]
-    target_label  = "level"
-  }
+  # ...
 }
 
 loki.write "local" {
@@ -189,7 +176,7 @@ incus config set loki.instance=incus
 
 To expose web services to the internet, a lightweight container named \texttt{proxy} was created using Alpine Linux. Caddy was installed to act as a reverse proxy. While it will eventually handle all public-facing services, its initial configuration is limited to exposing the Grafana dashboard.
 
-\begin{lstlisting}[language=bash,caption={Commands to set up the Caddy reverse proxy container.}]
+\begin{lstlisting}[language=bash,caption={Commands used to set up the Caddy reverse proxy container}]
 incus launch images:alpine/edge proxy
 incus exec proxy -- apk add --no-cache caddy
 incus file push Caddyfile proxy/etc/caddy/Caddyfile
@@ -202,11 +189,9 @@ incus config device add proxy http443 proxy \
   listen=tcp:0.0.0.0:443 connect=tcp:127.0.0.1:443
 \end{lstlisting}
 
-The last two commands add Incus proxy devices\cite{incus-proxy-device} to the \texttt{proxy} container. These devices forward traffic from a public IP address on the host to a port inside the container. Specifically, all traffic arriving at port 80 (HTTP) and 443 (HTTPS) on the host's public network interface is redirected to the corresponding ports on the container's loopback interface, where Caddy is listening.
+The last two commands add Incus proxy devices\cite{incus-proxy-device} to the \texttt{proxy} container. These devices forward traffic from the public IP addresses on the host to a port inside the container. Specifically, all traffic arriving at port 80 (HTTP) and 443 (HTTPS) on the host's public network interfaces is redirected to the corresponding ports on the container's loopback interface, where Caddy is listening. The Caddyfile used is as follows:
 
-The Caddyfile used is as follows:
-
-\begin{lstlisting}[caption={Caddyfile configuration to reverse proxy Grafana.}]
+\begin{lstlisting}[caption={Caddyfile configuration used to expose Grafana through the reverse proxy}]
 grafana.gpulux.org {
   reverse_proxy monitoring:3000
 }
@@ -220,15 +205,14 @@ The integration with Loki enables deep exploration of system logs. Logs from the
 
 
 \section{Email Server with Mailcow}
-\label{sec:mailcow}
 
-Although not discussed in the technology selection chapter, a robust email server is a critical requirement for the new infrastructure, needed for services like Grafana and Passbolt to send alerts and notifications. Mailcow was selected for this role due to its widespread adoption and positive reputation in the open-source self-hosting community. As a complete mail server suite based on Docker, it provides a powerful foundation that will also serve as the Mail Transfer Agent (\gls{mta}) for the community's mailing lists, which will be managed by Mailman 3.
+Although not discussed in the technology selection chapter---as it is a dependency for other services rather than a primary service itself---a robust email server is a critical requirement for the new infrastructure. It is needed by services like Grafana and Passbolt to send alerts and notifications, and is essential for operating the mailing lists. Mailcow was selected for this role due to its widespread adoption and positive reputation in the open-source self-hosting community. As a complete mail server suite based on Docker, it provides a powerful foundation that will also serve as the Mail Transfer Agent (MTA) for the community's mailing lists, which will be managed by Mailman 3.
 
 \subsection*{Mailcow Container Setup}
 
 To maintain isolation and simplify management, Mailcow is deployed within its own dedicated Incus container. As Mailcow relies on Docker and Docker Compose for its operation, the container needs to be configured to support nested virtualization\cite{incus-faq-docker-nesting}. A new container named \texttt{mailcow} is launched from the Debian 12 image.
 
-\begin{lstlisting}[language=bash,caption={Creating and configuring the Mailcow container.}]
+\begin{lstlisting}[language=bash,caption={Commands to create and configure the Mailcow container}]
 incus launch images:debian/12 mailcow
 incus config set mailcow security.nesting=true
 incus config set mailcow security.privileged=true
@@ -238,23 +222,23 @@ The \texttt{security.nesting} flag enables the container to run its own containe
 
 A critical step in deploying an email server on a cloud provider like Hetzner is ensuring that outgoing email ports are not blocked. By default, Hetzner blocks these ports to prevent spam. A support ticket was opened to request the unblocking of these ports for \texttt{gpulux}'s IP address.
 
-To allow external access to Mailcow's services, several ports must be forwarded from the host to the container. This is achieved using Incus proxy devices, which redirect traffic from the host's public IP to the container. Table~\ref{tab:mailcow-ports} lists the required ports.
+To allow external access to Mailcow's services, several ports must be forwarded from the host to the container. This is achieved using Incus proxy devices, which redirect traffic from the host's public IP to the container. Table~\ref{tab:mailcow-ports} lists the required ports\cite{mailcow-prerequisites}.
 
 \begin{table}[H]
     \centering
     \rowcolors{2}{white}{udcgray!25}
-    \caption{Ports forwarded to the Mailcow container\cite{mailcow-prerequisites}.}
+\caption{Ports forwarded to the Mailcow container}
     \label{tab:mailcow-ports}
     \begin{tabular}{lll}
         \rowcolor{udcpink!25}
         \textbf{Service} & \textbf{Protocol} & \textbf{Port} \\
         \hline
         Postfix SMTP & TCP & 25 \\
+        Dovecot POP3 & TCP & 110 \\
+        Dovecot IMAP & TCP & 143 \\
         Postfix SMTPS & TCP & 465 \\
         Postfix Submission & TCP & 587 \\
-        Dovecot IMAP & TCP & 143 \\
         Dovecot IMAPS & TCP & 993 \\
-        Dovecot POP3 & TCP & 110 \\
         Dovecot POP3S & TCP & 995 \\
         Dovecot ManageSieve & TCP & 4190 \\
     \end{tabular}
@@ -262,17 +246,19 @@ To allow external access to Mailcow's services, several ports must be forwarded 
 
 The commands to create these proxy devices follow a similar pattern as the Caddy proxy setup, created for each port listed in the table. For example, to forward the SMTP port:
 
-\begin{lstlisting}[language=bash,caption={Example of forwarding a port to the Mailcow container.}]
+\begin{lstlisting}[language=bash,caption={Example command to forward a port to the Mailcow container}]
 incus config device add mailcow smtp-proxy proxy listen=tcp:0.0.0.0:25 connect=tcp:127.0.0.1:25
 \end{lstlisting}
+
+The use of \texttt{0.0.0.0} as the listen address is intentional; Incus' default behavior for this wildcard is to bind to both IPv4 and IPv6 interfaces. This was confirmed during setup to ensure that all exposed services would be accessible over both network protocols.
 
 \subsection*{Mailcow Configuration}
 
 After setting up the container and installing Docker, Mailcow is installed by following its official documentation\cite{mailcow-install}. The primary configuration is managed through the \texttt{mailcow.conf} file. Key settings include configuring the server to run behind a reverse proxy\cite{mailcow-reverse-proxy} and disabling IPv6 support to resolve connectivity issues\cite{mailcow-disable-ipv6}. The mail server is configured to run on \texttt{mail.gpulux.org}.
 
-To integrate with the existing monitoring stack, a Prometheus exporter is added to Mailcow's Docker Compose setup. This allows Prometheus to scrape metrics about the mail server's health and performance. The following service definition was added to \texttt{docker -compose.yml}\cite{mailcow-prometheus-exporter}:
+To integrate with the existing monitoring stack, a Prometheus exporter is added to Mailcow's Docker Compose setup. This allows Prometheus to scrape metrics about the mail server's health and performance. The following service definition was added to \texttt{docker -compose.override.yml}\cite{mailcow-prometheus-exporter}:
 
-\begin{lstlisting}[caption={Docker Compose service for the Mailcow Prometheus exporter.}]
+\begin{lstlisting}[caption={Docker Compose service definition for the Mailcow Prometheus exporter}]
 mailcow-exporter:
   image: ghcr.io/mailcow/prometheus-exporter:2
   ports:
@@ -283,7 +269,7 @@ mailcow-exporter:
   restart: unless-stopped
 \end{lstlisting}
 
-Once Mailcow is running, a single mailbox for \texttt{admin@gpulux.org} is created through its web UI. Aliases for \texttt{grafana@gpulux.org} and \texttt{passbolt@gpulux.org} were configured to deliver mail to this main account. These will be used by the respective services to send email notifications and alerts.
+Once Mailcow is running, a single mailbox for \texttt{admin@gpulux.org} is created through its web UI. Aliases for \texttt{grafana@gpulux.org} and \texttt{passbolt@gpulux.org} were configured to deliver mail to this main account, and more will be added later. These will be used by the respective services to send email notifications and alerts.
 
 \subsection*{Log Management}
 
@@ -291,7 +277,7 @@ Log management for Mailcow is handled by integrating it with the central Loki in
 
 To enable this, the Docker daemon inside the \texttt{mailcow} container must be configured to use \texttt{loki} as its logging driver. This is done by creating a configuration file at \texttt{/etc/docker /daemon.json}\cite{loki-docker-driver-config}.
 
-\begin{lstlisting}[caption={Docker daemon configuration to use the Loki logging driver.}]
+\begin{lstlisting}[caption={Docker daemon configuration enabling the Loki logging driver}]
 {
     "log-driver": "loki",
     "log-opts": {
@@ -307,7 +293,7 @@ The \texttt{loki-url} option specifies the address of the Loki push API endpoint
 
 To expose Mailcow's web interface and mail autoconfiguration endpoints, the Caddy reverse proxy is configured to forward requests for \texttt{mail.gpulux.org} and its autodiscovery subdomains to the Mailcow container.
 
-\begin{lstlisting}[caption={Caddyfile configuration to reverse proxy Mailcow.}]
+\begin{lstlisting}[caption={Caddyfile configuration used to expose Mailcow via the reverse proxy}]
 mail.gpulux.org autodiscover.mail.gpulux.org autoconfig.mail.gpulux.org {
     reverse_proxy mailcow:80
 }
@@ -321,7 +307,7 @@ The next service to be deployed is Passbolt, the password manager chosen to secu
 
 Similar to other services, Passbolt is deployed in a dedicated Incus container named \texttt{passbolt} using a Debian 12 image. No special container configuration was required.
 
-\begin{lstlisting}[language=bash,caption={Creating the Passbolt container.}]
+\begin{lstlisting}[language=bash,caption={Command to create the Passbolt container}]
 incus launch images:debian/12 passbolt
 \end{lstlisting}
 
@@ -329,7 +315,7 @@ incus launch images:debian/12 passbolt
 
 The installation of Passbolt was performed following the official documentation\cite{passbolt-install-debian}. The process involves adding a dedicated APT repository and installing the \texttt{passbolt-ce-server} package, which triggers a configuration wizard that prompts for database settings.
 
-\begin{lstlisting}[language=bash,caption={Installing Passbolt CE server package.}]
+\begin{lstlisting}[language=bash,caption={Command to install the Passbolt CE server package}]
 sudo apt install passbolt-ce-server
 \end{lstlisting}
 
@@ -340,7 +326,7 @@ With the Nginx configuration corrected, accessing \texttt{passbolt.gpulux.org} l
 
 To expose Passbolt's web interface, the Caddy reverse proxy is configured to forward requests for \texttt{passbolt.gpulux.org} to the Passbolt container.
 
-\begin{lstlisting}[caption={Caddyfile configuration to reverse proxy Passbolt.}]
+\begin{lstlisting}[caption={Caddyfile configuration used to expose Passbolt via the reverse proxy}]
 passbolt.gpulux.org {
     reverse_proxy passbolt:80
 }
@@ -351,20 +337,19 @@ Figure~\ref{fig:passbolt-gpulux} shows the Passbolt interface after configuratio
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/passbolt-gpulux.png}
-	\caption{Passbolt web interface showing stored credentials.}
+       \caption{Screenshot of the Passbolt web interface with stored credentials}
 	\label{fig:passbolt-gpulux}
 \end{figure}
 
 \section{Mailing Lists with Mailman 3}
-\label{sec:mailman}
 
-With the core services in place, the next step is to deploy the mailing list manager. Mailman 3 was chosen to replace the outdated Mailman 2.1 instance. The order of installation for this service is not critical, as it only depends on previously configured components like the email server.
+With the core services in place, the next step is to deploy the mailing list manager. Mailman 3 was chosen to replace the outdated Mailman 2.1 instance.
 
 \subsection*{Mailman Container Setup}
 
 A dedicated Incus container named \texttt{mailman} was created for this service using a Debian 12 image. The setup largely follows the official installation guides:
 \begin{itemize}
-    \item The official Debian installation guides for Mailman 3:
+    \item The official Debian installation guides for Mailman 3, downloaded with the official packages from the Debian repositories:
     \begin{itemize}
         \item \texttt{/usr/share/doc/mailman3/README.Debian}
         \item \texttt{/usr/share/doc/mailman3-web/README.Debian.gz}
@@ -373,7 +358,7 @@ A dedicated Incus container named \texttt{mailman} was created for this service 
     \item The online documentation for Mailman 3\cite{mailman3-docs}.
 \end{itemize}
 
-\begin{lstlisting}[language=bash,caption={Creating the Mailman container.}]
+\begin{lstlisting}[language=bash,caption={Command to create the Mailman container}]
 incus launch images:debian/12 mailman
 \end{lstlisting}
 
@@ -381,13 +366,13 @@ Inside the container, the \texttt{mailman3-full} package was installed from the 
 
 \subsection*{Mailman Configuration}
 
-The default configurations for Redis were sufficient for this deployment. For Nginx, the provided configuration file at \texttt{/etc/mailman3/nginx.conf} was linked to \texttt{/etc/nginx/ sites-enabled/}. The \texttt{server\_name} directive was set to \texttt{\_} to accept requests for any hostname, as Caddy handles the public-facing routing.
+The default configurations for Redis were sufficient for this deployment. For Nginx, the provided configuration file at \texttt{/etc/mailman3/nginx.conf} was linked at \texttt{/etc/nginx/ sites-enabled/}. The \texttt{server\_name} directive was set to \texttt{\_} to accept requests for any hostname, as Caddy handles the public-facing routing.
 
 The most significant configuration was for Postfix. Since both Mailman and Mailcow operate under the same public IP address, they cannot simultaneously listen on the same standard email ports. To resolve this port conflict and to avoid duplicating email server setup (e.g., SPF, DKIM records), Mailman is configured to use Mailcow as a mail relay.
 
 \begin{itemize}
     \item \textbf{Outgoing Mail:} All outgoing emails from Mailman are relayed through the Mailcow container. This is configured in Mailman's Postfix settings by setting \texttt{relayhost = [mailcow]:25}.
-    \item \textbf{Incoming Mail:} Incoming mail for mailing lists (e.g., to \texttt{list@lists.gpulux.org}) is first received by Mailcow and then routed to Mailman's Postfix instance via LMTP. A transport map was added in Mailcow's UI to forward all mail for the \texttt{lists.gpulux.org} subdomain to the Mailman container's internal IP address. Mailcow's Postfix was also configured to trust relays from the local network.
+    \item \textbf{Incoming Mail:} Incoming mail for mailing lists (e.g., to \texttt{xunta@lists.gpulux.org}) is first received by Mailcow and then routed to Mailman's Postfix instance via LMTP. A transport map was added in Mailcow's UI to forward all mail for the \texttt{lists.gpulux.org} subdomain to the Mailman container's internal IP address. Mailcow's Postfix was also configured to trust relays from the local network.
 \end{itemize}
 
 This setup centralizes mail handling in Mailcow while allowing Mailman to manage the lists.
@@ -396,9 +381,9 @@ This setup centralizes mail handling in Mailcow while allowing Mailman to manage
 
 The old mailing lists and their archives from the Mailman 2.1 instance were migrated following the official migration guide\cite{mailman3-migration}. The process involved exporting list configurations and archives from the old server and importing them into Mailman 3.
 
-The following commands demonstrate the import process for a single list, \texttt{xunta@lists .gpulux.org}. The list configuration is imported first, followed by the message archive (\texttt{.mbox} file).
+The following commands demonstrate the import process for a single list, \texttt{xunta@lists .gpulux.org}. The list configuration is imported first, followed by the message archive (\texttt{.mbox} file), and then the index is updated.
 
-\begin{lstlisting}[language=bash,caption={Commands to migrate a Mailman 2.1 list to Mailman 3.}]
+\begin{lstlisting}[language=bash,caption={Commands used to migrate a Mailman 2.1 list to Mailman 3}]
 # Import list settings and subscribers
 mailman --run-as-root import21 xunta@lists.gpulux.org /opt/mailman-data/config.pck
 
@@ -414,7 +399,7 @@ Figure~\ref{fig:mailman-ui} shows the HyperKitty web archiver after the migratio
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/hyperkitty-ui.png}
-	\caption{HyperKitty web archiver showing imported mailing list archives.}
+       \caption{Screenshot of HyperKitty displaying imported mailing list archives}
 	\label{fig:mailman-ui}
 \end{figure}
 
@@ -424,7 +409,7 @@ Since Mailman was installed from official Debian packages, log rotation is handl
 
 These log files are forwarded to Loki by the Grafana Alloy agent, centralizing them with other system and application logs. The following configuration was added to scrape the Mailman log files:
 
-\begin{lstlisting}[caption={Grafana Alloy configuration to forward Mailman logs to Loki.}]
+\begin{lstlisting}[caption={Grafana Alloy configuration forwarding Mailman logs to Loki}]
 loki.source.file "mailman" {
   targets    = [
     {__path__ = "/var/log/mailman3/mailman.log"},
@@ -438,7 +423,7 @@ loki.source.file "mailman" {
 
 To expose Mailman's web interface (Postorius and HyperKitty), the Caddy reverse proxy is configured to forward requests for \texttt{lists.gpulux.org} to the Mailman container.
 
-\begin{lstlisting}[caption={Caddyfile configuration to reverse proxy Mailman 3.}]
+\begin{lstlisting}[caption={Caddyfile configuration used to expose Mailman 3 via the reverse proxy}]
 lists.gpulux.org {
     reverse_proxy mailman:80
 }
@@ -448,32 +433,32 @@ lists.gpulux.org {
 
 To handle the association's billing and financial records, FacturaScripts was chosen as the invoicing software. Its deployment provides a centralized platform for managing invoices, clients, and products, streamlining administrative workflows.
 
-Following the established pattern, the service was deployed in a dedicated Incus container named \texttt{invoicing} using a Debian 12 image. The central Caddy reverse proxy was configured to expose the service at \texttt{invoicing.gpulux.org}.
+Following the established pattern, the service was deployed in a dedicated Incus container named \texttt{invoicing} using a Debian 12 image. The central Caddy reverse proxy was configured to expose the service at \texttt{facturas.gpulux.org}.
 
 \subsection*{FacturaScripts Configuration}
 
 The installation of FacturaScripts was performed following the official documentation\cite{facturascripts-install-linux}, which outlines the setup of a standard LAMP stack. MariaDB was used as the database server instead of MySQL.
 
-To simplify the reverse proxy configuration, the application was installed directly in the web server's root directory (\texttt{/var/www/html}), avoiding the need for path rewrites. Apache's \texttt{remoteip} module was enabled to ensure that client IP addresses are correctly logged through the proxy.
+To simplify the reverse proxy configuration, the application was installed directly in the web server's root directory (\texttt{/var/www/html}) instead of a subdirectory, avoiding the need for path rewrites. Apache's \texttt{remoteip} module was enabled to ensure that client IP addresses are correctly logged through the proxy.
 
 Figure~\ref{fig:facturascripts-wizard} shows the FacturaScripts setup wizard after a successful installation.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/facturascripts-wizard.png}
-	\caption{FacturaScripts web interface showing the wizard.}
+       \caption{Screenshot of the FacturaScripts setup wizard}
 	\label{fig:facturascripts-wizard}
 \end{figure}
 
 \section{Event Management with Pretalx}
 
-The next service to be deployed is Pretalx, the platform chosen for event management. Following the established pattern, the service was deployed in a dedicated Incus container named \texttt{pretalx} using a Debian 12 image. The installation was performed following the official documentation\cite{pretalx-install}, and the central Caddy reverse proxy was configured to expose the service at \texttt{pretalx.gpulux.org}.
+The next service to be deployed is Pretalx, the platform chosen for event management. In line with the infrastructure's design, the service was deployed in a dedicated Incus container named \texttt{pretalx} using a Debian 12 image. The installation was performed following the official documentation\cite{pretalx-install}, and the central Caddy reverse proxy was configured to expose the service at \texttt{pretalx.gpulux.org}.
 
 \subsection*{Pretalx Configuration}
 
-Inside the container, Nginx was configured to serve static files directly and to act as a reverse proxy for the main Pretalx application, which runs on a separate port. This setup is standard for web applications of this type.
+Inside the container, the only difference from the official documentation is that Nginx was configured to serve static files behind a reverse proxy for the main Pretalx application, which runs on a separate port. This setup is standard for web applications of this type.
 
-\begin{lstlisting}[caption={Pretalx Nginx configuration to proxy the application and serve static files.}]
+\begin{lstlisting}[caption={Nginx configuration used by Pretalx to proxy the application and serve static files}]
 server {
     listen 80 default_server;
 
@@ -505,10 +490,10 @@ server {
 
 Figure~\ref{fig:pretalx-admin} shows the Pretalx administration dashboard, where organizers can manage event details, submissions, and schedules.
 
-\begin{figure}[H]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/pretalx-admin.png}
-	\caption{Pretalx web interface showing the event administration dashboard.}
+       \caption{Screenshot of the Pretalx administration dashboard}
 	\label{fig:pretalx-admin}
 \end{figure}
 
@@ -518,16 +503,16 @@ To provide file hosting, calendar, and contact management capabilities, Nextclou
 
 \subsection*{Nextcloud Container Setup}
 
-Following the pattern of other Docker-based services, Nextcloud AIO runs within a dedicated Incus container with nesting enabled. A container named \texttt{nextcloud} was created from a Debian 12 image and configured to support Docker.
+Following the pattern of other Docker-based services, Nextcloud AIO runs within a dedicated Incus container with nesting enabled. A container named \texttt{nextcloud} was created from a Debian 12 image and configured to support Docker. The Caddy reverse proxy was configured to expose the Nextcloud instance at \texttt{cloud.gpulux.org}. The AIO stack runs the Apache web server in a container that listens on port 11000.
 
-\begin{lstlisting}[language=bash,caption={Creating and configuring the Nextcloud container.}]
+\begin{lstlisting}[language=bash,caption={Commands to create and configure the Nextcloud container}]
 incus launch images:debian/12 nextcloud
 incus config set nextcloud security.nesting=true
 \end{lstlisting}
 
 The installation is managed through a web interface provided by the AIO image. A temporary proxy device was created to expose the AIO interface during the initial setup, and was removed afterward.
 
-\begin{lstlisting}[language=bash,caption={Temporarily exposing the Nextcloud AIO interface.}]
+\begin{lstlisting}[language=bash,caption={Commands to temporarily expose the Nextcloud AIO setup interface}]
 incus config device add nextcloud nextcloud-aio proxy \
   listen=tcp:0.0.0.0:8080 connect=tcp:127.0.0.1:8080
 \end{lstlisting}
@@ -538,7 +523,7 @@ The AIO web interface guides the administrator through the entire setup process,
 
 For Nextcloud Talk to function correctly, the TURN server requires port 3478 to be accessible over both TCP and UDP. Two proxy devices were added to the container to forward this traffic.
 
-\begin{lstlisting}[language=bash,caption={Forwarding ports for Nextcloud Talk.}]
+\begin{lstlisting}[language=bash,caption={Commands to forward the ports required for Nextcloud Talk}]
 incus config device add nextcloud talk-stun-udp proxy \
   listen=udp:0.0.0.0:3478 connect=udp:127.0.0.1:3478
 
@@ -550,54 +535,18 @@ incus config device add nextcloud talk-stun-tcp proxy \
 
 As with other Dockerized services, logs from Nextcloud AIO are forwarded to Loki using the Docker logging driver. The Docker daemon inside the \texttt{nextcloud} container was configured with the same Loki driver settings used for Mailcow. This ensures that logs from all Nextcloud AIO containers are centralized in Grafana for monitoring and analysis.
 
-\subsection*{Reverse Proxy Configuration}
-
-The Caddy reverse proxy was configured to expose the Nextcloud instance at \texttt{cloud.gpulux.org}. The AIO stack runs the Apache web server in a container that listens on port 11000.
-
-\begin{lstlisting}[caption={Caddyfile configuration to reverse proxy Nextcloud.}]
-cloud.gpulux.org {
-    reverse_proxy nextcloud:11000
-}
-\end{lstlisting}
-
 \section{Real-Time Communication with Matrix}
 
-For real-time communication, including instant messaging and voice/video calls, a Matrix\cite{matrix-docs} homeserver was deployed. Synapse, the reference homeserver implementation from the Matrix Foundation, was chosen for this role.
-
-\subsection*{Matrix Container Setup}
-
-As with other services, Synapse was installed in a dedicated Incus container named \texttt{matrix} using a Debian 12 image.
-
-\begin{lstlisting}[language=bash,caption={Creating the Matrix container.}]
-incus launch images:debian/12 matrix
-\end{lstlisting}
+For real-time communication, including instant messaging and voice/video calls, a Matrix homeserver was deployed. Synapse, the reference homeserver implementation from the Matrix Foundation, was chosen for this role. As with other services, Synapse was installed in a dedicated Incus container named \texttt{matrix} using a Debian 12 image. The Caddy reverse proxy was configured to expose the Matrix server following the official documentation\cite{matrix-caddy-reverse-proxy}.
 
 \subsection*{Matrix Configuration}
 
-The installation was performed following the official documentation\cite{synapse-install-debian}. The \texttt{matrix-syn apse-py3} package was installed from the official Matrix repository. During the installation, PostgreSQL was configured as the database backend, as it is the recommended choice for production environments. The rest of the configuration was handled through the \texttt{debconf} utility.
+The installation of Synapse was performed following its official documentation\cite{synapse-install-debian}. The \texttt{matrix-syn apse-py3} package was installed from the official Matrix repository. During the installation, PostgreSQL was configured as the database backend, as it is the recommended choice for production environments. The rest of the configuration was handled through the package installer configuration utility.
 
-User registration is currently managed via a command-line script. While public registration is disabled for now, this can be changed in the future, or other methods like token-based registration can be implemented.
+User registration is currently managed via a command-line script. While public registration is disabled for now, this can be changed in the future, and other methods like token-based registration can be implemented, among other options.
 
-\begin{lstlisting}[language=bash,caption={Command to register a new Matrix user.}]
+\begin{lstlisting}[language=bash,caption={Command used to register a new Matrix user}]
 register_new_matrix_user -c /etc/matrix-synapse/homeserver.yaml http://localhost:8008
-\end{lstlisting}
-
-\subsection*{Reverse Proxy Configuration}
-
-The Caddy reverse proxy was configured to handle federation and client connections for the Matrix server. For federation, the main domain \texttt{gpulux.org} is configured with \texttt{.well-k nown} endpoints to direct clients and other servers to the correct Matrix homeserver address. The \texttt{matrix.gpulux.org} subdomain is then proxied to the Synapse instance.
-
-\begin{lstlisting}[caption={Caddyfile configuration for Matrix Synapse.}]
-gpulux.org {
-    header /.well-known/matrix/* Content-Type application/json
-    header /.well-known/matrix/* Access-Control-Allow-Origin *
-    respond /.well-known/matrix/server `{"m.server": "matrix.gpulux.org:443"}`
-    respond /.well-known/matrix/client `{"m.homeserver":{"base_url":"https://matrix.gpulux.org"}}`
-}
-
-matrix.gpulux.org {
-    reverse_proxy /_matrix/* matrix:8008
-    reverse_proxy /_synapse/client/* matrix:8008
-}
 \end{lstlisting}
 
 Figure~\ref{fig:element-example} shows the Element web client, a popular client for the Matrix protocol, being used for a conversation and a video call between two members of the association, demonstrating the successful deployment of the service.
@@ -605,7 +554,7 @@ Figure~\ref{fig:element-example} shows the Element web client, a popular client 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/element-example.png}
-	\caption{Element web client showing a chat and video call.}
+       \caption{Screenshot of the Element web client during a chat and video call}
 	\label{fig:element-example}
 \end{figure}
 
@@ -613,3 +562,12 @@ Figure~\ref{fig:element-example} shows the Element web client, a popular client 
 
 As established in the technology selection chapter, GitHub will continue to be used for the association's source code management. As a cloud-based service, this required no specific implementation on the new infrastructure.
 
+\section{Backup Strategy}
+
+Incus provides built-in utilities for creating and managing instance backups, primarily through snapshots\cite{incus-backup-docs}. These tools allow for point-in-time recovery and can be automated to run on a schedule. Key configuration options like \texttt{snapshots.schedule} and \texttt{snapshots.expiry} enable the creation of regular backups (e.g., daily or weekly) and define a retention policy to automatically delete old snapshots, preventing them from consuming excessive disk space.
+
+However, a significant limitation of this approach is that snapshots are stored within the same Incus storage pool as the instances themselves. This means that a failure of the primary storage array would result in the loss of both the live data and its backups.
+
+To address this and ensure backup reliability, a distributed storage strategy is employed. The instance snapshots are exported as compressed archives and distributed across a network of trusted, off-site locations. Several GPUL members have offered to collaborate by hosting these backups on their personal Network-Attached Storage (NAS) servers at home.
+
+This distributed model provides a robust defense against data loss. In the future, this approach may be further enhanced by repurposing some of the old servers in the GPUL office to create a synchronized backup storage node, further centralizing and securing the backup process.
