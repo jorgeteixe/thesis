@@ -5,9 +5,9 @@
 \chapter{Introduction}
 \label{chap:introduction}
 
-\lettrine{I}{n} the current digital era, nearly every organization depends on a solid technological infrastructure to operate effectively. From internal coordination to external communication, from document management to compliance with legal obligations, many day-to-day tasks rely on tools hosted online or managed digitally. This trend has made IT infrastructure not only a convenience but a fundamental requirement.
+\lettrine{I}{n} the current digital era, almost every organization relies on a robust technological infrastructure. Day-to-day tasks---from coordination and communication to document management and legal compliance---depend on online or digitally managed tools, making IT infrastructure essential.
 
-For non-profit associations and student communities, the challenge is particularly complex. These entities often lack dedicated IT staff and operate with minimal budgets, yet they are expected to manage technological services. Moreover, many of them, especially those driven by ideological commitments, reject proprietary or SaaS solutions in favor of Free and Open Source Software (FOSS). This decision aligns with their values but often increases the burden of system maintenance and security.
+For non-profit associations and student communities, the challenge is particularly complex. These entities often lack dedicated IT staff and operate with minimal budgets, yet they are expected to manage technological services. Moreover, many of them, especially those driven by ideological commitments, reject proprietary or \gls{saas} solutions in favor of \gls{foss}. This decision aligns with their values but often increases the burden of system maintenance and security.
 
 A typical association today might need to run one or more websites, handle mailing lists, share files securely, issue invoices under national tax regulations, and coordinate internal communication. These needs must be met through tools that are easy to maintain, well-documented, and adaptable to the association's size and structure. However, in practice, infrastructure is often built incrementally over many years by different people, leading to heterogeneous, outdated, and fragile systems.
 
@@ -16,16 +16,13 @@ This work addresses these challenges by analyzing the typical software needs of 
 
 \section{Context and motivation}
 
-GPUL (Grupo de Programadores e Usuarios de Linux) \cite{gpul_web} provides a concrete example of such an organization, with characteristics that make its case especially notable. Founded in 1998 in A Coruña, GPUL promotes Free Software and technical education through community events, workshops, and conferences. Closely tied to the field of computer engineering and to the Faculty of Computer Science at the Universidade da Coruña, many of its members are current or former students, as well as professionals, with a strong technical background. This makes it easier to adopt and maintain open-source infrastructure, and also turns the infrastructure itself into a valuable learning environment. The association's long-standing commitment to the principles of software freedom drives it to self-host most of its services using libre tools, an approach that aligns with its values but also amplifies the common challenges of volunteer-managed systems.
+GPUL (Grupo de Programadores e Usuarios de Linux) \cite{gpul-web} provides a concrete example of such an organization, with characteristics that make its case especially notable. Founded in 1998 in A Coruña, GPUL promotes Free Software and technical education through community events, workshops, and conferences. Closely tied to the field of computer engineering and to the Faculty of Computer Science at the Universidade da Coruña, many of its members are current or former students, as well as professionals, with a strong technical background. This makes it easier to adopt and maintain open-source infrastructure, and also turns the infrastructure itself into a valuable learning environment. The association's long-standing commitment to the principles of software freedom drives it to self-host most of its services using libre tools, an approach that aligns with its values but also amplifies the common challenges of volunteer-managed systems.
 
 Today, GPUL's services are distributed across two aging servers, GPULINO and GPULON, which run critical tools like an old Nextcloud instance for internal documentation and a Mailman 2 server that manages our mailing lists. These machines suffer from poor documentation, lack of backups, and limited monitoring, issues that are worsened by the fact that the board of the association changes every two years, often leaving gaps in technical knowledge. As current president, we have had to deal with several crises caused by this fragile setup.
 
-One example was when our email redirection system, which uses manual redirects for addresses under the gpul.org domain, caused our messages to be flagged as spam, affecting communication with sponsors and participants during events. Another incident occurred shortly before the financial quarter deadline, when our Nextcloud instance went down due to a full disk caused by unrotated logs. Without documentation or clear monitoring, it took four days and help from former members and our hosting provider to bring the system back online, almost making us miss administrative deadlines with possible financial penalties.
+For instance, misconfigured email redirection caused emails to be flagged as spam, and a full disk on Nextcloud nearly made us miss administrative deadlines.
 
-Faced with this situation, we decided to renew GPUL's infrastructure entirely. The goal is not only to modernize the services but also to ensure they are well-documented, sustainable, and easy to maintain by future teams. In evaluating options, we considered managed services and commercial tools but discarded most of them due to their incompatibility with our philosophy or excessive costs. Among the various tools considered, Odoo \cite{odoo_web} stood out as a cloud-capable open-source platform that can also be self-hosted. We have chosen to self-host it and use it primarily for invoicing, particularly to comply with Spain's new \gls{verifactu} regulations \cite{BOE-A-2024-22138}. While invoicing is our main use case for now, Odoo's modular and extensible architecture leaves the door open to adopting other features in the future if needed.
-
-For the rest of the stack, our approach has been to improve and modernize the existing FOSS tools already in use within the association. This includes migrating from Mailman 2 to Mailman 3 integrated with HyperKitty \cite{hyperkitty_web}, which improves usability and provides a web interface for list archives, and upgrading Nextcloud to a modern version with better backup and monitoring systems. For the email service, given its complexity and importance, we are still considering whether to keep it self-hosted or switch to a trusted external provider, always balancing autonomy with reliability.
-This work documents the process of renewing GPUL's infrastructure with a focus on sustainability, maintainability, and alignment with our values. It includes an in-depth analysis of the current systems, the design of the new infrastructure, the rationale behind each technological choice, and the steps taken during migration. The aim is to leave behind a robust foundation and clear documentation for future contributors, ensuring that our commitment to Free Software is matched by reliable, modern, and resilient infrastructure.
+Faced with this situation, we began a complete renewal of GPUL's infrastructure. The goal is to modernize services while keeping them well documented and sustainable. Managed services and commercial tools were mostly ruled out for cost or philosophical reasons. For invoicing we selected FacturaScripts\cite{facturascripts-antifraude}, a Spanish open source solution compatible with the new VeriFactu regulations\cite{boe-a-2024-22138}. The rest of the stack revolves around upgraded \gls{foss} tools: migrating from Mailman 2 to Mailman 3 with HyperKitty\cite{hyperkitty-web}, a modern Nextcloud, and improved backups and monitoring. We continue to evaluate whether email should remain self-hosted or move to a trusted provider. This thesis documents the entire renewal process, aiming to leave a maintainable and resilient infrastructure for future teams.
 
 \section{Objectives}
 
@@ -44,4 +41,13 @@ The priority lies in modernization, simplification, and thorough documentation, 
 
 \section{Thesis Structure}
 
-TBD.
+This thesis is organized as follows:
+\begin{itemize}
+    \item Chapter~\ref{chap:project-methodology}: project methodology.
+    \item Chapter~\ref{chap:current-infrastructure}: analysis of the existing infrastructure.
+    \item Chapter~\ref{chap:state-of-the-art}: review of available solutions.
+    \item Chapter~\ref{chap:technology-selection}: technological decisions.
+    \item Chapter~\ref{chap:hosting-provider}: hosting provider selection.
+    \item Chapter~\ref{chap:implementation}: implementation details.
+    \item Chapter~\ref{chap:conclusions}: conclusions and future work.
+\end{itemize}

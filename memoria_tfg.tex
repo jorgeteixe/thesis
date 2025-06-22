@@ -38,7 +38,7 @@
 % \usepackage{eurofont}    % proporciona o comando \euro
 \usepackage{float}       % permite máis opcións para controlar obxectos flotantes (táboas, figuras)
 % \usepackage{hhline}      % permite personalizar as liñas horizontais en arrays e táboas
-  \usepackage{longtable}   % permite construir táboas que ocupan máis dunha páxina
+% \usepackage{longtable}   % permite construir táboas que ocupan máis dunha páxina
 % \usepackage{lscape}      % permite colocar partes do documento en orientación apaisada
 % \usepackage{moreverb}    % permite personalizar o entorno verbatim
   \usepackage{multirow}    % permite crear celdas que ocupan varias filas da mesma táboa
@@ -94,18 +94,17 @@
   \include{contido/state-of-the-art}
   \include{contido/technology-selection}
   \include{contido/hosting-provider}
-  %  \include{contido/demo}
-  %  \include{contido/...}
-  %  \include{contido/conclusions}
+  \include{contido/implementation}
+  \include{contido/conclusions}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % Apéndices, glosarios e bibliografía  %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  \appendix
-  \appendixpage
-  \include{anexos/adicional}
-  %\include{anexos/...}
+%  \appendix
+%  \appendixpage
+%  \include{anexos/adicional}
+%\include{anexos/...}
 
   \printglossary[type=\acronymtype,title=\nomeglosarioacronimos]
   \printglossary[title=\nomeglosariotermos]
