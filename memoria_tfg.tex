@@ -57,59 +57,61 @@
 
 \begin{document}
 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- % Preliminares do documento            %
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Preliminares do documento            %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- \include{portada/portada}
- \dedicatoria{Dedicatoria} % escribe neste comando o teu texto de dedicatoria
- \paxinaenbranco
- \begin{agradecementos}
- \blindtext                % substitúe este comando polo teu texto de agradecementos
- \end{agradecementos}
- \include{portada/resumo}
+  \include{portada/portada}
+  \dedicatoria{Dedicatoria} % escribe neste comando o teu texto de dedicatoria
+  \paxinaenbranco
+  \begin{agradecementos}
+  \blindtext                % substitúe este comando polo teu texto de agradecementos
+  \end{agradecementos}
+  \include{portada/resumo}
 
- \pagenumbering{roman}
- \setcounter{page}{1}
- \bstctlcite{IEEEexample:BSTcontrol}
+  \pagenumbering{roman}
+  \setcounter{page}{1}
+  \bstctlcite{IEEEexample:BSTcontrol}
 
- \tableofcontents
- \listoffigures
- \listoftables
- \clearpage
- 
- \pagenumbering{arabic}
- \setcounter{page}{1}
+  \tableofcontents
+  \listoffigures
+  \listoftables
+  \clearpage
+  
+  \pagenumbering{arabic}
+  \setcounter{page}{1}
 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- % Capítulos                            %
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Capítulos                            %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- \include{contido/introduction}
- \include{contido/methodology}
- \include{contido/current-infrastructure}
- \include{contido/state-of-the-art}
- \include{contido/implementation}
-%  \include{contido/demo}
-%  \include{contido/...}
-%  \include{contido/conclusions}
+  \include{contido/introduction}
+  \include{contido/methodology}
+  \include{contido/current-infrastructure}
+  \include{contido/state-of-the-art}
+  \include{contido/technology-selection}
+  \include{contido/hosting-provider}
+  \include{contido/implementation}
+  %  \include{contido/demo}
+  %  \include{contido/...}
+  %  \include{contido/conclusions}
 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- % Apéndices, glosarios e bibliografía  %
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Apéndices, glosarios e bibliografía  %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %  \appendix
 %  \appendixpage
 %  \include{anexos/adicional}
 %\include{anexos/...}
 
- \printglossary[type=\acronymtype,title=\nomeglosarioacronimos]
- \printglossary[title=\nomeglosariotermos]
+  \printglossary[type=\acronymtype,title=\nomeglosarioacronimos]
+  \printglossary[title=\nomeglosariotermos]
 
- \bibliographystyle{IEEEtranN}
- \bibliography{\bibconfig,bibliografia/bibliografia}
- \clearpage
- 
+  \bibliographystyle{IEEEtranN}
+  \bibliography{\bibconfig,bibliografia/bibliografia}
+  \clearpage
+
 \end{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
