@@ -19,46 +19,17 @@ The installation was performed on the two 512 GB disks using software RAID 1 to 
 
 The following snippet shows the \texttt{installimage} configuration file:
 
-\begin{lstlisting}[language=bash,caption={Hetzner's installimage script for automated Debian installation on gpulux.}]
-## ====================
-##  HARD DISK DRIVE(S):
-## ====================
-
+\begin{lstlisting}[caption={Hetzner's installimage script for automated Debian installation on gpulux.}]
 DRIVE1 /dev/nvme2n1
 DRIVE2 /dev/nvme3n1
-
-## ===============
-##  SOFTWARE RAID:
-## ===============
-
 SWRAID 1
 SWRAIDLEVEL 1
-
-## ==========
-##  HOSTNAME:
-## ==========
-
 HOSTNAME gpulux
-
-## =============
-##  MISC CONFIG:
-## =============
-
 USE_KERNEL_MODE_SETTING yes
-
-## ==========================
-##  PARTITIONS / FILESYSTEMS:
-## ==========================
-
 PART swap  swap   32G
 PART /boot ext3  1024M
 PART /     ext4   all
-
-## ========================
-##  OPERATING SYSTEM IMAGE:
-## ========================
-
-IMAGE /root/.oldroot/nfs/install/../images/Debian-1208-bookworm-amd64-base.tar.gz
+IMAGE /root/.oldroot/nfs/install/../images/ Debian-1208-bookworm-amd64-base.tar.gz
 \end{lstlisting}
 
 This setup results in the following RAID arrays:
@@ -245,14 +216,8 @@ grafana.gpulux.org {
 
 Grafana was accessed using the configured domain. After creating a user, community dashboards for Prometheus and Incus were imported. The Incus dashboard provides a comprehensive overview of the host's performance, displaying real-time metrics such as CPU and memory usage, network traffic, and disk I/O at project and instance level. This allows for quick identification of resource-intensive instances and overall system health monitoring.
 
-The integration with Loki enables deep exploration of system logs. As shown in Figure~\ref{fig:grafana-journal}, logs from the system journal are collected and enriched with metadata labels. This structured logging is invaluable for debugging and security monitoring, allowing for powerful queries and filtering. The figure shows an example of inspecting SSH authentication failure logs, demonstrating how easily security-relevant events can be isolated and analyzed.
+The integration with Loki enables deep exploration of system logs. Logs from the system journal are collected and enriched with metadata labels, providing structured records for debugging and security monitoring. For example, SSH authentication failures can be isolated and analyzed with a simple query, making it easy to spot suspicious activity.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{imaxes/grafana-journal.png}
-	\caption{Loki logs in Grafana, showing journal entries with custom labels.}
-	\label{fig:grafana-journal}
-\end{figure}
 
 \section{Email Server with Mailcow}
 \label{sec:mailcow}
@@ -306,7 +271,7 @@ incus config device add mailcow smtp-proxy proxy listen=tcp:0.0.0.0:25 connect=t
 
 After setting up the container and installing Docker, Mailcow is installed by following its official documentation\cite{mailcow-install}. The primary configuration is managed through the \texttt{mailcow.conf} file. Key settings include configuring the server to run behind a reverse proxy\cite{mailcow-reverse-proxy} and disabling IPv6 support to resolve connectivity issues\cite{mailcow-disable-ipv6}. The mail server is configured to run on \texttt{mail.gpulux.org}.
 
-To integrate with the existing monitoring stack, a Prometheus exporter is added to Mailcow's Docker Compose setup. This allows Prometheus to scrape metrics about the mail server's health and performance. The following service definition was added to \texttt{docker-compose.yml}\cite{mailcow-prometheus-exporter}:
+To integrate with the existing monitoring stack, a Prometheus exporter is added to Mailcow's Docker Compose setup. This allows Prometheus to scrape metrics about the mail server's health and performance. The following service definition was added to \texttt{docker -compose.yml}\cite{mailcow-prometheus-exporter}:
 
 \begin{lstlisting}[caption={Docker Compose service for the Mailcow Prometheus exporter.}]
 mailcow-exporter:
@@ -325,7 +290,7 @@ Once Mailcow is running, a single mailbox for \texttt{admin@gpulux.org} is creat
 
 Log management for Mailcow is handled by integrating it with the central Loki instance. Since Mailcow's services run as Docker containers, the recommended approach is to use the Loki logging driver for Docker\cite{loki-docker-driver}. This driver intercepts the standard output and error streams of each container and forwards them directly to Loki, eliminating the need for log file scraping.
 
-To enable this, the Docker daemon inside the \texttt{mailcow} container must be configured to use \texttt{loki} as its logging driver. This is done by creating a configuration file at \texttt{/etc/docker/daemon.json}\cite{loki-docker-driver-config}.
+To enable this, the Docker daemon inside the \texttt{mailcow} container must be configured to use \texttt{loki} as its logging driver. This is done by creating a configuration file at \texttt{/etc/docker /daemon.json}\cite{loki-docker-driver-config}.
 
 \begin{lstlisting}[caption={Docker daemon configuration to use the Loki logging driver.}]
 {
@@ -472,7 +437,7 @@ Inside the container, the \texttt{mailman3-full} package was installed from the 
 
 \subsection*{Mailman Configuration}
 
-The default configurations for Redis were sufficient for this deployment. For Nginx, the provided configuration file at \texttt{/etc/mailman3/nginx.conf} was linked to \texttt{/etc/nginx/sites-enabled/}. The \texttt{server\_name} directive was set to \texttt{\_} to accept requests for any hostname, as Caddy handles the public-facing routing.
+The default configurations for Redis were sufficient for this deployment. For Nginx, the provided configuration file at \texttt{/etc/mailman3/nginx.conf} was linked to \texttt{/etc/nginx/ sites-enabled/}. The \texttt{server\_name} directive was set to \texttt{\_} to accept requests for any hostname, as Caddy handles the public-facing routing.
 
 The most significant configuration was for Postfix. Since both Mailman and Mailcow operate under the same public IP address, they cannot simultaneously listen on the same standard email ports. To resolve this port conflict and to avoid duplicating email server setup (e.g., SPF, DKIM records), Mailman is configured to use Mailcow as a mail relay.
 
@@ -487,7 +452,7 @@ This setup centralizes mail handling in Mailcow while allowing Mailman to manage
 
 The old mailing lists and their archives from the Mailman 2.1 instance were migrated following the official migration guide\cite{mailman3-migration}. The process involved exporting list configurations and archives from the old server and importing them into Mailman 3.
 
-The following commands demonstrate the import process for a single list, \texttt{xunta@lists.gpulux.org}. The list configuration is imported first, followed by the message archive (\texttt{.mbox} file).
+The following commands demonstrate the import process for a single list, \texttt{xunta@lists .gpulux.org}. The list configuration is imported first, followed by the message archive (\texttt{.mbox} file).
 
 \begin{lstlisting}[language=bash,caption={Commands to migrate a Mailman 2.1 list to Mailman 3.}]
 # Import list settings and subscribers
@@ -704,6 +669,3 @@ Figure~\ref{fig:element-example} shows the Element web client, a popular client 
 
 As established in the technology selection chapter, GitHub will continue to be used for the association's source code management. As a cloud-based service, this required no specific implementation on the new infrastructure.
 
-\section{Future Work: VoIP Integration}
-
-The integration of the university's physical phone line via a VoIP system has been deferred as future work. The primary obstacle was the unavailability of the necessary FXO gateway hardware required to connect the analog phone line to a self-hosted PBX like Asterisk. Once the hardware is acquired, this integration can be revisited to provide remote access to the association's phone line.

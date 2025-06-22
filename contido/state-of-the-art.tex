@@ -27,14 +27,7 @@ For every category an introduction explains its relevance, followed by one \emph
 
 Mailman~3 is a modular mailing list management system, described in its official documentation~\cite{mailman-install-docs}. It is the modern successor to the Mailman~2 software currently in use, and includes official migration tools to assist in upgrading existing lists and archives. Its core component, Mailman Core, is responsible for all mailing list logic and message delivery. It communicates with a Mail Transfer Agent (MTA) via \gls{lmtp} for incoming messages and \gls{smtp} for outgoing ones, and exposes a \gls{restapi} for external interfaces.
 
-HyperKitty~\cite{hyperkitty-docs} is the web-based archiver of Mailman~3, designed to replace Pipermail. It receives messages from Mailman Core through the \texttt{mailman-hyperkitty} plugin and indexes them into a database. The messages are then accessible via a modern web interface that allows browsing, searching, and replying to threads. A screenshot of the HyperKitty interface is shown in Figure~\ref{fig:fedora-hyperkitty}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{imaxes/fedora-hyperkitty.png}
-  \caption{Fedora Mailing lists interface}
-  \label{fig:fedora-hyperkitty}
-\end{figure}
+HyperKitty~\cite{hyperkitty-docs} is the web-based archiver of Mailman~3, designed to replace Pipermail. It receives messages from Mailman Core through the \texttt{mailman-hyperkitty} plugin and indexes them into a database. The messages are then accessible via a modern web interface that allows browsing, searching, and replying to threads.
 
 While Postorius~\cite{postorius-docs} is often deployed alongside HyperKitty as part of the Mailman suite, it is not required for operation. Postorius provides a web interface for managing mailing lists, users, and settings, serving as a frontend to the REST API. However, these tasks can also be performed using the command-line tools or direct API calls.
 
@@ -120,14 +113,7 @@ Features include browser-based access (no registration needed), screen sharing, 
 
 \subsection*{BigBlueButton}
 
-BigBlueButton is a conferencing platform optimized for online learning and released under the LGPL-3.0 License~\cite{bigbluebutton-docs}. It includes tools such as whiteboards, shared notes, polling, breakout rooms, and slide presentations. Recordings can be made and replayed in a web interface. A screenshot of the interface is shown in Figure~\ref{fig:bbb-ui}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{imaxes/bbb-ui.png}
-  \caption{BigBlueButton interface}
-  \label{fig:bbb-ui}
-\end{figure}
+BigBlueButton is a conferencing platform optimized for online learning and released under the LGPL-3.0 License~\cite{bigbluebutton-docs}. It includes tools such as whiteboards, shared notes, polling, breakout rooms, and slide presentations. Recordings can be made and replayed in a web interface.
 
 Its architecture combines WebRTC (via mediasoup), FreeSWITCH (for audio), and multiple backend services including Redis and Node.js. It requires significant system resources, making it more suitable for educational or high-capacity deployments.
 
@@ -169,14 +155,7 @@ GitLab Community Edition (CE) is an open-source Git forge licensed under the MIT
 
 GitHub is a proprietary Git forge provided as a cloud-based service~\cite{github-docs}. It includes Git repository hosting, pull requests, issue tracking, integrated GitHub Actions for \gls{cicd}, project boards, and repository wikis. While a self-hosted variant exists (GitHub Enterprise), most users interact through GitHub.com.
 
-GPUL currently uses GitHub alongside a legacy \texttt{git daemon}. A screenshot of the GitHub interface is shown in Figure~\ref{fig:github-ui}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{imaxes/github-ui.png}
-  \caption{GitHub organization interface}
-  \label{fig:github-ui}
-\end{figure}
+GPUL currently uses GitHub alongside a legacy \texttt{git daemon}. The service is publicly accessible at\newline\url{https://github.com/}.
 
 %--------------------------------------------------------------------
 \section{Team Chat Platforms}
@@ -236,14 +215,7 @@ Bitwarden is a password manager licensed under AGPLv3 with both a self-hosted se
 \end{figure}
 
 \subsection*{Passbolt 4}
-Passbolt is a web-based team password manager licensed under AGPLv3~\cite{passbolt-security}. It uses OpenPGP encryption in the browser, with each password encrypted for specific users' keys. It supports fine-grained sharing, activity logs, and role-based access, and uses a MySQL-compatible backend. Unlike Bitwarden, it requires users to manage their private GPG keys. A screenshot of the interface is shown in Figure~\ref{fig:passbolt-ui}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{imaxes/passbolt-ui.png}
-  \caption{Passbolt interface}
-  \label{fig:passbolt-ui}
-\end{figure}
+Passbolt is a web-based team password manager licensed under AGPLv3~\cite{passbolt-security}. It uses OpenPGP encryption in the browser, with each password encrypted for specific users' keys. It supports fine-grained sharing, activity logs, and role-based access, and uses a MySQL-compatible backend. Unlike Bitwarden, it requires users to manage their private GPG keys.
 
 \subsection*{HashiCorp Vault 1.17}
 Vault is a general-purpose secrets manager aimed at infrastructure-level secrets rather than password sharing. It supports dynamic secrets, time-to-live (TTL) credentials, and multiple authentication backends (e.g., GitHub, LDAP). Secrets are encrypted server-side and stored in a pluggable backend such as files, Consul, or PostgreSQL. Vault is source-available under the BSL 1.1 license~\cite{vault-bsl}.
@@ -293,14 +265,7 @@ Cloud-based observability platforms such as Datadog, New Relic, and Splunk offer
 \textbf{Importance.} For many associations, events are a core activity requiring tools for ticketing, registration, and speaker management. An integrated platform can streamline these workflows, reduce administrative overhead, and improve the experience for organizers and attendees. Events are a fundamental part of GPUL's community outreach, but the current reliance on separate proprietary services introduces friction and cost. Adopting a unified, self-hosted tool would align with the association's values while providing greater control and a more professional appearance.
 
 \subsection*{Current stack}
-GPUL currently uses a mix of proprietary platforms. \emph{Meetup} is used to promote and coordinate free, recurring meetups. For larger events requiring registration and payment, \emph{Eventbrite} is employed. For call-for-proposals (CFPs), the hosted service \emph{pretalx.com} has been used. A screenshot of the Meetup interface is shown in Figure~\ref{fig:meetup-ui}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{imaxes/meetup-ui.png}
-  \caption{Meetup interface}
-  \label{fig:meetup-ui}
-\end{figure}
+GPUL currently uses a mix of proprietary platforms. \emph{Meetup} is used to promote and coordinate free, recurring meetups. For larger events requiring registration and payment, \emph{Eventbrite} is employed. For call-for-proposals (CFPs), the hosted service \emph{pretalx.com} has been used.
 
 \subsection*{pretalx}
 \textbf{pretalx} is an open-source system for managing the full CFP process: submission, review, scheduling and communication. It allows custom submission forms, anonymous or public review workflows, and includes a schedule editor with conflict detection and speaker availability~\cite{pretalx-docs}. The software is written in Python (Django), supports plugins, and is licensed under Apache~2.0~\cite{pretalx-license}. A hosted service is also available for events that prefer not to self-host. A screenshot of the interface is shown in Figure~\ref{fig:pretalx-ui}.
@@ -356,14 +321,7 @@ Full ERP with accounting and invoicing modules. Spanish localization modules all
 \end{figure}
 
 \subsection*{FacturaScripts}
-Spanish-made open source ERP with strong native support for Facturae and IRPF/IVA reporting. Plugin system allows automatic signing and XML export \cite{facturascripts-antifraude}. VeriFactu modules planned by maintainers. A screenshot of the interface is shown in Figure~\ref{fig:facturascripts-ui}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{imaxes/facturascripts-ui.png}
-  \caption{FacturaScripts interface}
-  \label{fig:facturascripts-ui}
-\end{figure}
+Spanish-made open source ERP with strong native support for Facturae and IRPF/IVA reporting. Plugin system allows automatic signing and XML export \cite{facturascripts-antifraude}. VeriFactu modules are planned by the maintainers.
 
 \subsection*{Proprietary Alternatives}
 
@@ -373,56 +331,6 @@ Spanish-made open source ERP with strong native support for Facturae and IRPF/IV
 A viable route is outsourcing invoice issuance and reporting through a accounting firm. Most use certified tools (e.g., Sage) and provide invoice portals. This model outsources technical complexity and ensures compliance, but implies higher cost and less internal control \cite{sage-blog-asesoria}.
 
 %--------------------------------------------------------------------
-\section{Phone / VoIP Integration}
-
-\textbf{Importance.} While not essential for every organization, integrating a physical phone line with a VoIP system can solve key accessibility challenges. It allows calls to be managed remotely, ensuring continuity even when no one is physically present at an office. For GPUL, the university provides a physical phone extension in its office. Integrating this line into a digital system would make it possible to receive and route calls remotely, transforming a location-dependent asset into a flexible communication tool for the whole team.
-
-\subsection*{Current stack}
-
-A standard analog line is connected to a desk phone in the office, routed internally from the university's telephony system. There is currently no digital or remote integration.
-
-\subsection*{Analog to VoIP Integration}
-
-To interface analog phone lines with VoIP systems, \gls{fxo} gateways or cards are used. \gls{fxo} interfaces connect to analog lines (e.g., from the wall), converting them to VoIP (typically \gls{sip}) for use by a \gls{pbx}. Conversely, \gls{fxs} interfaces allow analog phones to connect to VoIP systems \cite{yeastar-fxo-fxs-2024}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\textwidth]{imaxes/grandstream-ht.png}
-  \caption{Grandstream HT813}
-  \label{fig:grandstream-ht}
-\end{figure}
-
-Typical setups use Ethernet-based FXO gateways like the Grandstream HT (Figure~\ref{fig:grandstream-ht}) series or Yeastar TA series, which register as trunks to a VoIP server such as Asterisk or 3CX. These enable both incoming and outgoing call routing using the existing line while allowing softphone clients (desktop, mobile) to act as remote extensions \cite{yeastar-fxo-fxs-2024}.
-
-\subsection*{Asterisk + FreePBX}
-
-Asterisk is a mature open-source \gls{pbx} capable of managing analog and SIP trunks, extensions, voicemail, IVRs, and more. When combined with a GUI like FreePBX or Issabel, it becomes easier to configure and deploy. A screenshot of the FreePBX interface is shown in Figure~\ref{fig:freepbx-ui}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{imaxes/freepbx-ui.png}
-  \caption{FreePBX interface}
-  \label{fig:freepbx-ui}
-\end{figure}
-
-Voicemail-to-email and softphone integration are supported. Hardware support includes both PCI FXO cards and SIP-registered gateways \cite{asterisk-features}.
-\subsection*{Softphones and Mobile Integration}
-
-Modern PBXs support softphones via \gls{sip}, enabling remote call management. Tools like Zoiper, Linphone, and Jitsi are compatible with both Asterisk and 3CX, and can register as \gls{sip} extensions. 3CX also provides native apps with push notifications and browser-based calling \cite{zoiper-compatibility}.
-
-\subsection*{Proprietary Alternatives}
-
-3CX is a proprietary VoIP platform with a free on-premise edition for up to 10 users. It includes native apps for iOS, Android, desktop, and web. Configuration is GUI-based and generally more user-friendly than raw Asterisk. While closed-source, it offers an integrated, modern stack with mobile push notifications, video calls, and softphone provisioning \cite{3cx-pricing-2024}. FXO gateways are supported as SIP trunks, enabling analog line integration similar to Asterisk. A screenshot of the 3CX interface is shown in Figure~\ref{fig:3cx-ui}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{imaxes/3cx-ui.png}
-  \caption{3CX interface}
-  \label{fig:3cx-ui}
-\end{figure}
-
-Other platforms like Cisco Webex Calling or Zoom Phone offer similar capabilities but are not open source and come with usage-based pricing. These are not explored further here due to the self-hosting and sovereignty focus of this document.
-
 \section{Service Deployment and Management}
 
 \textbf{Importance.} A reliable and reproducible deployment workflow is crucial for the long-term sustainability of any technical infrastructure, especially one managed by volunteers. It ensures that services can be easily replicated, recovered from failures, and maintained by future members. For GPUL, the current mix of bare-metal and manual container deployments is fragile and poorly documented. Adopting a modern virtualization or orchestration platform is essential to create a resilient, scalable, and manageable infrastructure for the future.

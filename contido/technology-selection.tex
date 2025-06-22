@@ -60,14 +60,7 @@ From a security standpoint, Passbolt's architecture provides a stronger model fo
 
 To establish comprehensive observability, the infrastructure will adopt the Prometheus, Grafana, and Loki combination, commonly known as the PLG stack. This decision prioritizes a balance of power, resource efficiency, and ease of use. While powerful, alternative stacks like ELK or OpenSearch were discarded due to their significant resource consumption and steeper learning curve, which were deemed inappropriate for a volunteer-managed infrastructure.
 
-The final decision came down to a choice between the PLG stack and Zabbix. Both platforms are highly capable and would meet the association's technical requirements. However, the PLG stack holds a significant advantage in terms of community adoption and ecosystem vibrancy. While metrics like GitHub stars can be superficial (see Figure~\ref{fig:monitoring-stars}), the broader community sentiment and contributor data suggest that Grafana Labs fosters a significantly more community-centric development model. Projects like Grafana and Loki not only accept but actively encourage external contributions, with open governance models and a track record of fast response to community pull requests~\cite{collab-grafana}. In contrast, Zabbix development remains tightly controlled by the company, with limited avenues for non-employees to influence or contribute to the core platform~\cite{zabbix-dev-policy}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{imaxes/monitoring-stars.png}
-  \caption{A historical comparison of GitHub stars for the Grafana and Zabbix projects. Source: \url{https://www.star-history.com}}
-  \label{fig:monitoring-stars}
-\end{figure}
+The final decision came down to a choice between the PLG stack and Zabbix. Both platforms are highly capable and would meet the association's technical requirements. However, the PLG stack holds a significant advantage in terms of community adoption and ecosystem vibrancy. While metrics like GitHub stars can be superficial, the broader community sentiment and contributor data suggest that Grafana Labs fosters a significantly more community-centric development model. Projects like Grafana and Loki not only accept but actively encourage external contributions, with open governance models and a track record of fast response to community pull requests~\cite{collab-grafana}. In contrast, Zabbix development remains tightly controlled by the company, with limited avenues for non-employees to influence or contribute to the core platform~\cite{zabbix-dev-policy}.
 
 Furthermore, the user experience and setup process heavily influenced the decision. The PLG stack is widely regarded as having a more intuitive setup and a more modern, user-friendly interface. Grafana, in particular, is renowned for its powerful and flexible visualization capabilities, making it easier to build meaningful dashboards. This view is supported by multiple online comparisons, which often highlight Grafana's superior ease of use for teams getting started with monitoring~\cite{squadcast-zabbix-grafana}. Combined with a large and responsive community, this gentle learning curve makes the PLG stack the most strategic choice for ensuring long-term maintainability in the context of a community-led infrastructure.
 
@@ -88,15 +81,6 @@ To handle all invoicing and accounting needs, the project will implement Factura
 FacturaScripts, in contrast, offers the ideal balance of functionality and simplicity for GPUL. As an open-source project developed in Spain, it is purpose-built to handle national fiscal requirements, including native support for Facturae and planned compliance with the upcoming VeriFactu system~\cite{facturascripts-antifraude}. Its user interface is straightforward and focused on core accounting tasks, which dramatically simplifies the onboarding process for new volunteers. By providing all the necessary features without unnecessary complexity, FacturaScripts is the most sustainable choice for managing the association's finances long-term.
 
 It is important to note that while the technical deployment of FacturaScripts will be completed as part of this project, the formal adoption for official accounting is an administrative decision reserved for the board. The final migration of financial data and processes will be carefully timed to coincide with a logical cutoff point, such as the end of a financial quarter or the start of a new fiscal year, to ensure a clean and orderly transition.
-
-%--------------------------------------------------------------------
-\section{Phone / VoIP Integration}
-
-The university's analog phone line will be integrated into a modern VoIP system by deploying a self-hosted Asterisk server, managed via the FreePBX web interface. This combination represents the de facto standard for open-source telephony and is the only fully free and open-source alternative that meets the project's requirements~\cite{asterisk-features}. Proprietary platforms like 3CX, while user-friendly, were not considered due to their licensing and cost structures.
-
-The physical integration will be achieved using a Grandstream HT813 FXO gateway located in the GPUL office. This device will connect the analog line from the university's phone system to the Asterisk server, converting incoming and outgoing calls to SIP. To provide remote access for board members, the primary method will be deploying Grandstream HT801 Analog Telephone Adapters (ATAs) in their homes. This approach allows them to connect standard analog phones to the VoIP system, offering a reliable, physical device for making and receiving calls.
-
-This hardware-based strategy is explicitly preferred over relying on softphone applications for mobile devices. Softphones often experience reliability issues on modern operating systems due to aggressive background process management and limited ongoing development, rendering them unsuitable for critical communications. By using dedicated ATAs, the solution ensures dependable remote access to the association's phone line for key personnel.
 
 %--------------------------------------------------------------------
 \section{Service Deployment and Management}
