@@ -263,7 +263,6 @@ To allow external access to Mailcow's services, several ports must be forwarded 
 The commands to create these proxy devices follow a similar pattern as the Caddy proxy setup, created for each port listed in the table. For example, to forward the SMTP port:
 
 \begin{lstlisting}[language=bash,caption={Example of forwarding a port to the Mailcow container.}]
-# SMTP (25)
 incus config device add mailcow smtp-proxy proxy listen=tcp:0.0.0.0:25 connect=tcp:127.0.0.1:25
 \end{lstlisting}
 

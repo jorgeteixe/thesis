@@ -1,13 +1,16 @@
-% SPDX-FileCopyrightText: 2025 Laura Milagros Castro Souto <lcastro@udc.es>
+% SPDX-FileCopyrightText: 2025 Jorge Teixeira Crespo <jorge.teixeira@udc.es>
 %
 % SPDX-License-Identifier: GPL-2.0-or-later
 
-\chapter{Conclusións}
+\chapter{Conclusions}
 \label{chap:conclusions}
 
-\lettrine{D}{erradeiro} capítulo da memoria, onde se presentará a
-situación final do traballo, as leccións aprendidas, a relación coas
-competencias da titulación en xeral e a mención en particular,
-posibles liñas futuras,\dots
+\lettrine{T}{his} thesis set out to renew GPUL's ageing infrastructure while remaining fully aligned with its commitment to free software. The main objectives were to modernize and simplify the association's services, replace outdated components, document every procedure, and lay the groundwork for long-term maintainability. These goals have been met by deploying a new dedicated server---\texttt{gpulux}---and migrating core services such as email, mailing lists, groupware, and chat to modern solutions. The acquisition of the server is now definitive, so the installed services will remain in place and form the basis of GPUL's infrastructure going forward.
 
-\Blindtext
+Extensive documentation of all installation and configuration steps accompanies each service. Although only example migrations were carried out during the project, the processes for moving data from the legacy servers were tested and are reproducible. This ensures that historical resources like mailing list archives or Nextcloud files can be transferred safely when time permits.
+
+\section*{Future Work}
+
+The remaining work primarily involves completing the data migration and finalizing the DNS transition. To avoid disruption, \texttt{gpulux.org} was used throughout development as a testing domain. Once all data from \texttt{gpulino} and \texttt{gpulon} is migrated, coordination with other active GPUL members will be required to update the DNS records of \texttt{gpul.org}. After the switch, each service must be verified again to confirm a smooth transition.
+
+Beyond the technical migration, the documentation compiled in this thesis should be incorporated into the association's official knowledge base so that future members can maintain and extend the platform. With the new infrastructure in place and clear migration procedures available, GPUL is well positioned to continue evolving its services in line with its founding values.
