@@ -159,7 +159,7 @@ incus config set core.metrics_authentication=false
 
 \subsection*{Loki, Grafana and Journal Logs Collection}
 
-Loki and Grafana were installed in the \texttt{monitoring} container following their official documentation\cite{grafana-install-debian,loki-storage-retention}. Grafana's configuration is managed via its web UI, so it maintains its default settings post-installation.
+Loki and Grafana were installed in the \texttt{monitoring} container following their official documentation\cite{grafana-install-debian}. Grafana's configuration is managed via its web UI, so it maintains its default settings post-installation.
 
 Loki was configured to store logs on the container's filesystem in the \texttt{/data/loki} directory. A retention period of 744 hours (approximately one month) was set, after which older logs are automatically purged. It was made accessible from the host using a proxy device, which allows requests from the host's loopback interface to reach the Loki instance:
 
@@ -558,7 +558,7 @@ Figure~\ref{fig:facturascripts-wizard} shows the FacturaScripts setup wizard aft
 
 \section{Event Management with Pretalx}
 
-The next service to be deployed is Pretalx, the platform chosen for event management. Following the established pattern, the service was deployed in a dedicated Incus container named \texttt{pretalx} using a Debian 12 image. The installation was performed following the official documentation\cite{pretalx-intstall}, and the central Caddy reverse proxy was configured to expose the service at \texttt{pretalx.gpulux.org}.
+The next service to be deployed is Pretalx, the platform chosen for event management. Following the established pattern, the service was deployed in a dedicated Incus container named \texttt{pretalx} using a Debian 12 image. The installation was performed following the official documentation\cite{pretalx-install}, and the central Caddy reverse proxy was configured to expose the service at \texttt{pretalx.gpulux.org}.
 
 \subsection*{Pretalx Configuration}
 

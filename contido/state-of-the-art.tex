@@ -226,7 +226,7 @@ Closed-source platforms like Discord, Slack, and Telegram offer feature-rich env
 GPUL currently stores shared passwords in a plaintext file within the Nextcloud instance. This solution lacks encryption, granular access control, and audit trails.
 
 \subsection*{Bitwarden Server}
-Bitwarden is a password manager licensed under AGPLv3~\cite{bitwarden-license} and provides both a self-hosted server and an official cloud offering. It supports client-side AES-256 encryption, role-based access control, and sharing via collections and groups. Vaults are stored in a PostgreSQL database, with file attachments handled via encrypted filesystem storage~\cite{bitwarden-groups}. It provides full-featured clients across web, mobile, and desktop. A screenshot of the interface is shown in Figure~\ref{fig:bitwarden-ui}.
+Bitwarden is a password manager licensed under AGPLv3 with both a self-hosted server and an official cloud offering. It supports client-side AES-256 encryption, role-based access control, and sharing via collections and groups. Vaults are stored in a PostgreSQL database with encrypted attachments. Comprehensive documentation is available online~\cite{bitwarden-docs}.
 
 \begin{figure}[H]
   \centering
@@ -260,7 +260,7 @@ Popular proprietary services like 1Password, LastPass, and Keeper offer similar 
 Currently, no formal monitoring stack is in place. Most services log to local files with no rotation configured, often resulting in uncontrolled disk usage. There is no log centralization, alerting, or metric tracking, making it difficult to respond proactively to incidents.
 
 \subsection*{Prometheus + Grafana + Loki}
-A popular open source stack for monitoring and logging is the combination of Prometheus, Grafana, and Loki. Prometheus is a time-series database and alerting system that collects numeric metrics from instrumented services via HTTP endpoints~\cite{prometheus_docs}. It supports service discovery, pull-based scraping, and label-based queries using PromQL. Grafana acts as a dashboard and visualization layer, connecting to Prometheus and other sources to present interactive panels, graphs, and alerts. Loki is a log aggregation system inspired by Prometheus: it stores log streams with associated labels, allowing queries using LogQL~\cite{loki_docs}. Unlike traditional log engines, Loki only indexes metadata, making it efficient and lightweight. A screenshot of the Grafana interface is shown in Figure~\ref{fig:grafana-ui}.
+A popular open source stack for monitoring and logging is the combination of Prometheus, Grafana, and Loki. Prometheus is a time-series database and alerting system that collects numeric metrics from instrumented services via HTTP endpoints~\cite{prometheus-docs}. It supports service discovery, pull-based scraping, and label-based queries using PromQL. Grafana acts as a dashboard and visualization layer, connecting to Prometheus and other sources to present interactive panels, graphs, and alerts. Loki is a log aggregation system inspired by Prometheus: it stores log streams with associated labels, allowing queries using LogQL~\cite{loki-docs}. Unlike traditional log engines, Loki only indexes metadata, making it efficient and lightweight. A screenshot of the Grafana interface is shown in Figure~\ref{fig:grafana-ui}.
 
 \begin{figure}[H]
   \centering
@@ -269,10 +269,10 @@ A popular open source stack for monitoring and logging is the combination of Pro
   \label{fig:grafana-ui}
 \end{figure}
 
-Each component is open source: Prometheus is under the Apache 2.0 license, while Grafana and Loki are licensed under AGPLv3~\cite{grafana_license_change}. Together, they form a well-integrated observability suite, often referred to as the PLG stack.
+Each component is open source: Prometheus is under the Apache 2.0 license, while Grafana and Loki are licensed under AGPLv3~\cite{grafana-license-change}. Together, they form a well-integrated observability suite, often referred to as the PLG stack.
 
 \subsection*{Zabbix}
-Zabbix is a mature open source monitoring solution that uses a central server and lightweight agents~\cite{zabbix_web}. It supports metric collection through agents, SNMP, IPMI, and scriptable checks. Zabbix provides a web interface for dashboards and alerts, and includes automatic discovery, distributed proxies, and a large template library. It stores metrics in SQL databases and is licensed under AGPLv3. A screenshot of the interface is shown in Figure~\ref{fig:zabbix-ui}.
+Zabbix is a mature open source monitoring solution that uses a central server and lightweight agents~\cite{zabbix-web}. It supports metric collection through agents, SNMP, IPMI, and scriptable checks. Zabbix provides a web interface for dashboards and alerts, and includes automatic discovery, distributed proxies, and a large template library. It stores metrics in SQL databases and is licensed under AGPLv3. A screenshot of the interface is shown in Figure~\ref{fig:zabbix-ui}.
 
 \begin{figure}[H]
   \centering
@@ -282,10 +282,10 @@ Zabbix is a mature open source monitoring solution that uses a central server an
 \end{figure}
 
 \subsection*{OpenSearch Dashboards (formerly ELK)}
-The ELK stack—Elasticsearch, Logstash, and Kibana—is widely used for log aggregation and analysis. Elasticsearch handles indexing and querying, Logstash parses and ships logs, and Kibana provides visualization. The original ELK stack shifted away from open source licenses, but forks like OpenSearch continue under Apache 2.0~\cite{opensearch_web}. Alternatively, Elastic recently reintroduced AGPLv3 licensing for their stack~\cite{elastic_license}. While powerful, the ELK/OpenSearch stack is resource-intensive and typically more complex to manage.
+The ELK stack—Elasticsearch, Logstash, and Kibana—is widely used for log aggregation and analysis. Elasticsearch handles indexing and querying, Logstash parses and ships logs, and Kibana provides visualization. The original ELK stack shifted away from open source licenses, but forks like OpenSearch continue under Apache 2.0~\cite{opensearch-web}. Alternatively, Elastic recently reintroduced AGPLv3 licensing for their stack~\cite{elastic-license}. While powerful, the ELK/OpenSearch stack is resource-intensive and typically more complex to manage.
 
 \subsection*{Proprietary Alternatives}
-Cloud-based observability platforms such as Datadog, New Relic, and Splunk offer complete solutions with minimal setup and powerful features. However, their pricing models, data sovereignty implications, and closed-source nature make them less suitable for GPUL's goals of open, self-hosted, and cost-effective infrastructure~\cite{datadog_web}.
+Cloud-based observability platforms such as Datadog, New Relic, and Splunk offer complete solutions with minimal setup and powerful features. However, their pricing models, data sovereignty implications, and closed-source nature make them less suitable for GPUL's goals of open, self-hosted, and cost-effective infrastructure~\cite{datadog-web}.
 
 %--------------------------------------------------------------------
 \section{Event Ticketing \& CFP Tooling}
@@ -333,7 +333,7 @@ While this report focuses on open-source alternatives, GPUL currently relies on 
 %--------------------------------------------------------------------
 \section{Invoicing / Accounting}
 
-\textbf{Importance.} Compliant invoicing and accounting are a legal necessity for any formally constituted association, governed by national and regional regulations. This is a particularly pressing issue in Spain, where upcoming \textbf{VeriFactu} regulations will mandate certified electronic invoicing systems that report to the tax agency (AEAT) in real-time. For GPUL, abandoning manual, non-compliant methods is not merely an upgrade but a mandatory step to ensure legal and fiscal viability \cite{OdooBlogVerifactu, SageVerifactu}.
+\textbf{Importance.} Compliant invoicing and accounting are a legal necessity for any formally constituted association, governed by national and regional regulations. This is a particularly pressing issue in Spain, where upcoming \textbf{VeriFactu} regulations will mandate certified electronic invoicing systems that report to the tax agency (AEAT) in real-time. For GPUL, abandoning manual, non-compliant methods is not merely an upgrade but a mandatory step to ensure legal and fiscal viability \cite{odoo-blog-verifactu}.
 
 \subsection*{Current stack}
 LibreOffice templates stored in Nextcloud, with manual PDF generation and signing. No Facturae, XML or AEAT compliance is currently met. A screenshot of the current invoice template is shown in Figure~\ref{fig:invoice}.
@@ -346,7 +346,7 @@ LibreOffice templates stored in Nextcloud, with manual PDF generation and signin
 \end{figure}
 
 \subsection*{Odoo}
-Full ERP with accounting and invoicing modules. Spanish localization modules allow Facturae XML export, AEAT integration, SII support and planned VeriFactu readiness \cite{OdooEInvoiceSpain, OdooBlogVerifactu}. Heavy stack and learning curve, but suitable for full integration. A screenshot of the interface is shown in Figure~\ref{fig:odoo-ui}.
+Full ERP with accounting and invoicing modules. Spanish localization modules allow Facturae XML export, AEAT integration, SII support and planned VeriFactu readiness \cite{odoo-einvoice-spain}. Heavy stack and learning curve, but suitable for full integration. A screenshot of the interface is shown in Figure~\ref{fig:odoo-ui}.
 
 \begin{figure}[H]
   \centering
@@ -356,7 +356,7 @@ Full ERP with accounting and invoicing modules. Spanish localization modules all
 \end{figure}
 
 \subsection*{FacturaScripts}
-Spanish-made open source ERP with strong native support for Facturae and IRPF/IVA reporting. Plugin system allows automatic signing and XML export \cite{FacturaScriptsAntifraude}. VeriFactu modules planned by maintainers. A screenshot of the interface is shown in Figure~\ref{fig:facturascripts-ui}.
+Spanish-made open source ERP with strong native support for Facturae and IRPF/IVA reporting. Plugin system allows automatic signing and XML export \cite{facturascripts-antifraude}. VeriFactu modules planned by maintainers. A screenshot of the interface is shown in Figure~\ref{fig:facturascripts-ui}.
 
 \begin{figure}[H]
   \centering
@@ -367,10 +367,10 @@ Spanish-made open source ERP with strong native support for Facturae and IRPF/IV
 
 \subsection*{Proprietary Alternatives}
 
-\textbf{Holded} and \textbf{Quipu} are both popular Spanish cloud ERPs with direct AEAT and VeriFactu compliance out of the box \cite{HoldedVerifactu, QuipuVerifactu}. \textbf{Sage} offers several solutions (Sage 50, Sage Despachos) and promotes VeriFactu-compliant accountant platforms \cite{SageVerifactu, SageBlogAsesoria}.
+\textbf{Holded} and \textbf{Quipu} are both popular Spanish cloud ERPs with direct AEAT and VeriFactu compliance out of the box \cite{holded-verifactu}. \textbf{Sage} offers several solutions (Sage 50, Sage Despachos) and promotes VeriFactu-compliant accountant platforms \cite{sage-verifactu}.
 
 \subsection*{External Accountant}
-A viable route is outsourcing invoice issuance and reporting through a accounting firm. Most use certified tools (e.g., Sage) and provide invoice portals. This model outsources technical complexity and ensures compliance, but implies higher cost and less internal control \cite{SageBlogAsesoria}.
+A viable route is outsourcing invoice issuance and reporting through a accounting firm. Most use certified tools (e.g., Sage) and provide invoice portals. This model outsources technical complexity and ensures compliance, but implies higher cost and less internal control \cite{sage-blog-asesoria}.
 
 %--------------------------------------------------------------------
 \section{Phone / VoIP Integration}
@@ -383,7 +383,7 @@ A standard analog line is connected to a desk phone in the office, routed intern
 
 \subsection*{Analog to VoIP Integration}
 
-To interface analog phone lines with VoIP systems, \gls{fxo} gateways or cards are used. \gls{fxo} interfaces connect to analog lines (e.g., from the wall), converting them to VoIP (typically \gls{sip}) for use by a \gls{pbx}. Conversely, \gls{fxs} interfaces allow analog phones to connect to VoIP systems \cite{YeastarFXOvFSX2024,3CX_FXSFXO}.
+To interface analog phone lines with VoIP systems, \gls{fxo} gateways or cards are used. \gls{fxo} interfaces connect to analog lines (e.g., from the wall), converting them to VoIP (typically \gls{sip}) for use by a \gls{pbx}. Conversely, \gls{fxs} interfaces allow analog phones to connect to VoIP systems \cite{yeastar-fxo-fxs-2024}.
 
 \begin{figure}[H]
   \centering
@@ -392,7 +392,7 @@ To interface analog phone lines with VoIP systems, \gls{fxo} gateways or cards a
   \label{fig:grandstream-ht}
 \end{figure}
 
-Typical setups use Ethernet-based FXO gateways like the Grandstream HT (Figure~\ref{fig:grandstream-ht}) series or Yeastar TA series, which register as trunks to a VoIP server such as Asterisk or 3CX. These enable both incoming and outgoing call routing using the existing line while allowing softphone clients (desktop, mobile) to act as remote extensions \cite{YeastarFXOvFSX2024,AsteriskCommunity2024}.
+Typical setups use Ethernet-based FXO gateways like the Grandstream HT (Figure~\ref{fig:grandstream-ht}) series or Yeastar TA series, which register as trunks to a VoIP server such as Asterisk or 3CX. These enable both incoming and outgoing call routing using the existing line while allowing softphone clients (desktop, mobile) to act as remote extensions \cite{yeastar-fxo-fxs-2024}.
 
 \subsection*{Asterisk + FreePBX}
 
@@ -405,14 +405,14 @@ Asterisk is a mature open-source \gls{pbx} capable of managing analog and SIP tr
   \label{fig:freepbx-ui}
 \end{figure}
 
-Voicemail-to-email and softphone integration are supported. Hardware support includes both PCI FXO cards and SIP-registered gateways \cite{AsteriskFeatures}.
+Voicemail-to-email and softphone integration are supported. Hardware support includes both PCI FXO cards and SIP-registered gateways \cite{asterisk-features}.
 \subsection*{Softphones and Mobile Integration}
 
-Modern PBXs support softphones via \gls{sip}, enabling remote call management. Tools like Zoiper, Linphone, and Jitsi are compatible with both Asterisk and 3CX, and can register as \gls{sip} extensions. 3CX also provides native apps with push notifications and browser-based calling \cite{Zoiper_Compatibility}.
+Modern PBXs support softphones via \gls{sip}, enabling remote call management. Tools like Zoiper, Linphone, and Jitsi are compatible with both Asterisk and 3CX, and can register as \gls{sip} extensions. 3CX also provides native apps with push notifications and browser-based calling \cite{zoiper-compatibility}.
 
 \subsection*{Proprietary Alternatives}
 
-3CX is a proprietary VoIP platform with a free on-premise edition for up to 10 users. It includes native apps for iOS, Android, desktop, and web. Configuration is GUI-based and generally more user-friendly than raw Asterisk. While closed-source, it offers an integrated, modern stack with mobile push notifications, video calls, and softphone provisioning \cite{3CXPricing2024,3CXMarketing2024}. FXO gateways are supported as SIP trunks, enabling analog line integration similar to Asterisk. A screenshot of the 3CX interface is shown in Figure~\ref{fig:3cx-ui}.
+3CX is a proprietary VoIP platform with a free on-premise edition for up to 10 users. It includes native apps for iOS, Android, desktop, and web. Configuration is GUI-based and generally more user-friendly than raw Asterisk. While closed-source, it offers an integrated, modern stack with mobile push notifications, video calls, and softphone provisioning \cite{3cx-pricing-2024}. FXO gateways are supported as SIP trunks, enabling analog line integration similar to Asterisk. A screenshot of the 3CX interface is shown in Figure~\ref{fig:3cx-ui}.
 
 \begin{figure}[H]
   \centering
@@ -432,7 +432,7 @@ The current infrastructure consists of a mixture of services deployed directly o
 
 \subsection*{Proxmox VE}
 
-Proxmox Virtual Environment (VE) is an open-source virtualization management platform (Debian-based) that integrates KVM-based virtual machines and LXC containers \cite{ProxmoxAdminGuide2025}. It provides a unified web-based interface and CLI for creating and managing VMs and containers, aiming for ease of administration so that even novices can deploy it within minutes \cite{ProxmoxAdminGuide2025}. Proxmox can run on a single server or in a multi-node cluster (with a multi-master design and a clustered filesystem) to enable high availability and live migration of workloads \cite{ProxmoxAdminGuide2025}. It supports flexible storage backends (local or shared storage) and includes a fully integrated backup/restore solution (via Proxmox Backup Server or vzdump) for protecting VM and container data \cite{ProxmoxAdminGuide2025}. These features make Proxmox suitable for self-hosted labs needing a mix of VM and container workloads managed in a unified open-source platform. A screenshot of the interface is shown in Figure~\ref{fig:proxmox-ui}.
+Proxmox Virtual Environment (VE) is an open-source virtualization management platform (Debian-based) that integrates KVM-based virtual machines and LXC containers \cite{proxmox-admin-guide-2025}. It provides a unified web-based interface and CLI for creating and managing VMs and containers, aiming for ease of administration so that even novices can deploy it within minutes . Proxmox can run on a single server or in a multi-node cluster (with a multi-master design and a clustered filesystem) to enable high availability and live migration of workloads . It supports flexible storage backends (local or shared storage) and includes a fully integrated backup/restore solution (via Proxmox Backup Server or vzdump) for protecting VM and container data . These features make Proxmox suitable for self-hosted labs needing a mix of VM and container workloads managed in a unified open-source platform. A screenshot of the interface is shown in Figure~\ref{fig:proxmox-ui}.
 
 \begin{figure}[H]
   \centering
@@ -443,15 +443,15 @@ Proxmox Virtual Environment (VE) is an open-source virtualization management pla
 
 \subsection*{Incus (LXD)}
 
-Incus is a modern open-source container and VM manager (a fork of LXD) that provides a cloud-like experience on Linux hosts \cite{IncusLinuxContainers2023}. It is image-based and supports a wide range of Linux distributions, providing both system containers (sharing the host kernel) and application containers, as well as full virtual machines with guest kernels \cite{IncusLinuxContainers2023}. Incus uses a single command-line tool and REST API for local or remote management of instances, with features like snapshots, live migration, and resource profiling. It is designed to scale from a single node up to large clusters (thousands of servers) \cite{IncusLinuxContainers2023} and works on any recent Linux distribution (packages available via various distros) \cite{IncusLinuxContainers2023}. In practice, Incus is used for lightweight virtualization on commodity hardware, where administrators want to mix containers and VMs with relatively low overhead and a straightforward CLI/API interface.
+Incus is a modern open-source container and VM manager (a fork of LXD) that provides a cloud-like experience on Linux hosts \cite{incus-linux-containers-2023}. It is image-based and supports a wide range of Linux distributions, providing both system containers (sharing the host kernel) and application containers, as well as full virtual machines with guest kernels . Incus uses a single command-line tool and REST API for local or remote management of instances, with features like snapshots, live migration, and resource profiling. It is designed to scale from a single node up to large clusters (thousands of servers)  and works on any recent Linux distribution (packages available via various distros) . In practice, Incus is used for lightweight virtualization on commodity hardware, where administrators want to mix containers and VMs with relatively low overhead and a straightforward CLI/API interface.
 
 \subsection*{Docker and Podman}
 
-Docker and Podman are containerization platforms for running applications in isolated environments. Docker (Docker Engine) popularized this approach by packaging code and dependencies into portable containers \cite{SpaceliftPodmanDocker2024}. It follows a daemon-based model and supports layered images and declarative Dockerfiles. Docker also provides Docker Compose for defining multi-container applications via a single YAML file and (historically) a Swarm mode for basic clustering and service replication \cite{SpaceliftPodmanDocker2024}. Podman is a daemonless, rootless container engine (a drop-in Docker replacement) that runs containers as child processes of the user, improving security isolation \cite{SpaceliftPodmanDocker2024}. Podman supports most Docker CLI commands and introduces "pods" (groups of containers sharing the same network namespace) similar to Kubernetes pods \cite{SpaceliftPodmanDocker2024}. For orchestration, Docker relies on Docker Compose and Swarm, whereas Podman can use \texttt{podman-compose} or generate Kubernetes manifests; Podman itself has no built-in high-availability orchestrator \cite{SpaceliftPodmanDocker2024}. Podman is often favored in security-sensitive or multi-user environments (and is default on many Linux distributions), while Docker remains widely used in development and CI/CD environments due to its mature ecosystem and tools \cite{SpaceliftPodmanDocker2024}.
+Docker and Podman are containerization platforms for running applications in isolated environments. Docker (Docker Engine) popularized this approach by packaging code and dependencies into portable containers \cite{spacelift-podman-docker-2024}. It follows a daemon-based model and supports layered images and declarative Dockerfiles. Docker also provides Docker Compose for defining multi-container applications via a single YAML file and (historically) a Swarm mode for basic clustering and service replication . Podman is a daemonless, rootless container engine (a drop-in Docker replacement) that runs containers as child processes of the user, improving security isolation . Podman supports most Docker CLI commands and introduces "pods" (groups of containers sharing the same network namespace) similar to Kubernetes pods . For orchestration, Docker relies on Docker Compose and Swarm, whereas Podman can use \texttt{podman-compose} or generate Kubernetes manifests; Podman itself has no built-in high-availability orchestrator . Podman is often favored in security-sensitive or multi-user environments (and is default on many Linux distributions), while Docker remains widely used in development and CI/CD environments due to its mature ecosystem and tools .
 
 \subsection*{Kubernetes}
 
-Kubernetes is an open-source container orchestration system originally developed by Google \cite{KubernetesHome2023}. It automates deployment, scaling, and management of containerized applications. Kubernetes groups containers into logical units called \emph{pods} (each pod contains one or more containers with shared storage and networking) \cite{KubernetesHome2023}\cite{KubernetesPods2025}. A Kubernetes cluster typically includes multiple control-plane (master) and worker nodes; users define desired application state via declarative manifests (Deployments, Services, etc.), and Kubernetes automatically schedules pods onto nodes. The platform handles service discovery, load balancing, rolling updates/rollbacks, and self-healing (restarting failed containers) \cite{KubernetesDocs2025}. It "provides a framework to run distributed systems resiliently," automatically handling scaling, failover, and automated rollouts \cite{KubernetesDocs2025}. Kubernetes also supports secrets/config management and horizontal pod autoscaling. However, Kubernetes has substantial operational complexity and resource requirements. For small-scale setups, lightweight distributions like k3s or MicroK8s strip out legacy components to simplify installation and reduce footprint, making Kubernetes feasible even for edge or two-node deployments \cite{K3sMicroK8s2022}. In summary, Kubernetes excels in orchestrating multi-host container clusters with advanced features, whereas simpler tools (like Docker Compose or single-node Incus/Proxmox) may suffice for smaller self-hosted environments.
+Kubernetes is an open-source container orchestration system originally developed by Google \cite{kubernetes-docs-2025}. It automates deployment, scaling, and management of containerized applications. Kubernetes groups containers into logical units called \emph{pods} (each pod contains one or more containers with shared storage and networking) . A Kubernetes cluster typically includes multiple control-plane (master) and worker nodes; users define desired application state via declarative manifests (Deployments, Services, etc.), and Kubernetes automatically schedules pods onto nodes. The platform handles service discovery, load balancing, rolling updates/rollbacks, and self-healing (restarting failed containers) . It "provides a framework to run distributed systems resiliently," automatically handling scaling, failover, and automated rollouts . Kubernetes also supports secrets/config management and horizontal pod autoscaling. However, Kubernetes has substantial operational complexity and resource requirements. For small-scale setups, lightweight distributions like k3s or MicroK8s strip out legacy components to simplify installation and reduce footprint, making Kubernetes feasible even for edge or two-node deployments \cite{k3s-microk8s-2022}. In summary, Kubernetes excels in orchestrating multi-host container clusters with advanced features, whereas simpler tools (like Docker Compose or single-node Incus/Proxmox) may suffice for smaller self-hosted environments.
 
 \subsection*{Proprietary Alternatives}
 
