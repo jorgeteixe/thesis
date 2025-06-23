@@ -13,7 +13,81 @@ The entire thesis development is conducted openly within a public GitHub reposit
 
 Throughout the thesis, all configurations, scripts, and tools subject to being open-sourced are either already publicly available or will be made publicly available.\footnote{\url{https://github.com/gpul-org}} Official documentation will be openly hosted on the association's website, providing comprehensive guidance and ensuring traceability and accountability for all project-related decisions. This open and documented approach not only supports transparency but also creates a valuable resource for future students, contributors, and maintainers.
 
-% TODO: actual project methodology: approving in board meeting, analysis of current state, decision making, implementation plan, board approval, actual implementation.
-\section{Project Planning}
+\section{Planning and Methodology}
 
-TBD
+\lettrine{T}{he} planning for this thesis follows a structured approach inspired by the classic \emph{Waterfall} methodology. This choice is primarily driven by the clear and sequential dependencies between project phases, which naturally fit a linear model.
+
+The initial planning stage involves a comprehensive forensic analysis of the existing infrastructure, clearly identifying active services, their usage, and existing limitations. The subsequent phase, state-of-the-art analysis, builds directly upon this initial assessment. Each required service is systematically evaluated through practical testing, informing both technological decisions and preliminary resource estimates.
+
+In parallel, potential hosting providers are to be explored. Although initial resource requirements can be estimated after evaluating candidate technologies, final confirmation depends on the definitive technology selection, establishing a clear dependency between these tasks.
+
+Implementation is planned to proceed sequentially due to explicit task dependencies: setting up the hosting provider account, installing the base system, configuring container environments, and deploying selected services in a predetermined order. Documentation and thesis writing activities will run concurrently to ensure comprehensive records of the processes.
+
+Finally, a structured migration and handover phase is planned after thesis submission. This phase will ensure operational readiness and facilitate effective knowledge transfer to future maintainers, reinforcing sustainability.
+
+A Gantt chart illustrating these phases is shown in Figure~\ref{fig:gantt-planned}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{imaxes/gantt-planned.png}
+  \caption{Gantt chart illustrating the planned project phases}
+  \label{fig:gantt-planned}
+\end{figure}
+
+\subsection*{Phases}
+
+\begin{enumerate}
+  \item \textbf{Initial Infrastructure Analysis}\\
+  Independent analysis of the legacy servers \texttt{GPULINO} and \texttt{GPULON}. Task included service inspection and identification of required services.\\
+  \emph{Estimated duration: \(\sim 50\)~hours.}
+
+  \item \textbf{Consultation and Requirements Gathering}\\
+  Discussions with current and former board members to define required services.\\
+  \emph{Estimated duration: \(\sim 20\)~hours.}
+
+  \item \textbf{State-of-the-Art Analysis and Testing}\\
+  Research of candidate solutions and practical trials on a self-hosted test environment.\\
+  \emph{Estimated duration: \(\sim 60\)~hours.}
+
+  \item \textbf{Technology Selection}\\
+  Consolidation of testing results with the board and thesis supervisor to agree on the software stack.\\
+  \emph{Estimated duration: \(\sim 20\)~hours.}
+
+  \item \textbf{Hosting Provider Selection}\\
+  Meetings with local providers and evaluation of alternatives. Carried out in parallel with the previous phase.\\
+  \emph{Estimated duration: \(\sim 15\)~hours.}
+
+  \item \textbf{Implementation}\\
+  Sequential deployment of the new infrastructure: provisioning the environment, installing Incus, configuring containers, and deploying the selected services.\\
+  \emph{Estimated duration: \(\sim 90\)~hours.}
+
+  \item \textbf{Documentation and Thesis Writing}\\
+  Documentation of procedures and preparation of the thesis document.\\
+  \emph{Estimated duration: \(\sim 30\)~hours.}
+
+\end{enumerate}
+
+\subsection*{Relevant Deviations}
+
+While the overall structure of the project largely followed the initial plan, several key deviations occurred, primarily impacting the project timeline. Most notably, all phases commenced approximately one week later than initially anticipated, leading to incremental delays in subsequent stages.
+
+The primary delay arose during the hosting provider selection phase. Initial conversations suggested an imminent agreement; however, the final proposal did not meet the association's expectations in terms of value and resource allocation. This unexpected outcome necessitated reopening discussions and evaluating alternative options, significantly pushing back the start of the implementation phase.
+
+Due to this compounded delay, the implementation phase had to be adjusted. Instead of fully migrating all services immediately, a decision was made to thoroughly test and validate migration procedures, ensuring readiness without performing the complete migrations. The final domain migrations and comprehensive service transitions were intentionally postponed until after this thesis submission.
+
+To effectively facilitate this postponed migration, an already scheduled on-site retreat, originally planned for general association maintenance and fostering new ideas and future activities, was partially repurposed. This intensive weekend will now also include migration tasks, with the in-person communication enabling faster account provisioning and smoother transitions compared to the usual asynchronous exchanges. The direct face-to-face interactions will streamline knowledge transfer between current, historical, and newly active board members, avoiding the delays inherent to remote communication. Ultimately, this adjustment addressed the tight thesis submission deadline while promoting long-term infrastructure sustainability through enhanced collective involvement and communication.
+
+Figure~\ref{fig:gantt-real} illustrates the Gantt chart with the real project phases.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{imaxes/gantt-real.png}
+  \caption{Gantt chart illustrating the real project phases}
+  \label{fig:gantt-real}
+\end{figure}
+
+\subsection*{Notes on Cost and Dedication}
+
+As this project is developed within the context of a non-profit, volunteer-driven association, no estimation has been made regarding the cost of human labor. While the costs of hosting and third-party services are referenced throughout the thesis where relevant, the time and effort dedicated by members have not been monetized.
+
+Although the planning section includes an estimated number of hours to provide a sense of scale, it is not possible to provide a precise breakdown of time dedicated. The work was carried out alongside full-time professional obligations, primarily during evenings and weekends. This irregular rhythm is typical of volunteer work in the association and should be considered when interpreting the timeline and outcomes of the project.
