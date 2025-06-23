@@ -38,7 +38,7 @@
 % \usepackage{eurofont}    % proporciona o comando \euro
 \usepackage{float}       % permite máis opcións para controlar obxectos flotantes (táboas, figuras)
 % \usepackage{hhline}      % permite personalizar as liñas horizontais en arrays e táboas
-  \usepackage{longtable}   % permite construir táboas que ocupan máis dunha páxina
+% \usepackage{longtable}   % permite construir táboas que ocupan máis dunha páxina
 % \usepackage{lscape}      % permite colocar partes do documento en orientación apaisada
 % \usepackage{moreverb}    % permite personalizar o entorno verbatim
   \usepackage{multirow}    % permite crear celdas que ocupan varias filas da mesma táboa
@@ -62,10 +62,13 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   \include{portada/portada}
-  \dedicatoria{Dedicatoria} % escribe neste comando o teu texto de dedicatoria
+  \dedicatoria{To the FOSS community, for building the tools and ideals that inspired this work.} % escribe neste comando o teu texto de dedicatoria
   \paxinaenbranco
   \begin{agradecementos}
-  \blindtext                % substitúe este comando polo teu texto de agradecementos
+  I am deeply grateful to GPUL. The association has provided me with a platform
+  to meet incredible people and organize impactful community events. The
+  knowledge and network acquired through GPUL have led to lasting friendships
+  and valuable professional opportunities.
   \end{agradecementos}
   \include{portada/resumo}
 
@@ -91,9 +94,8 @@
   \include{contido/state-of-the-art}
   \include{contido/technology-selection}
   \include{contido/hosting-provider}
-  %  \include{contido/demo}
-  %  \include{contido/...}
-  %  \include{contido/conclusions}
+  \include{contido/implementation}
+  \include{contido/conclusions}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % Apéndices, glosarios e bibliografía  %
@@ -101,7 +103,7 @@
 
   \appendix
   \appendixpage
-  \include{anexos/adicional}
+  \include{anexos/gpul.tex}
   %\include{anexos/...}
 
   \printglossary[type=\acronymtype,title=\nomeglosarioacronimos]
