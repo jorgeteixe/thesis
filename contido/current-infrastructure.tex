@@ -38,7 +38,7 @@ GPULINO is a legacy virtual machine that remains in active use within the associ
 
 GPULINO uses three independent 10 GB volumes provided by the hosting provider. These are mounted as root (\verb|/|), data (\verb|/srv/srv_gpulino|), and backup (\verb|/srv/backup_gpulino|). Their current usage is visualized in Figure~\ref{fig:gpulino_disk_usage}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.7\textwidth]{figuras/gpulino_disk_usage.pdf}
   \caption{Disk usage across the GPULINO volumes}
@@ -204,7 +204,7 @@ GPULON is hosted with Kimsufi and configured as a KS-4C server running Debian GN
 
 GPULON has a single 2 TB physical disk, divided into logical volumes for \texttt{/home}, \texttt{/var/ lib/docker}, and the root filesystem (\texttt{/}). This setup is visualized in Figure~\ref{fig:gpulon_disk_usage}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.7\textwidth]{figuras/gpulon_disk_usage.pdf}
   \caption{Disk usage across GPULON logical volumes after reallocation}

@@ -16,7 +16,7 @@ For every category an introduction explains its relevance, followed by one \emph
 \subsection*{Current stack}
 \textbf{Mailman 2} running on Debian 8 (see Figure~\ref{fig:mailman2}).
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/mailman-2-current.png}
   \caption{Screenshot of the Mailman 2 web interface currently in use}
@@ -39,7 +39,7 @@ Sympa (version~7) is a free and open-source mailing list manager licensed under 
 
 Its web interface (WWSympa) allows users and administrators to manage subscriptions, review moderation queues, and browse archives. The software is widely used by universities and research institutions, and aligns with the principles of this work thanks to its self-hosted, open-source nature. A screenshot of the interface is shown in Figure~\ref{fig:sympa}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/sympa.png}
   \caption{Screenshot of the Sympa 7 mailing list interface}
@@ -66,7 +66,7 @@ Nextcloud Hub 10, also known as version~31, is the latest major release of the N
 
 Version~10 introduces performance improvements, including faster file uploads, optimized resource usage, and integration enhancements across components such as Files, Talk, Mail, and Calendar~\cite{nextcloud-blog}. It supports user and group management, LDAP and SSO authentication, and synchronization clients for desktop and mobile platforms. A screenshot of the interface is shown in Figure~\ref{fig:nextcloud-ui}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/nextcloud-ui.png}
   \caption{Screenshot of the Nextcloud Hub 10 user interface}
@@ -102,7 +102,7 @@ GPUL currently does not operate its own video conferencing infrastructure. Meeti
 
 Jitsi Meet is an open-source video conferencing platform licensed under the Apache 2.0 License~\cite{jitsi-docs}. It uses WebRTC and a Selective Forwarding Unit (SFU) called Jitsi Videobridge to route media between participants. An XMPP server (Prosody) handles signaling, and optional components such as Jibri enable recording and live streaming. A screenshot of the interface is shown in Figure~\ref{fig:jitsi-ui}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/jitsi-ui.png}
   \caption{Screenshot of the Jitsi Meet interface}
@@ -140,7 +140,7 @@ Gitea is an open-source Git forge licensed under the MIT license~\cite{gitea-doc
 
 A screenshot of the Gitea interface is shown in Figure~\ref{fig:gitea-ui}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/gitea-ui.png}
   \caption{Screenshot of the Gitea interface}
@@ -170,7 +170,7 @@ GPUL currently uses a mix of Telegram and Discord for day-to-day communication. 
 
 Matrix is an open standard protocol for real-time communication, supporting decentralization and end-to-end encryption. It operates through independently hosted \emph{homeservers}, which synchronize using federation. The most widely used homeserver implementation is \texttt{Synapse}, written in Python. The reference client, \texttt{Element}, provides a web-based interface with features such as threads, rooms, voice/video calls, and file sharing. Federation and bridging to other platforms (e.g., IRC, Slack, Discord) are natively supported. Matrix is licensed under the Apache License 2.0~\cite{matrix-docs}. A screenshot of the Element interface is shown in Figure~\ref{fig:element-ui}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/element-ui.png}
   \caption{Screenshot of the Element chat interface}
@@ -181,7 +181,7 @@ Matrix is an open standard protocol for real-time communication, supporting dece
 
 Mattermost is a self-hosted team messaging platform released under the MIT License~\cite{mattermost-docs}. It provides channel-based discussions, searchable history, file attachments, and integrations through slash commands, bots, and plugins. The architecture is monolithic and typically deployed with a PostgreSQL backend. Mattermost supports SSO, LDAP, and OAuth2 authentication, and offers a web interface, desktop, and mobile clients. A screenshot of the Mattermost interface is shown in Figure~\ref{fig:mattermost-ui}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/mattermost-ui.png}
   \caption{Screenshot of the Mattermost chat interface}
@@ -207,7 +207,7 @@ GPUL currently stores shared passwords in a plaintext file within the Nextcloud 
 \subsection*{Bitwarden Server}
 Bitwarden is a password manager licensed under AGPLv3 with both a self-hosted server and an official cloud offering. It supports client-side AES-256 encryption, role-based access control, and sharing via collections and groups. Vaults are stored in a PostgreSQL database with encrypted attachments. Comprehensive documentation is available online~\cite{bitwarden-docs}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/bitwarden-ui.png}
   \caption{Screenshot of the Bitwarden password manager interface}
@@ -239,7 +239,7 @@ Each component is open source: Prometheus is under the Apache 2.0 license, while
 \subsection*{Zabbix}
 Zabbix is a mature open source monitoring solution that uses a central server and lightweight agents~\cite{zabbix-web}. It supports metric collection through agents, SNMP, IPMI, and scriptable checks. Zabbix provides a web interface for dashboards and alerts, and includes automatic discovery, distributed proxies, and a large template library. It stores metrics in SQL databases and is licensed under AGPLv3. A screenshot of the interface is shown in Figure~\ref{fig:zabbix-ui}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/zabbix-ui.png}
   \caption{Screenshot of the Zabbix monitoring dashboard}
@@ -263,7 +263,7 @@ GPUL currently uses a mix of proprietary platforms. \emph{Meetup} is used to pro
 \subsection*{pretalx}
 \textbf{pretalx} is an open-source system for managing the full CFP process: submission, review, scheduling and communication. It allows custom submission forms, anonymous or public review workflows, and includes a schedule editor with conflict detection and speaker availability~\cite{pretalx-docs}. The software is written in Python (Django), supports plugins, and is licensed under Apache~2.0~\cite{pretalx-license}. A hosted service is also available for events that prefer not to self-host. A screenshot of the interface is shown in Figure~\ref{fig:pretalx-ui}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/pretalx.com-ui.png}
   \caption{Screenshot of the pretalx conference management interface}
@@ -335,7 +335,7 @@ The current infrastructure consists of a mixture of services deployed directly o
 
 Proxmox Virtual Environment (VE) is an open-source virtualization management platform (Debian-based) that integrates KVM-based virtual machines and LXC containers \cite{proxmox-admin-guide-2025}. It provides a unified web-based interface and \gls{cli} for creating and managing VMs and containers, aiming for ease of administration so that even novices can deploy it within minutes. Proxmox can run on a single server or in a multi-node cluster (with a multi-master design and a clustered filesystem) to enable high availability and live migration of workloads. It supports flexible storage backends (local or shared storage) and includes a fully integrated backup/restore solution (via Proxmox Backup Server or vzdump) for protecting VM and container data. These features make Proxmox suitable for self-hosted labs needing a mix of VM and container workloads managed in a unified open-source platform. A screenshot of the interface is shown in Figure~\ref{fig:proxmox-ui}.
 
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\textwidth]{imaxes/proxmox-ui.png}
   \caption{Screenshot of the Proxmox management interface}
