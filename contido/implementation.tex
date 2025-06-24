@@ -11,7 +11,7 @@
 
 The base system was installed using Hetzner's \texttt{installimage}\cite{hetzner-installimage} provisioning tool. The configuration focused on separating system and data storage for flexibility and performance.
 
-Debian was chosen as the operating system, a decision rooted in its renowned stability for server roles, as well as the board's deep familiarity with the distribution. This choice also honors GPUL's historical ties to Debian and the contributions of past board members who are consolidated Debian maintainers\cite{berto-debian-page}.
+Debian was chosen as the operating system, a decision rooted in its renowned stability for server roles and the human merits of its contributors. These values are chronicled by Krafft in \emph{The Debian System}\cite{krafft2005debian}. This choice also honors GPUL's historical ties to Debian and the contributions of past board members who are consolidated Debian maintainers\cite{berto-debian-page}.
 
 \subsection*{installimage Configuration}
 
@@ -334,7 +334,7 @@ passbolt.gpulux.org {
 
 Figure~\ref{fig:passbolt-gpulux} shows the Passbolt interface after configuration, populated with credentials for other services in the infrastructure.
 
-\begin{figure}[H]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/passbolt-gpulux.png}
        \caption{Screenshot of the Passbolt web interface with stored credentials}
@@ -443,7 +443,7 @@ To simplify the reverse proxy configuration, the application was installed direc
 
 Figure~\ref{fig:facturascripts-wizard} shows the FacturaScripts setup wizard after a successful installation.
 
-\begin{figure}[H]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/facturascripts-wizard.png}
        \caption{Screenshot of the FacturaScripts setup wizard}
@@ -551,7 +551,7 @@ register_new_matrix_user -c /etc/matrix-synapse/homeserver.yaml http://localhost
 
 Figure~\ref{fig:element-example} shows the Element web client, a popular client for the Matrix protocol, being used for a conversation and a video call between two members of the association, demonstrating the successful deployment of the service.
 
-\begin{figure}[H]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/element-example.png}
        \caption{Screenshot of the Element web client during a chat and video call}
