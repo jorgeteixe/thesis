@@ -25,7 +25,7 @@ Implementation is planned to proceed sequentially due to explicit task dependenc
 
 Finally, a structured migration and handover phase is planned after thesis submission. This phase will ensure operational readiness and facilitate effective knowledge transfer to future maintainers, reinforcing sustainability.
 
-A Gantt chart illustrating these phases is shown in Figure~\ref{fig:gantt-planned}.
+A Gantt chart illustrating these phases is shown in Figure~\ref{fig:gantt-planned}, spanning a four-month period from March 1st to the beginning of July.
 
 \begin{figure}[H]
   \centering
@@ -73,11 +73,13 @@ While the overall structure of the project largely followed the initial plan, se
 
 The primary delay arose during the hosting provider selection phase. Initial conversations suggested an imminent agreement; however, the final proposal did not meet the association's expectations in terms of value and resource allocation. This unexpected outcome necessitated reopening discussions and evaluating alternative options, significantly pushing back the start of the implementation phase.
 
-Due to this compounded delay, the implementation phase had to be adjusted. Instead of fully migrating all services immediately, a decision was made to thoroughly test and validate migration procedures, ensuring readiness without performing the complete migrations. The final domain migrations and comprehensive service transitions were intentionally postponed until after this thesis submission.
+Furthermore, work was completely halted between June 12th and 15th due to organizational duties for the AtlanticaConf event. This interruption occurred during a peak implementation period, compounding the initial delays and further extending the project timeline.
+
+Due to these compounded delays, the implementation phase had to be adjusted. Instead of fully migrating all services immediately, a decision was made to thoroughly test and validate migration procedures, ensuring readiness without performing the complete migrations. The final domain migrations and service transitions were intentionally postponed until after this thesis submission.
 
 To effectively facilitate this postponed migration, an already scheduled on-site retreat, originally planned for general association maintenance and fostering new ideas and future activities, was partially repurposed. This intensive weekend will now also include migration tasks, with the in-person communication enabling faster account provisioning and smoother transitions compared to the usual asynchronous exchanges. The direct face-to-face interactions will streamline knowledge transfer between current, historical, and newly active board members, avoiding the delays inherent to remote communication. Ultimately, this adjustment addressed the tight thesis submission deadline while promoting long-term infrastructure sustainability through enhanced collective involvement and communication.
 
-Figure~\ref{fig:gantt-real} illustrates the Gantt chart with the real project phases.
+Figure~\ref{fig:gantt-real} illustrates the revised project timeline, which reflects the initial one-week offset and the subsequent delays. As a result, the implementation phase extended into early July, with final migrations deferred until after the thesis submission.
 
 \begin{figure}[H]
   \centering
@@ -86,8 +88,36 @@ Figure~\ref{fig:gantt-real} illustrates the Gantt chart with the real project ph
   \label{fig:gantt-real}
 \end{figure}
 
-\subsection*{Notes on Cost and Dedication}
+\section{Cost Estimation}
 
-As this project is developed within the context of a non-profit, volunteer-driven association, no estimation has been made regarding the cost of human labor. While the costs of hosting and third-party services are referenced throughout the thesis where relevant, the time and effort dedicated by members have not been monetized.
+Although this project was conducted under the umbrella of a volunteer-driven nonprofit organization, certain infrastructure, equipment, and labor costs can be roughly estimated to provide context on the real-world value of the work.
 
-Although the planning section includes an estimated number of hours to provide a sense of scale, it is not possible to provide a precise breakdown of time dedicated. The work was carried out alongside full-time professional obligations, primarily during evenings and weekends. This irregular rhythm is typical of volunteer work in the association and should be considered when interpreting the timeline and outcomes of the project.
+\subsection*{Equipment and Resources}
+
+The development and testing work was carried out using a personal laptop and a repurposed self-hosted desktop PC:
+
+\begin{itemize}
+  \item \textbf{Laptop (development machine)}: \(\sim 1\,200€\), mid-range Linux-compatible machine.
+  \item \textbf{Test server}: no acquisition cost, reused legacy hardware from prior GPUL use.
+  \item \textbf{Domain name} (\texttt{gpulux.org}): \(\sim 10€\)/year.
+  \item \textbf{Production server}: costs are detailed in Chapter~\ref{chap:hosting-provider}.
+\end{itemize}
+
+\subsection*{Human Resources and Labor Value}
+
+While no direct financial compensation was involved, estimating the cost of human labor provides perspective on the real investment made, especially considering that all three individuals involved (the author and two supervisors) are not only members of the association, but also active or former board members with a high level of involvement and responsibility.
+
+\begin{itemize}
+  \item \textbf{System Administration and Infrastructure Work}: Based on the 2024 Manfred Developer Report~\cite{manfred-salary-guide}, see Figure~\ref{fig:salary-chart}, the most common salary bracket for SysAdmin roles is \textbf{€30-40K}. This work cannot be considered entry-level, as the author has over five years of professional experience and holds prior technical qualifications. Assuming a midpoint of \textbf{€35\,000} for a full-time equivalent, and with an estimated dedication of 300 hours, the work carried out corresponds to a market value of approximately \(\sim 5\,800€\).
+
+  \item \textbf{Supervision and Guidance}: For technical supervisors involved in infrastructure or SRE roles, the most common salary bracket is higher: \textbf{€40-50K}. Using a midpoint estimate of \textbf{€45\,000} per year, their involvement (estimated 8-12 hours per supervisor) corresponds to an approximate market value of \(\sim 450€\) in total.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{imaxes/salary-chart.png}
+  \caption{Average salary distribution in Spain by role.}
+  \label{fig:salary-chart}
+\end{figure}
+
+These estimates illustrate that while the project was executed in a volunteer context, the real value of the technical and organizational contributions exceeds \(\sim 6\,000€\). This reinforces the importance of properly valuing community infrastructure efforts and documenting them for long-term sustainability.
