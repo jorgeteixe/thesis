@@ -201,12 +201,32 @@ grafana.gpulux.org {
 
 Grafana was accessed using the configured domain. After creating a user, community dashboards for Prometheus and Incus were imported. The Incus dashboard provides a comprehensive overview of the host's performance, displaying real-time metrics such as CPU and memory usage, network traffic, and disk I/O at project and instance level. This allows for quick identification of resource-intensive instances and overall system health monitoring.
 
-The integration with Loki enables deep exploration of system logs. Logs from the system journal are collected and enriched with metadata labels, providing structured records for debugging and security monitoring. For example, SSH authentication failures can be isolated and analyzed with a simple query, making it easy to spot suspicious activity.
+The integration with Loki enables deep exploration of system logs. Logs from the system journal are collected and enriched with metadata labels, providing structured records for debugging and security monitoring. For example, SSH authentication failures can be isolated and analyzed with a simple query, making it easy to spot suspicious activity. Figure \ref{fig:grafana-logs} shows the log explorer.
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{imaxes/grafana-dashboard.png}
+    \caption{Grafana dashboard showing Incus host metrics.}
+    \label{fig:grafana-dashboard}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{imaxes/grafana-logs.png}
+    \caption{Grafana log explorer showing journal entries.}
+    \label{fig:grafana-logs}
+\end{figure}
 
 \section{Email Server with Mailcow}
 
-Although not discussed in the technology selection chapter---as it is a dependency for other services rather than a primary service itself---a robust email server is a critical requirement for the new infrastructure. It is needed by services like Grafana and Passbolt to send alerts and notifications, and is essential for operating the mailing lists. Mailcow was selected for this role due to its widespread adoption and positive reputation in the open-source self-hosting community. As a complete mail server suite based on Docker, it provides a powerful foundation that will also serve as the Mail Transfer Agent (MTA) for the community's mailing lists, which will be managed by Mailman 3.
+Although not discussed in the technology selection chapter---as it is a dependency for other services rather than a primary service itself---a robust email server is a critical requirement for the new infrastructure. It is needed by services like Grafana and Passbolt to send alerts and notifications, and is essential for operating the mailing lists. Mailcow was selected for this role due to its widespread adoption and positive reputation in the open-source self-hosting community. As a complete mail server suite based on Docker, it provides a powerful foundation that will also serve as the Mail Transfer Agent (MTA) for the community's mailing lists, which will be managed by Mailman 3. Figure \ref{fig:mailcow-ui} shows the web interface.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{imaxes/mailcow.png}
+    \caption{Mailcow web administration interface.}
+    \label{fig:mailcow-ui}
+\end{figure}
 
 \subsection*{Mailcow Container Setup}
 
@@ -227,7 +247,7 @@ To allow external access to Mailcow's services, several ports must be forwarded 
 \begin{table}[H]
     \centering
     \rowcolors{2}{white}{udcgray!25}
-\caption{Ports forwarded to the Mailcow container}
+    \caption{Ports forwarded to the Mailcow container.}
     \label{tab:mailcow-ports}
     \begin{tabular}{lll}
         \rowcolor{udcpink!25}
@@ -337,7 +357,7 @@ Figure~\ref{fig:passbolt-gpulux} shows the Passbolt interface after configuratio
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/passbolt-gpulux.png}
-       \caption{Screenshot of the Passbolt web interface with stored credentials}
+  \caption{Screenshot of the Passbolt web interface with stored credentials.}
 	\label{fig:passbolt-gpulux}
 \end{figure}
 
@@ -399,7 +419,7 @@ Figure~\ref{fig:mailman-ui} shows the HyperKitty web archiver after the migratio
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/hyperkitty-ui.png}
-       \caption{Screenshot of HyperKitty displaying imported mailing list archives}
+  \caption{Screenshot of HyperKitty displaying imported mailing list archives.}
 	\label{fig:mailman-ui}
 \end{figure}
 
@@ -446,7 +466,7 @@ Figure~\ref{fig:facturascripts-wizard} shows the FacturaScripts setup wizard aft
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/facturascripts-wizard.png}
-       \caption{Screenshot of the FacturaScripts setup wizard}
+  \caption{Screenshot of the FacturaScripts setup wizard.}
 	\label{fig:facturascripts-wizard}
 \end{figure}
 
@@ -493,13 +513,13 @@ Figure~\ref{fig:pretalx-admin} shows the Pretalx administration dashboard, where
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/pretalx-admin.png}
-       \caption{Screenshot of the Pretalx administration dashboard}
+  \caption{Screenshot of the Pretalx administration dashboard.}
 	\label{fig:pretalx-admin}
 \end{figure}
 
-\section{Groupware with Nextcloud}
+\section{Cloud Storage with Nextcloud}
 
-To provide file hosting, calendar, and contact management capabilities, Nextcloud was deployed as the primary groupware solution. The official Nextcloud All-in-One (AIO) Docker image\cite{nextcloud-aio} was used, which simplifies the installation and management of Nextcloud and its components, including Nextcloud Talk for video conferencing.
+To provide file storage, collaboration, and communication tools, a new Nextcloud instance was deployed. This deployment replaces the outdated version running on the legacy infrastructure, ensuring continuity for users who are already familiar with the platform.
 
 \subsection*{Nextcloud Container Setup}
 
@@ -535,6 +555,16 @@ incus config device add nextcloud talk-stun-tcp proxy \
 
 As with other Dockerized services, logs from Nextcloud AIO are forwarded to Loki using the Docker logging driver. The Docker daemon inside the \texttt{nextcloud} container was configured with the same Loki driver settings used for Mailcow. This ensures that logs from all Nextcloud AIO containers are centralized in Grafana for monitoring and analysis.
 
+
+As part of the groupware suite, Nextcloud Talk provides integrated video conferencing and chat functionalities. Figure \ref{fig:nextcloud-talk} shows the Nextcloud Talk interface, which allows for small-scale team meetings and real-time collaboration.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{imaxes/nextcloud-talk.png}
+    \caption{Nextcloud Talk video conferencing interface.}
+    \label{fig:nextcloud-talk}
+\end{figure}
+
 \section{Real-Time Communication with Matrix}
 
 For real-time communication, including instant messaging and voice/video calls, a Matrix homeserver was deployed. Synapse, the reference homeserver implementation from the Matrix Foundation, was chosen for this role. As with other services, Synapse was installed in a dedicated Incus container named \texttt{matrix} using a Debian 12 image. The Caddy reverse proxy was configured to expose the Matrix server following the official documentation\cite{matrix-caddy-reverse-proxy}.
@@ -554,7 +584,7 @@ Figure~\ref{fig:element-example} shows the Element web client, a popular client 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{imaxes/element-example.png}
-       \caption{Screenshot of the Element web client during a chat and video call}
+    \caption{Screenshot of the Element web client during a chat and video call.}
 	\label{fig:element-example}
 \end{figure}
 
